@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-container style="height: 100vh">
+      <left-panel></left-panel>
+      <main-view></main-view>
+      <right-panel></right-panel>
+    </el-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import MainView from '@/components/MainView.vue'
+import LeftPanel from '@/components/LeftPanel.vue'
+import RightPanel from '@/components/RightPanel.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
-  }
+    MainView,
+    LeftPanel,
+    RightPanel,
+  },
 }
 </script>
