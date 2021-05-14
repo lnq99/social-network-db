@@ -4,19 +4,27 @@
     :props="defaultProps"
     @node-click="handleNodeClick"
   ></el-tree>
+  <comment-input class="cmt-input"></comment-input>
 </template>
 
 <script>
-import comments from './comments.js'
+import { mapGetters } from 'vuex'
+import CommentInput from './CommentInput.vue'
+
 export default {
+  components: { CommentInput },
   data() {
     return {
-      data: comments,
       defaultProps: {
         children: 'children',
         label: 'label',
       },
     }
+  },
+  computed: {
+    ...mapGetters({
+      data: 'cmts/cmts',
+    }),
   },
   methods: {
     handleNodeClick(data) {
@@ -29,5 +37,9 @@ export default {
 <style scoped>
 .el-tree {
   background: none;
+  padding: 0 18px 5px 18px;
+}
+.cmt-input {
+  padding: 0 18px 10px 18px;
 }
 </style>

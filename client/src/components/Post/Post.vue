@@ -1,14 +1,14 @@
 <template>
-  <card class="post" :body-style="{ padding: '0px' }" shadow="never">
+  <card class="post card-hl">
     <div class="post-header">
-      <el-avatar class="avatar-s" :size="40" :src="avatar"></el-avatar>
+      <el-avatar :size="40" :src="avatar"></el-avatar>
       <div class="post-header-r">
         <span class="post-author">{{ name }}</span>
         <time class="post-time">{{ new Date() }}</time>
       </div>
     </div>
     <p class="post-content">{{ text }}</p>
-    <div class="attack">
+    <div class="attach">
       <img :src="photo" />
     </div>
     <hr />
@@ -26,9 +26,9 @@
     <comments v-if="comment"></comments>
   </card>
 </template>
-// :type="liked ? 'primary' : 'default'"
+
 <script>
-import Comments from './Comments.vue'
+import Comments from '../Post/Comments.vue'
 
 export default {
   components: { Comments },
@@ -50,24 +50,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/style.scss';
+
 .post {
-  margin-top: 10px;
-  background: #161b22;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
 }
 .post-header {
   display: flex;
   align-items: center;
   text-align: left;
-  padding: 18px;
+  padding: $p4;
 }
 .post-header-r {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 18px;
+  padding-left: $p4;
 }
 .post-author {
   font-weight: 900;
@@ -78,7 +77,7 @@ export default {
 }
 
 .post-content {
-  margin: 0 18px 18px 18px;
+  margin: 0 $p4 $p4 $p4;
   text-align: left;
 }
 img {
@@ -90,11 +89,12 @@ img {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0px 18px 10px 18px;
+  padding: 0px $p4 10px $p4;
 }
 
 .btn {
-  color: #c9d1d9;
+  color: var(--fg);
+  font-weight: 300;
   width: max(25%, 100px);
 }
 

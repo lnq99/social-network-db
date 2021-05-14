@@ -1,11 +1,36 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Main from '../views/Main.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: Main,
+    children: [
+      {
+        path: '',
+        name: 'NewsFeed',
+        component: () => import('../views/NewsFeed.vue'),
+      },
+      {
+        path: 'notif',
+        name: 'Notification',
+        component: () => import('../views/Notification.vue'),
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: () => import('../views/Profile.vue'),
+      },
+      {
+        path: 'photo',
+        name: 'Photo',
+        component: () => import('../views/Photos.vue'),
+      },
+    ],
+    meta: {
+      needsAuth: true,
+    },
   },
   {
     path: '/login',
@@ -17,14 +42,7 @@ const routes = [
     name: 'SignUp',
     component: () => import('../views/SignUp.vue'),
   },
-  {
-    path: '/user',
-    name: 'User',
-    // route level code-splitting
-    // this generates a separate chunk (user.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "user" */ '../views/User.vue'),
-  },
+  { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
 ]
 
 const router = createRouter({

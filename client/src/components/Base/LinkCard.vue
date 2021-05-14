@@ -1,7 +1,9 @@
 <template>
-  <card class="p18 center hover">
+  <card class="center hover">
     <router-link :to="link">
-      <slot></slot>
+      <div class="p18">
+        <slot></slot>
+      </div>
     </router-link>
   </card>
 </template>
@@ -13,10 +15,9 @@ export default {
 </script>
 
 <style scoped>
-a {
-  color: #00796b;
-  text-decoration: none;
+a > div {
   font-size: 1.2em;
+  font-weight: 200;
   letter-spacing: 1px;
   word-spacing: 1px;
 }

@@ -1,46 +1,60 @@
 <template>
-  <el-aside width="20vw">
-    <el-avatar class="avatar" :size="200" :src="avatar"></el-avatar>
-    <h1 class="name">NAME</h1>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+  <el-avatar class="avatar" :size="200" :src="avatar"></el-avatar>
+  <h2 class="name">{{ name }}</h2>
 
-    <link-card link="/profile"> Profile </link-card>
-    <link-card link="/photo"> Photo </link-card>
-    <link-card link="/logout"> Logout </link-card>
-  </el-aside>
+  <link-card link="/"> News </link-card>
+  <link-card link="/profile"> Profile </link-card>
+  <link-card link="/photo"> Photo </link-card>
+  <link-card link="/notif">
+    <el-badge :value="100" :max="10" class="item"
+      ><p>Notification</p>
+    </el-badge>
+  </link-card>
+  <!-- <link-card link="/msg"> Messenger </link-card> -->
+  <link-card link="/login"> Logout </link-card>
+  <div class="center">
+    <el-switch
+      v-model="theme"
+      class="switch"
+      active-color="#111"
+      inactive-color="#aaa"
+      active-text="Dark"
+      inactive-text="Light"
+    >
+    </el-switch>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  data() {
-    const item = {
-      date: '2016-05-02',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    }
-    return {
-      // avatar: require('../assets/logo.png'),
-      avatar: 'https://i.pravatar.cc/100',
-      tableData: Array(20).fill(item),
-    }
+  computed: {
+    theme: {
+      get() {
+        return this.$store.state.isDark
+      },
+      set(value) {
+        this.$store.dispatch('switchTheme', value)
+      },
+    },
+    ...mapState({ name: 'name', avatar: 'avatarL' }),
   },
 }
 </script>
 
 <style scoped>
-.el-aside {
-  width: 20vw;
-  padding: 10px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-}
-
 .avatar {
   margin: 20px;
 }
 .name {
-  padding-bottom: 40px;
+  margin-bottom: 4vh;
+}
+.switch {
+  margin-top: 4vh;
+  margin-left: -10px;
+}
+p {
+  margin: 0 10px 0 10px;
 }
 </style>
