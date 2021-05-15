@@ -4,7 +4,7 @@ drop database if exists "Social Network";
 create type gender_t as enum('M','F');
 create type notif_t as enum('like','cmt','request','accept');
 create type relation_t as enum('friend','block','request');
-create type atch_t as enum('photo','video','poll');
+create type atch_t as enum('photo','video','poll','none');
 create type react_t as enum('like','love','haha','wow','sad','angry');
 
 drop type gender_t;
@@ -14,7 +14,7 @@ drop type atch_t;
 drop type react_t;
 
 create table Profile (
-	id			serial primary key,
+	id			serial 		primary key,
 	name		varchar(32)	not null,
 	gender		gender_t,
 	birthday	date,
@@ -22,89 +22,75 @@ create table Profile (
 	phone		decimal(13)	unique,
 	salt		char(8)		not null,
 	hash		char(40)	not null,
-	created		date,
+	created		timestamp,
 	intro		text,
 	avatarS		text,
 	avatarL		text,
-	nextPost	int		default 	0,
-	nextNotif	int		default 	0,
-	nextPhoto	int		default 	0
+	postCount	int		default 	0,
+	photoCount	int		default 	0
 );
 
 create table Post (
-	id			int,
+	id			int		primary key,
 	userId		int		not null	references Profile(id),
-	created		date,
-	modified	date	default 	null,
+	created		timestamp,
 	tags		text,
 	content		text,
-	atchType	atch_t	default 	null,
-	atchId		int,
-	atchUrl		text	default 	null,
+	atchType	atch_t	default 	'none',
+	atchId		int		default 	0,
+	atchUrl		text	default 	'',
 	reaction	int[6],
-	nextReact	int		default 	0,
-	nextCmt		int		default 	0,
-	primary key	(id, userId)
-	-- foreign key (account_id) references account(account_id)
+	cmtCount	int		default 	0
 );
 
 create table Comment (
-	id			int,
-	userId		int,
-	postId		int,
+	id			int		primary key,
+	userId		int		not null	references Profile(id),
+	postId		int		not null	references Post(id),
 	parentId	int,
 	content		text,
-	created		date,
-	replyCount	int,
-	primary key	(id, userId, postId),
-	foreign key (userId, postId) references Post(userId, id)
+	created		timestamp
 );
 
 create table Reaction (
-	userId 		int		not null	references Profile(id),
-	authorId 	int,
-	postId 		int,
+	userId 		int		not null	references 	Profile(id),
+	postId 		int		not null	references 	Post(id),
 	type 		react_t	default 	'like',
-	primary key	(userId, authorId, postId),
-	foreign key (authorId, postId) references Post(userId, id)
+	primary key	(userId, postId)
 );
 
 create table Relationship (
 	user1		int		not null	references Profile(id),
 	user2		int		not null	references Profile(id),
-	created		date,
+	created		timestamp,
 	type		relation_t,
-	other		text	default 	null,
+	other		text	default 	'',
 	primary key	(user1, user2)
 );
 
 create table Notification (
-	id			int,
+	id			int		primary key,
 	userId		int		not null	references Profile(id),
 	type 		notif_t,
-	created		date,
-	fromUserId 	int		references Profile(id),
-	postId 		int		default 	null,
-	cmtId 		int		default 	null,
-	primary key	(id, userId)
+	created		timestamp,
+	fromUserId 	int		not null	references Profile(id),
+	postId 		int		default 	0,
+	cmtId 		int		default 	0
 );
 
 create table Album (
-	id			int,
+	id			int		primary key,
 	userId 		int		not null	references Profile(id),
-	descr 		text	default 	null,
-	created 	date,
-	primary key	(id, userId)
+	descr 		text	default 	'',
+	created 	timestamp
 );
 
 create table Photo (
-	id			int,
-	userId 		int,
-	albumId 	int,
+	id			int		primary key,
+	userId 		int		not null	references Profile(id),
+	albumId 	int		not null	references Album(id),
 	url 		text,
-	created 	date,
-	primary key	(id, userId),
-	foreign key (userId, albumId) references Album(userId, id)
+	created 	timestamp
 );
 
 select * from Profile;
@@ -116,11 +102,11 @@ select * from Notification;
 select * from Album;
 select * from Photo;
 
-drop table if exists Profile;
-drop table if exists Post;
-drop table if exists Comment;
+drop table if exists Photo;
+drop table if exists Album;
+drop table if exists Notification;
 drop table if exists Reaction;
 drop table if exists Relationship;
-drop table if exists Notification;
-drop table if exists Album;
-drop table if exists Photo;
+drop table if exists Comment;
+drop table if exists Post;
+drop table if exists Profile;
