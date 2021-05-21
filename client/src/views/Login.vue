@@ -51,7 +51,8 @@ export default {
   data() {
     return {
       model: {
-        email: 'admin@gmail.com',
+        // email: 'admin@gmail.com',
+        email: 'smitheric@gmail.com',
         password: '12345678',
       },
       loading: false,
@@ -84,10 +85,10 @@ export default {
         this.loading = false
         if (isLoggedIn) {
           this.$message.success('Login successfull')
+          this.$router.push({ name: 'NewsFeed' })
         } else {
-          this.$message.error('email or password is invalid')
+          this.$message.error('Email or password is invalid')
         }
-        console.log(isLoggedIn)
       })
     },
   },

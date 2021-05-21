@@ -3,9 +3,16 @@
     <div>
       <el-avatar class="avatar" :size="200" :src="avatar"></el-avatar>
     </div>
-    <h2 class="name">Username</h2>
+    <h2 class="name">{{ name }}</h2>
   </div>
 </template>
+
+<script>
+
+export default {
+  props: ['name', 'avatar'],
+}
+</script>
 
 <style scoped>
 .avatar {

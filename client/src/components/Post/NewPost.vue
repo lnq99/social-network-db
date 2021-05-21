@@ -3,42 +3,34 @@
     <div class="new-post-content">
       <el-avatar :size="40" :src="avatar"></el-avatar>
       <div class="input">
-        <span @click="createPost = true">
-          Create a post
-        </span>
+        <span @click="onCreatePost = true"> Create a post </span>
       </div>
     </div>
   </card>
-  <el-dialog title="Create Post" v-model="createPost" width="40%" center>
-    <el-input
-      type="textarea"
-      :autosize="{ minRows: 2, maxRows: 4 }"
-      placeholder="Please input"
-      v-model="postContent"
-    >
-    </el-input>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="createPost = false">Post</el-button>
-      </span>
-    </template>
+  <el-dialog
+    title="Create Post"
+    v-model="onCreatePost"
+    width="max(40%, 400px)"
+    center
+  >
+    <post-editor></post-editor>
   </el-dialog>
 </template>
 
 <script>
-import { ref } from 'vue'
+import PostEditor from "./PostEditor.vue"
 export default {
+  components: { PostEditor },
   data() {
     return {
-      createPost: false,
-      postContent: ref(''),
+      onCreatePost: false,
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/style.scss';
+@import "@/style.scss";
 
 .new-post {
   width: 100%;
@@ -50,12 +42,15 @@ export default {
   align-content: center;
 }
 .input {
-  padding-left: $p4;
-  width: auto;
+  margin-left: $p4;
   background: var(--hl);
   border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
+}
+.input:hover {
+  background: var(--hl2);
 }
 </style>

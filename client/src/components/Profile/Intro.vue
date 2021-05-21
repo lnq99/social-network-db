@@ -1,21 +1,19 @@
 <template>
   <h2>
     Intro
-    <el-button class="btn-right" @click="isEdit = true">
-      Edit
-    </el-button>
+    <el-button class="btn-right" @click="isEdit = true"> Edit </el-button>
   </h2>
-  <p v-for="i in info.split('\n')">{{ i }}</p>
-  <el-dialog title="Edit Info" v-model="isEdit" width="40%" center>
+  <p v-for="i in intro.split('\n')">{{ i }}</p>
+  <el-dialog title="Edit Intro" v-model="isEdit" width="40%" center>
     <el-input
       type="textarea"
       :autosize="{ minRows: 2, maxRows: 4 }"
-      v-model="infoContent"
+      v-model="introContent"
     >
     </el-input>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="onSaveInfo">Save</el-button>
+        <el-button type="primary" @click="onSaveIntro">Save</el-button>
       </span>
     </template>
   </el-dialog>
@@ -29,24 +27,24 @@ export default {
   data() {
     return {
       isEdit: false,
-      infoContent: ref(''),
+      introContent: ref(''),
     }
   },
   computed: {
-    ...mapGetters(['info']),
+    ...mapGetters(['intro']),
   },
   methods: {
-    ...mapActions(['saveInfo']),
-    onSaveInfo() {
-      this.saveInfo(this.infoContent)
+    ...mapActions(['saveIntro']),
+    onSaveIntro() {
+      this.saveIntro(this.introContent)
       this.isEdit = false
     },
   },
   created() {
-    if (this.info.length < 10) {
-      this.infoContent = 'Works at ...\nStudied at \nLives in ...\nFrom ...'
+    if (this.intro.length < 10) {
+      this.introContent = 'Works at ...\nStudied at \nLives in ...\nFrom ...'
     } else {
-      this.infoContent = this.info
+      this.introContent = this.intro
     }
   },
 }
