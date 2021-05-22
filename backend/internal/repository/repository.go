@@ -18,6 +18,7 @@ type Repo struct {
 
 type ProfileRepo interface {
 	Select(id int) (model.Profile, error)
+	SelectByEmail(e string) (model.Profile, error)
 	// Insert(model.Profile) error
 }
 

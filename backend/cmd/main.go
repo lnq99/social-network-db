@@ -2,12 +2,9 @@ package main
 
 import (
 	"app/config"
+	"app/internal/controller"
 	"app/internal/driver"
 	"app/internal/repository"
-	"app/test"
-
-	"github.com/gin-gonic/contrib/static"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -25,11 +22,11 @@ func main() {
 
 	repo := repository.NewRepo(db.SQL)
 
-	test.RepoSelect(repo)
+	// test.RepoSelect(repo)
 
-	r := gin.Default()
+	ctrl := controller.Controller{Repo: &repo, Conf: &conf}
 
-	r.Use(static.Serve("/", static.LocalFile(conf.StaticRoot, true)))
+	r := controller.SetupRouter(ctrl)
 
 	r.Run()
 }

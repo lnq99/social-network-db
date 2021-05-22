@@ -4,6 +4,7 @@ csv
 go.sum
 *bin
 *tmp
+.*
 
 
 ### Vuejs ###

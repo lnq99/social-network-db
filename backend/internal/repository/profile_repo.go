@@ -14,9 +14,7 @@ func NewProfileRepo(db *sql.DB) ProfileRepo {
 	return &ProfileRepoImpl{db}
 }
 
-func (u *ProfileRepoImpl) Select(id int) (profile model.Profile, err error) {
-	row := u.DB.QueryRow("select * from Profile where id=$1 limit 1", id)
-
+func (u *ProfileRepoImpl) parseProfile(row *sql.Row) (profile model.Profile, err error) {
 	s := reflect.ValueOf(&profile).Elem()
 	numCols := s.NumField()
 	columns := make([]interface{}, numCols)
@@ -27,6 +25,16 @@ func (u *ProfileRepoImpl) Select(id int) (profile model.Profile, err error) {
 	err = row.Scan(columns...)
 
 	return
+}
+
+func (u *ProfileRepoImpl) Select(id int) (model.Profile, error) {
+	row := u.DB.QueryRow("select * from Profile where id=$1 limit 1", id)
+	return u.parseProfile(row)
+}
+
+func (u *ProfileRepoImpl) SelectByEmail(e string) (model.Profile, error) {
+	row := u.DB.QueryRow("select * from Profile where email=$1 limit 1", e)
+	return u.parseProfile(row)
 }
 
 // func (u *ProfileRepoImpl) Insert(user model.Profile) error {
