@@ -5,6 +5,7 @@ import (
 	"app/internal/controller"
 	"app/internal/driver"
 	"app/internal/repository"
+	"app/test"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 
 	repo := repository.NewRepo(db.SQL)
 
-	// test.RepoSelect(repo)
+	test.RepoSelect(repo)
 
 	ctrl := controller.Controller{Repo: &repo, Conf: &conf}
 
