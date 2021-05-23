@@ -9,6 +9,7 @@ type Config struct {
 	Password   string `mapstructure:"DB_PASSWORD"`
 	Dbname     string `mapstructure:"DB_NAME"`
 	StaticRoot string `mapstructure:"STATIC_ROOT"`
+	ApiSecret  string `mapstructure:"API_SECRET"`
 }
 
 func LoadConfig(path string, file string) (config Config, err error) {

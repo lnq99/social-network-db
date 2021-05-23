@@ -14,8 +14,8 @@ func NewPostRepo(db *sql.DB) PostRepo {
 	return &PostRepoImpl{db}
 }
 
-func (u *PostRepoImpl) Select(postId int) (post model.Post, err error) {
-	row := u.DB.QueryRow("select * from Post where id=$1 limit 1", postId)
+func (r *PostRepoImpl) Select(postId int) (post model.Post, err error) {
+	row := r.DB.QueryRow("select * from Post where id=$1 limit 1", postId)
 
 	s := reflect.ValueOf(&post).Elem()
 	numCols := s.NumField()

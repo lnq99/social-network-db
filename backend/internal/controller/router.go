@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"app/internal/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/contrib/static"
@@ -11,9 +10,9 @@ import (
 func SetupRouter(c Controller) *gin.Engine {
 	r := gin.Default()
 
-	r.POST("/api/login", c.Login())
+	r.POST("/api/login", c.Services.Auth.LoginHandler())
 
-	api := r.Group("/api", middleware.AuthMiddleware)
+	api := r.Group("/api", c.Services.Auth.AuthMiddleware())
 	{
 		api.GET("ping", func(c *gin.Context) {
 			c.JSON(200, gin.H{

@@ -7,3 +7,6 @@ run:
 
 ui:
 	cd ../client && npm run build
+
+test:
+	go test
