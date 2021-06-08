@@ -19,12 +19,18 @@ const routes = [
         component: () => import('../views/Notification.vue'),
       },
       {
-        path: 'profile',
+        path: 'profile/:id',
         name: 'Profile',
         component: () => import('../views/Profile.vue'),
+        // children: [
+        //   {
+        //     path: ':id',
+        //     name:
+        //   }
+        // ]
       },
       {
-        path: 'photo',
+        path: 'photo/:id',
         name: 'Photo',
         component: () => import('../views/Photos.vue'),
       },
@@ -43,6 +49,14 @@ const routes = [
     name: 'SignUp',
     component: () => import('../views/SignUp.vue'),
   },
+  {
+    path: '/logout',
+    beforeEnter(to, from, next) {
+      store.dispatch('logout').then((res) => {
+        next('/login')
+      })
+    },
+  },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
 ]
 
@@ -54,7 +68,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     if (store.getters.isAuthenticated) next()
-    else next('login')
+    else {
+      store.dispatch('login').then((r) => {
+        if (r) next()
+        else next('/login')
+      })
+    }
   } else {
     next()
   }

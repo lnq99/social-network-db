@@ -1,40 +1,56 @@
 <template>
-  <div class="profile">
+  <div v-if="loaded" class="profile">
     <card class="col1">
-      <el-affix :offset="-200">
-        <card class="col-card card-hl">
-          <avaname :name="name" :avatar="avatar"></avaname>
+      <el-affix :offset="-0">
+        <card class="col-card card-hl center">
+          <center>
+            <avaname :name="profile.name" :avatar="profile.avatarl"></avaname>
+          </center>
         </card>
-        <card class="col-card card-hl"><photos></photos></card>
+        <card class="col-card card-hl"><photos :id="profile.id"></photos></card>
         <card class="col-card card-hl"><friends></friends></card>
       </el-affix>
     </card>
     <card class="col2">
       <card class="col-card card-hl">
-        <intro></intro>
+        <intro :editable="id == profile.id"></intro>
       </card>
-      <post-container></post-container>
+      <post-container :posts="posts"></post-container>
     </card>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Avaname from '@/components/Profile/AvaName.vue'
 import Photos from '@/components/Profile/Photos.vue'
 import Friends from '@/components/Profile/Friends.vue'
 import Intro from '@/components/Profile/Intro.vue'
 import PostContainer from '@/components/Post/PostContainer.vue'
+import Center from '../components/Base/Center.vue'
 
 export default {
   name: 'profile',
-  components: { PostContainer, Avaname, Photos, Intro, Friends },
-  computed: {
-    ...mapState({ name: 'name', avatar: 'avatarL' }),
+  components: { PostContainer, Avaname, Photos, Intro, Friends, Center },
+  data() {
+    return { loaded: false }
   },
-  mounted() {
-    console.log(this.name, this.avatar)
-  }
+  computed: {
+    ...mapState(['id']),
+  },
+  methods: {
+    ...mapActions({ getProfile: 'profile/getProfile', getPosts: 'post/getPostsOfProfile' })
+  },
+  created() {
+    this.userId = this.$route.params.id
+    this.getProfile(this.userId).then(res => {
+      this.profile = res
+      this.getPosts(this.userId).then(res => {
+        this.posts = res
+        this.loaded = true
+      })
+    })
+  },
 }
 </script>
 

@@ -52,8 +52,8 @@ export default {
     return {
       model: {
         // email: 'admin@gmail.com',
-        email: 'smitheric@gmail.com',
-        password: '12345678',
+        email: 'test@gmail.com',
+        password: 'easypass',
       },
       loading: false,
       rules: {
@@ -80,18 +80,23 @@ export default {
         return
       }
       this.loading = true
-
-      this.login(this.model).then((isLoggedIn) => {
+      this.loginHandle(this.model)
+    },
+    loginHandle(model) {
+      this.login(model).then((isLoggedIn) => {
         this.loading = false
         if (isLoggedIn) {
           this.$message.success('Login successfull')
           this.$router.push({ name: 'NewsFeed' })
-        } else {
+        } else if (model) {
           this.$message.error('Email or password is invalid')
         }
       })
-    },
+    }
   },
+  created() {
+    this.loginHandle()
+  }
 }
 </script>
 

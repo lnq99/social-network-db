@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@import './style.scss';
+@import "./style.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -17,6 +17,9 @@
   height: 100%;
   width: 100%;
   display: flex;
+  // letter-spacing: 0.1px;
+  word-spacing: 0.1px;
+  line-height: 120%;
 }
 
 .el-input__inner {
@@ -27,5 +30,30 @@
   background-color: var(--bg);
   color: var(--text);
   opacity: 0.8;
+}
+
+.el-tree-node__content {
+  color: var(--text) !important;
+  padding-top: $p1 !important;
+  padding-bottom: $p1 !important;
+  height: initial !important;
+  .card {
+    background-color: var(--bg) !important;
+  }
+}
+
+.el-tree-node {
+  :hover,
+  :focus {
+    background-color: initial !important;
+  }
+  white-space: normal !important;
+}
+.el-tree__empty-block {
+  min-height: 20px;
+}
+
+.ava {
+  opacity: 0.85;
 }
 </style>

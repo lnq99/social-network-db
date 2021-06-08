@@ -1,21 +1,28 @@
 <template>
-  <h2>Friends</h2>
+  <h2>
+    Friends
+    <a class="btn-right">See more ({{ friends.length }})</a>
+  </h2>
   <div class="card-inner">
-    <grid :items="firstFriends(7)">
+    <grid :items="friends.slice(0, 5)">
       <template v-slot="slotProps">
-        <el-avatar shape="square" :size="70"></el-avatar>
-        <p class="friend-name">Name friend {{ slotProps.item.name }}</p>
+        <el-avatar
+          shape="square"
+          :size="70"
+          :src="slotProps.item.avatars"
+        ></el-avatar>
+        <p class="friend-name">{{ slotProps.item.name }}</p>
       </template>
     </grid>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters({ firstFriends: 'friends/get' }),
+    ...mapState('profile', ['friends']),
   },
 }
 </script>
@@ -29,5 +36,11 @@ export default {
   max-width: 80px;
   overflow: hidden;
   text-overflow: ellipsis; */
+}
+.btn-right {
+  float: right;
+  font-weight: lighter;
+  font-size: 0.8em;
+  margin-top: 0.1em;
 }
 </style>

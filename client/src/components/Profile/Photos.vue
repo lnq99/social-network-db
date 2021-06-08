@@ -1,19 +1,31 @@
 <template>
-  <h2>Photos <a class="btn-right" href="/photo">See more</a></h2>
-  <grid :items="firstPhotos(7)">
+  <h2>
+    Photos <a class="btn-right" href="/photo">See more ({{ photos.length }})</a>
+  </h2>
+  <grid v-if="loaded" :items="photos.slice(0, 8)">
     <template v-slot="slotProps">
-      <img class="preview" :src="slotProps.item" />
+      <img class="preview" :src="slotProps.item.url" />
     </template>
   </grid>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { squarePreview } from '@/utils.js'
 
 export default {
-  computed: {
-    ...mapGetters({ firstPhotos: 'photos/get' }),
+  props: ['id'],
+  data() {
+    return { photos: [], loaded: false }
+  },
+  methods: {
+    ...mapActions({ getPhotos: 'photo/getPhotosOfProfile' }),
+  },
+  created() {
+    this.getPhotos(this.id).then(res => {
+      this.photos = res
+      this.loaded = true
+    })
   },
   mounted() {
     squarePreview()

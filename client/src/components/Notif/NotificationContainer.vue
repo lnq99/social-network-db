@@ -1,22 +1,25 @@
 <template>
   <scroll-container :items="notif">
     <template v-slot="slotProps">
-      <link-card class="notif card-hl" :link="slotProps.item.link">
-        {{ slotProps.item.text }}
-      </link-card>
+      <notif-item :notif="slotProps.item"></notif-item>
     </template>
   </scroll-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import LinkCard from '../Base/LinkCard.vue'
+import NotifItem from './NotifItem.vue'
 
 export default {
+  components: { LinkCard, NotifItem },
   computed: {
-    ...mapGetters({
-      notif: 'notif/notif',
-    }),
+    ...mapGetters({ notif: 'notif/notif' }),
   },
+  created() {
+    this.$store.dispatch('notif/getNotif')
+    console.log(this.notif)
+  }
 }
 </script>
 

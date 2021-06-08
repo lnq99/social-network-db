@@ -1,6 +1,6 @@
 <template>
   <div class="commentinput">
-    <el-avatar class="ava" :size="30" :src="avatar"></el-avatar>
+    <el-avatar class="ava" :size="30" :src="avatars"></el-avatar>
     <!-- <div class="input">
       <span @click="createPost = true">
         Create a post
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { ref } from 'vue'
 
 export default {
@@ -25,6 +26,9 @@ export default {
       cmtModel: ref(''),
     }
   },
+  computed: {
+    ...mapState(['avatars'])
+  }
 }
 </script>
 <style scoped>
@@ -32,6 +36,8 @@ export default {
   display: flex;
   align-content: center;
   justify-content: center;
+  margin: 12px;
+  margin-bottom: 0;
 }
 
 .ava {
@@ -41,6 +47,7 @@ export default {
 .input {
   margin-left: 10px;
   width: 90%;
+  height: initial !important;
   /* background: var(--hl); */
 }
 .input .el-textarea__inner {

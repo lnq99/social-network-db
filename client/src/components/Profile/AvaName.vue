@@ -1,8 +1,6 @@
 <template>
-  <div class="ava">
-    <div>
-      <el-avatar class="avatar" :size="200" :src="avatar"></el-avatar>
-    </div>
+  <div class="avaname">
+    <el-avatar class="ava" :size="200" :src="avatar"></el-avatar>
     <h2 class="name">{{ name }}</h2>
   </div>
 </template>
@@ -15,13 +13,13 @@ export default {
 </script>
 
 <style scoped>
-.avatar {
+.ava {
   margin: 20px;
 }
 .name {
   text-align: center;
 }
-.ava {
+.avaname {
   display: flex;
   flex-direction: column;
   text-align: center;

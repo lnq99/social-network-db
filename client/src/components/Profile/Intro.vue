@@ -1,10 +1,18 @@
 <template>
   <h2>
     Intro
-    <el-button class="btn-right" @click="isEdit = true"> Edit </el-button>
+    <el-button v-if="editable" class="btn-right" @click="isEdit = true">
+      Edit
+    </el-button>
   </h2>
-  <p v-for="i in intro.split('\n')">{{ i }}</p>
-  <el-dialog title="Edit Intro" v-model="isEdit" width="40%" center>
+  <p v-for="i in introContent.split('\n')">{{ i }}</p>
+  <el-dialog
+    v-if="editable"
+    title="Edit Intro"
+    v-model="isEdit"
+    width="40%"
+    center
+  >
     <el-input
       type="textarea"
       :autosize="{ minRows: 2, maxRows: 4 }"
@@ -24,6 +32,7 @@ import { ref } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  props: ['editable'],
   data() {
     return {
       isEdit: false,
@@ -38,6 +47,7 @@ export default {
     onSaveIntro() {
       this.saveIntro(this.introContent)
       this.isEdit = false
+      console.log(this.intro)
     },
   },
   created() {
@@ -46,6 +56,7 @@ export default {
     } else {
       this.introContent = this.intro
     }
+    this.introContent = this.intro.replaceAll('\\n', '\n')
   },
 }
 </script>

@@ -7,14 +7,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import FriendItem from '../Friend/FriendItem.vue'
 
 export default {
   components: { FriendItem },
   computed: {
-    ...mapGetters({ friends: 'friends/friends' }),
+    ...mapState('profile', ['friends']),
   },
+  methods: {
+    ...mapActions({ getFriends: 'profile/getFriends' })
+  },
+  created() {
+    this.getFriends()
+  }
 }
 </script>
 

@@ -1,13 +1,13 @@
 <template>
   <h1>Photos</h1>
-  <grid :items="firstPhotos(7)">
+  <grid v-if="loaded" :items="photos">
     <template v-slot="slotProps">
       <el-image
         class="preview"
         style="height: 100%"
         fit="cover"
-        :src="slotProps.item"
-        :preview-src-list="[slotProps.item]"
+        :src="slotProps.item.url"
+        :preview-src-list="[slotProps.item.url]"
         lazy
       >
       </el-image>
@@ -16,12 +16,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { squarePreviewDiv } from '@/utils.js'
 
 export default {
-  computed: {
-    ...mapGetters({ firstPhotos: 'photos/get' }),
+  data() {
+    return { loaded: false }
+  },
+  methods: {
+    ...mapActions({ getPhotos: 'photo/getPhotosOfProfile' })
+  },
+  created() {
+    this.id = this.$route.params.id
+    this.getPhotos(this.id).then(res => {
+      this.photos = res
+      this.loaded = true
+    })
   },
   mounted() {
     squarePreviewDiv()

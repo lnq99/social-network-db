@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   namespaced: true,
   state: {
@@ -7,6 +9,26 @@ export default {
       'http://placehold.it/1080x720',
       'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
     ],
+  },
+  actions: {
+    async getPhoto(_, id) {
+      let options = {
+        method: 'GET',
+        url: `/api/photo/${id}`,
+      }
+      return axios(options)
+        .catch(() => {})
+        .then((r) => r.data)
+    },
+    async getPhotosOfProfile(_, profileId) {
+      let options = {
+        method: 'GET',
+        url: `/api/photo/u/${profileId}`,
+      }
+      return axios(options)
+        .catch(() => {})
+        .then((r) => r.data)
+    },
   },
   getters: {
     photos(state) {

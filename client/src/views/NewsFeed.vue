@@ -1,11 +1,12 @@
 <template>
   <div class="newsfeed">
     <new-post></new-post>
-    <post-container></post-container>
+    <post-container :posts="posts" :getMorePosts="getFeed"></post-container>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Post from '@/components/Post/Post.vue'
 import NewPost from '@/components/Post/NewPost.vue'
 import PostContainer from '@/components/Post/PostContainer.vue'
@@ -16,6 +17,15 @@ export default {
     NewPost,
     PostContainer,
   },
+  computed: {
+    ...mapGetters({ posts: 'post/feed' })
+  },
+  methods: {
+    ...mapActions({ getFeed: 'post/getFeed' })
+  },
+  created() {
+    this.getFeed()
+  }
 }
 </script>
 

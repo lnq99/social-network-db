@@ -1,6 +1,8 @@
 <template>
   <card class="row hover p18">
-    <el-avatar class="ava" :size="40" :src="friend.ava"></el-avatar>
+    <span>
+      <el-avatar class="ava" :size="40" :src="friend.avatars"></el-avatar
+    ></span>
     <span>{{ friend.name }}</span></card
   >
 </template>
@@ -12,6 +14,9 @@ export default {
 </script>
 
 <style scoped>
+.row {
+  display: flex;
+}
 .ava {
   margin: -10px 20px -10px -10px;
 }

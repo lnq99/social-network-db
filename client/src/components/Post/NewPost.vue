@@ -1,7 +1,7 @@
 <template>
   <card class="new-post card-hl">
     <div class="new-post-content">
-      <el-avatar :size="40" :src="avatar"></el-avatar>
+      <el-avatar class="ava" :size="40" :src="avatars"></el-avatar>
       <div class="input">
         <span @click="onCreatePost = true"> Create a post </span>
       </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import PostEditor from "./PostEditor.vue"
 export default {
   components: { PostEditor },
@@ -25,6 +26,9 @@ export default {
     return {
       onCreatePost: false,
     }
+  },
+  computed: {
+    ...mapState(['avatars'])
   }
 };
 </script>

@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
-import newsfeed from './modules/newsfeed.js'
 import notif from './modules/notif.js'
-import cmts from './modules/comments.js'
-import friends from './modules/friends'
-import photos from './modules/photos.js'
+import cmt from './modules/cmt.js'
+import reaction from './modules/reaction.js'
+import photo from './modules/photo.js'
+import profile from './modules/profile.js'
+import post from './modules/post.js'
 import axios from 'axios'
 
 const store = createStore({
@@ -12,9 +13,9 @@ const store = createStore({
     isDark: false,
     token: '',
     id: 0,
-    name: 'Name',
-    avatarL: require('../assets/logo.png'),
-    intro: '',
+    // name: 'Name',
+    // avatarl: require('../assets/logo.png'),
+    // intro: '',
   },
   mutations: {
     auth(state, loginStatus) {
@@ -32,20 +33,25 @@ const store = createStore({
     initProfile(state, profile) {
       state.id = profile.id
       state.name = profile.name
-      state.avatarL = profile.avatarL
+      state.avatarl = profile.avatarl
+      state.avatars = profile.avatars
       state.intro = profile.intro
     },
   },
   actions: {
     async login({ commit, getters }, payload) {
-      let options = {
-        method: 'POST',
-        url: 'api/login',
-        headers: getters.header,
-        data: {
+      let data
+      if (payload) {
+        data = {
           email: payload.email,
           password: payload.password,
-        },
+        }
+      }
+      let options = {
+        method: 'POST',
+        url: '/api/login',
+        headers: getters.header,
+        data,
       }
       let response = await axios(options).catch(() => {})
       let responseOK =
@@ -67,7 +73,18 @@ const store = createStore({
       console.log(payload)
     },
     logout({ commit }) {
-      commit('auth', false)
+      axios({ url: '/api/logout' })
+        .catch((r) => console.log(r))
+        .then(() => {
+          commit('auth', false)
+          commit('saveToken', '')
+        })
+      // document.cookie.split(';').forEach((c) => {
+      //   document.cookie = c
+      //     .replace(/^ +/, '')
+      //     .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+      //   console.log(c)
+      // })
     },
     switchTheme({ commit }) {
       commit('switchTheme')
@@ -91,7 +108,7 @@ const store = createStore({
       }
     },
   },
-  modules: { newsfeed, notif, cmts, friends, photos },
+  modules: { profile, post, notif, cmt, reaction, photo },
 })
 
 export default store

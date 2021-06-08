@@ -1,5 +1,9 @@
 <template>
-  <div v-infinite-scroll="load" infinite-scroll-disabled="disabled">
+  <div
+    v-infinite-scroll="loadMore"
+    infinite-scroll-disabled="disabled"
+    infinite-scroll-immediate="false"
+  >
     <div v-for="(item, index) in items">
       <slot :item="item"></slot>
     </div>
@@ -10,7 +14,16 @@
 
 <script>
 export default {
-  props: ['items'],
+  // props: ['items'],
+  props: {
+    items: {
+      type: Array
+    },
+    load: {
+      default: () => { },
+      type: Function
+    }
+  },
   data() {
     return {
       count: this.items.length,
@@ -26,12 +39,15 @@ export default {
     },
   },
   methods: {
-    load() {
+    loadMore() {
+      // setTimeout(() => {
+      //   this.count += 2
+      //   this.loading = false
+      // }, 1000)
+      this.load()
       this.loading = true
-      setTimeout(() => {
-        this.count += 2
-        this.loading = false
-      }, 1000)
+      this.count += 5
+      this.loading = false
     },
   },
 }
