@@ -21,7 +21,7 @@ create table Profile (
 	email		text		not null	unique,
 	phone		decimal(13)	unique,
 	salt		char(8)		not null,
-	hash		char(40)	not null,
+	hash		char(28)	not null,
 	created		timestamp,
 	intro		text,
 	avatarS		text,
@@ -34,7 +34,7 @@ create table Post (
 	id			int		primary key,
 	userId		int		not null	references Profile(id),
 	created		timestamp,
-	tags		text,
+	tags		text	default 	'',
 	content		text,
 	atchType	atch_t	default 	'none',
 	atchId		int		default 	0,
@@ -44,7 +44,7 @@ create table Post (
 );
 
 create table Comment (
-	id			int		primary key,
+	id			bigint	primary key,
 	userId		int		not null	references Profile(id),
 	postId		int		not null	references Post(id),
 	parentId	int,
@@ -53,7 +53,7 @@ create table Comment (
 );
 
 create table Reaction (
-	userId 		int		not null	references 	Profile(id),
+	userId 		bigint	not null	references 	Profile(id),
 	postId 		int		not null	references 	Post(id),
 	type 		react_t	default 	'like',
 	primary key	(userId, postId)
@@ -69,7 +69,7 @@ create table Relationship (
 );
 
 create table Notification (
-	id			int		primary key,
+	id			bigint	primary key,
 	userId		int		not null	references Profile(id),
 	type 		notif_t,
 	created		timestamp,

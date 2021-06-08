@@ -1,3 +1,12 @@
+truncate Photo cascade;
+truncate Album cascade;
+truncate Notification cascade;
+truncate Reaction cascade;
+truncate Relationship cascade;
+truncate Comment cascade;
+truncate Post cascade;
+truncate Profile cascade;
+
 copy Profile from '/home/ql/DB/SocialNetwork/db/csv/profile.csv' delimiter ',' csv header;
 copy Post from '/home/ql/DB/SocialNetwork/db/csv/post.csv' delimiter ',' csv header;
 copy Comment from '/home/ql/DB/SocialNetwork/db/csv/comment.csv' delimiter ',' csv header;
@@ -16,4 +25,17 @@ copy ttmp from '/home/ql/DB/SocialNetwork/db/csv/relationship.csv' delimiter ','
 
 insert into Relationship
 select distinct on (user1, user2) * from ttmp;
+commit;
+
+
+begin;
+create temp table ttmp
+as select * from Profile with no data;
+
+copy ttmp from '/home/ql/DB/SocialNetwork/db/csv/profile.csv' delimiter ',' csv header;
+
+select email
+from ttmp
+group by email
+having count(email) > 1;
 commit;

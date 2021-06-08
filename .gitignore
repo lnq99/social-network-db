@@ -3,7 +3,7 @@ csv
 .env
 go.sum
 *bin
-*tmp
+tmp*
 .*
 
 
