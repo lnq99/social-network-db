@@ -33,7 +33,7 @@ func (r *NotificationRepoImpl) selectById(id int, str string) (res []model.Notif
 	return res, nil
 }
 
-func (r *NotificationRepoImpl) Select(postId int) (res []model.Notification, err error) {
-	res, err = r.selectById(postId, "select * from Notification where PostId=$1")
+func (r *NotificationRepoImpl) Select(userId int) (res []model.Notification, err error) {
+	res, err = r.selectById(userId, "select * from Notification where userId=$1 order by id desc limit 20")
 	return
 }

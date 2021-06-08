@@ -4,6 +4,8 @@ import (
 	"app/internal/model"
 	"database/sql"
 	"reflect"
+
+	"github.com/lib/pq"
 )
 
 type ProfileRepoImpl struct {
@@ -35,6 +37,16 @@ func (r *ProfileRepoImpl) Select(id int) (model.Profile, error) {
 func (r *ProfileRepoImpl) SelectByEmail(e string) (model.Profile, error) {
 	row := r.DB.QueryRow("select * from Profile where email=$1 limit 1", e)
 	return r.parseProfile(row)
+}
+
+func (r *ProfileRepoImpl) SelectFeed(id, limit, offset int) (feed []int64, err error) {
+	row := r.DB.QueryRow("select feed($1, $2, $3)", id, limit, offset)
+
+	var arr pq.Int64Array
+	err = row.Scan(&arr)
+	feed = arr
+
+	return
 }
 
 // func (r *ProfileRepoImpl) Insert(user model.Profile) error {

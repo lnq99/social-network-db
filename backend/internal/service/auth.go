@@ -3,6 +3,7 @@ package service
 import (
 	"app/config"
 	"app/internal/middleware"
+	"app/internal/model"
 	"app/internal/repository"
 	"app/pkg/auth"
 	"log"
@@ -11,10 +12,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-// type authService interface {
-// 	NewLoginHandler() gin.HandlerFunc
-// }
 
 type AuthServiceImpl struct {
 	profileRepo repository.ProfileRepo
@@ -41,28 +38,42 @@ func NewAuthService(repo repository.ProfileRepo, conf *config.Config) AuthServic
 
 func (a *AuthServiceImpl) LoginHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		u := LoginObj{}
+		var user model.Profile
+		id := 0
 
-		if err := c.ShouldBindJSON(&u); err != nil {
-			c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
-			return
+		token, err := c.Cookie("token")
+		if err == nil {
+			id, err = a.manager.ParseTokenId(token)
+			if err == nil && id > 0 {
+				c.Set("ID", id)
+				user, _ = a.profileRepo.Select(id)
+			}
 		}
-		log.Println(u)
 
-		user, _ := a.profileRepo.SelectByEmail(u.Email)
-
-		log.Println(user)
-
-		if user.Email != u.Email {
-			c.JSON(http.StatusUnauthorized, "Email or password is invalid")
-			return
-		}
-		token, err := a.manager.CreateToken(strconv.Itoa(user.Id))
 		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, err.Error())
-			return
+			u := LoginObj{}
+
+			if err := c.ShouldBindJSON(&u); err != nil {
+				c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+				return
+			}
+
+			user, _ = a.profileRepo.SelectByEmail(u.Email)
+
+			if user.Email != u.Email ||
+				!a.manager.ComparePassword(u.Password, user.Salt, user.Hash) {
+				c.JSON(http.StatusUnauthorized, "Email or password is invalid")
+				return
+			}
+
+			token, err = a.manager.CreateToken(strconv.Itoa(user.Id))
+			if err != nil {
+				c.JSON(http.StatusUnprocessableEntity, err.Error())
+				return
+			}
 		}
-		c.SetCookie("token", token, 60*60*24, "/", a.cookieHost, true, true)
+
+		c.SetCookie("token", token, 60*60*1, "/", a.cookieHost, true, true)
 		c.JSON(http.StatusOK, gin.H{
 			"token": token,
 			"user":  user,
@@ -72,4 +83,12 @@ func (a *AuthServiceImpl) LoginHandler() gin.HandlerFunc {
 
 func (a *AuthServiceImpl) AuthMiddleware() gin.HandlerFunc {
 	return middleware.NewAuthMiddleware(a.manager)
+}
+
+func (a *AuthServiceImpl) LogoutHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		log.Println("logged out")
+		c.SetCookie("token", "", -1, "/", a.cookieHost, true, true)
+		c.Status(http.StatusOK)
+	}
 }

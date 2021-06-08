@@ -24,3 +24,7 @@ func (r *RelationshipServiceImpl) Friends(id int) (rels []model.Relationship, er
 func (r *RelationshipServiceImpl) Requests(id int) (rels []model.Relationship, err error) {
 	return r.repo.Requests(id)
 }
+
+func (r *RelationshipServiceImpl) FriendsDetail(id int) (string, error) {
+	return r.repo.FriendsDetail(id)
+}

@@ -15,8 +15,11 @@ func NewAuthMiddleware(a auth.Manager) gin.HandlerFunc {
 		token, err := c.Cookie("token")
 		if err == nil {
 			id, err = a.ParseTokenId(token)
-			log.Println(id, token, err)
-			return
+			if err == nil {
+				c.Set("ID", id)
+				log.Println(id, token, err)
+				return
+			}
 		}
 
 		id, err = a.ExtractTokenID(c.Request)
@@ -28,6 +31,10 @@ func NewAuthMiddleware(a auth.Manager) gin.HandlerFunc {
 
 		err = a.TokenValid(c.Request)
 		log.Println(err)
+
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 
 		// user, err := auth.ParseToken(c.Request.Context(), tokenStr)
 		// if err != nil {

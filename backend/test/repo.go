@@ -42,7 +42,7 @@ func RepoSelect(repo repository.Repo) {
 		fmt.Println(albums[i])
 	}
 
-	photos, _ := repo.Photo.Select(userId)
+	photos, _ := repo.Photo.SelectByUserId(userId)
 	for i := range photos {
 		fmt.Println(photos[i])
 	}

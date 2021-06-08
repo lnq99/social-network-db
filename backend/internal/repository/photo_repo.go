@@ -13,6 +13,12 @@ func NewPhotoRepo(db *sql.DB) PhotoRepo {
 	return &PhotoRepoImpl{db}
 }
 
+func (r *PhotoRepoImpl) parsePhoto(row *sql.Row) (photo model.Photo, err error) {
+	err = row.Scan(&photo.Id, &photo.UserId, &photo.AlbumId, &photo.Url, &photo.Created)
+
+	return
+}
+
 func (r *PhotoRepoImpl) selectById(id int, str string) (res []model.Photo, err error) {
 	rows, err := r.DB.Query(str, id)
 	if err != nil {
@@ -33,7 +39,12 @@ func (r *PhotoRepoImpl) selectById(id int, str string) (res []model.Photo, err e
 	return res, nil
 }
 
-func (r *PhotoRepoImpl) Select(userId int) (res []model.Photo, err error) {
+func (r *PhotoRepoImpl) Select(id int) (res model.Photo, err error) {
+	row := r.DB.QueryRow("select * from Photo where id=$1", id)
+	return r.parsePhoto(row)
+}
+
+func (r *PhotoRepoImpl) SelectByUserId(userId int) (res []model.Photo, err error) {
 	res, err = r.selectById(userId, "select * from Photo where UserId=$1")
 	return
 }

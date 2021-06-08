@@ -20,10 +20,12 @@ type ProfileRepo interface {
 	Select(id int) (model.Profile, error)
 	SelectByEmail(e string) (model.Profile, error)
 	// Insert(model.Profile) error
+	SelectFeed(id, limit, offset int) ([]int64, error)
 }
 
 type PostRepo interface {
 	Select(postId int) (model.Post, error)
+	SelectByUserId(userId int) ([]int64, error)
 }
 
 type CommentRepo interface {
@@ -38,6 +40,7 @@ type RelationshipRepo interface {
 	Select(id int) ([]model.Relationship, error)
 	Friends(id int) ([]model.Relationship, error)
 	Requests(id int) ([]model.Relationship, error)
+	FriendsDetail(id int) (string, error)
 }
 
 type NotificationRepo interface {
@@ -49,7 +52,8 @@ type AlbumRepo interface {
 }
 
 type PhotoRepo interface {
-	Select(userId int) ([]model.Photo, error)
+	Select(id int) (model.Photo, error)
+	SelectByUserId(userId int) ([]model.Photo, error)
 }
 
 func NewRepo(db *sql.DB) (repo Repo) {

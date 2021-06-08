@@ -34,6 +34,6 @@ func (r *CommentRepoImpl) selectById(id int, str string) (res []model.Comment, e
 }
 
 func (r *CommentRepoImpl) Select(postId int) (res []model.Comment, err error) {
-	res, err = r.selectById(postId, "select * from Comment where PostId=$1")
+	res, err = r.selectById(postId, "select * from Comment where postId=$1")
 	return
 }

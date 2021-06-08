@@ -55,3 +55,8 @@ func (r *RelationshipRepoImpl) Requests(id int) (rels []model.Relationship, err 
 	rels, err = r.selectById(id, "select * from relationship where user1=$1 and type='request'")
 	return
 }
+
+func (r *RelationshipRepoImpl) FriendsDetail(id int) (fd string, err error) {
+	err = r.DB.QueryRow("select friends_json($1)", id).Scan(&fd)
+	return
+}

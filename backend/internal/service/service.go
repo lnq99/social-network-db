@@ -18,11 +18,13 @@ type Services struct {
 	Notification NotificationService
 	Album        AlbumService
 	Photo        PhotoService
+	Feed         FeedService
 }
 
 type AuthService interface {
 	LoginHandler() gin.HandlerFunc
 	AuthMiddleware() gin.HandlerFunc
+	LogoutHandler() gin.HandlerFunc
 	// Login(email, password string) bool
 	// SignUp(email, password, name, gender, birthday string) bool
 }
@@ -35,10 +37,12 @@ type ProfileService interface {
 
 type PostService interface {
 	Get(postId int) (model.Post, error)
+	GetByUserId(userId int) ([]int64, error)
 }
 
 type CommentService interface {
-	Get(postId int) ([]model.Comment, error)
+	// Get(postId int) ([]model.Comment, error)
+	GetTree(postId int) (string, error)
 }
 
 type ReactionService interface {
@@ -49,6 +53,7 @@ type RelationshipService interface {
 	Get(id int) ([]model.Relationship, error)
 	Friends(id int) ([]model.Relationship, error)
 	Requests(id int) ([]model.Relationship, error)
+	FriendsDetail(id int) (string, error)
 }
 
 type NotificationService interface {
@@ -60,7 +65,13 @@ type AlbumService interface {
 }
 
 type PhotoService interface {
-	Get(userId int) ([]model.Photo, error)
+	Get(id int) (model.Photo, error)
+	GetByUserId(userId int) ([]model.Photo, error)
+}
+
+type FeedService interface {
+	GetFeed(id, limit, offset int) (feed []int64, err error)
+	// Get(id int, tBegin, tEnd string) (newBegin, newEnd string, posts []model.Post)
 }
 
 func NewServices(repo *repository.Repo, conf *config.Config) (services *Services) {
@@ -74,6 +85,7 @@ func NewServices(repo *repository.Repo, conf *config.Config) (services *Services
 		Notification: NewNotificationService(repo.Notification),
 		Album:        NewAlbumService(repo.Album),
 		Photo:        NewPhotoService(repo.Photo),
+		Feed:         NewFeedService(repo.Profile),
 	}
 	return
 }

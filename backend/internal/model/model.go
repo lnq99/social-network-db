@@ -11,8 +11,8 @@ type Profile struct {
 	Hash       string  `json:"hash"`
 	Created    string  `json:"created"`
 	Intro      string  `json:"intro"`
-	AvatarS    string  `json:"avatarS"`
-	AvatarL    string  `json:"avatarL"`
+	AvatarS    string  `json:"avatars"`
+	AvatarL    string  `json:"avatarl"`
 	PostCount  string  `json:"postCount"`
 	PhotoCount string  `json:"photoCount"`
 }
@@ -26,17 +26,34 @@ type Post struct {
 	AtchType string  `json:"atchType"`
 	AtchId   int     `json:"atchId"`
 	AtchUrl  string  `json:"atchUrl"`
-	Reaction []uint8 `json:"reaction"`
+	Reaction []int64 `json:"reaction"`
 	CmtCount int     `json:"cmtCount"`
 }
 
+// type Post2 struct {
+// 	Id       int     `json:"id"`
+// 	UserId   int     `json:"userId"`
+// 	Created  string  `json:"created"`
+// 	Tags     string  `json:"tags"`
+// 	Content  string  `json:"content"`
+// 	AtchType string  `json:"atchType"`
+// 	AtchId   int     `json:"atchId"`
+// 	AtchUrl  string  `json:"atchUrl"`
+// 	Reaction []uint8 `json:"reaction"`
+// 	CmtCount int     `json:"cmtCount"`
+// 	AutorName
+// 	AuthorAvatar
+// 	PhotoUrl
+// }
+
 type Comment struct {
-	Id       int    `json:"id"`
-	UserId   int    `json:"userId"`
-	PostId   int    `json:"postId"`
-	ParentId int    `json:"parentId"`
-	Content  string `json:"content"`
-	Created  string `json:"created"`
+	Id       int        `json:"id"`
+	UserId   int        `json:"userId"`
+	PostId   int        `json:"postId"`
+	ParentId int        `json:"parentId"`
+	Content  string     `json:"content"`
+	Created  string     `json:"created"`
+	Children []*Comment `json:"children,omitempty"`
 }
 
 type Reaction struct {
@@ -76,4 +93,10 @@ type Photo struct {
 	AlbumId int    `json:"albumId"`
 	Url     string `json:"url"`
 	Created string `json:"created"`
+}
+
+type ShortInfo struct {
+	Id      int `json:"id"`
+	Name    int `json:"name"`
+	AvatarS int `json:"avatars"`
 }

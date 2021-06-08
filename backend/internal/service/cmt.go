@@ -3,6 +3,8 @@ package service
 import (
 	"app/internal/model"
 	"app/internal/repository"
+	"encoding/json"
+	"fmt"
 )
 
 type CommentServiceImpl struct {
@@ -13,6 +15,41 @@ func NewCommentService(repo repository.CommentRepo) CommentService {
 	return &CommentServiceImpl{repo}
 }
 
-func (r *CommentServiceImpl) Get(postId int) (res []model.Comment, err error) {
-	return r.repo.Select(postId)
+func (r *CommentServiceImpl) GetTree(postId int) (res string, err error) {
+	cmts, err := r.repo.Select(postId)
+	res = r.BuildCmtTree(cmts)
+	// fmt.Println(res)
+	return
+}
+
+func (r *CommentServiceImpl) BuildCmtTree(cmts []model.Comment) (tree string) {
+	m := make(map[int]*model.Comment)
+
+	for i, _ := range cmts {
+		m[cmts[i].Id] = &cmts[i]
+	}
+
+	for i, n := range cmts {
+		if m[n.ParentId] != nil {
+			m[n.ParentId].Children = append(m[n.ParentId].Children, &cmts[i])
+		}
+	}
+
+	out := []*model.Comment{}
+	for _, v := range m {
+		if v.ParentId == 0 {
+			out = append(out, v)
+		}
+	}
+
+	bytes, err := json.Marshal(out)
+	if err != nil {
+		panic(err)
+	}
+
+	tree = string(bytes)
+
+	fmt.Println(tree)
+
+	return
 }
