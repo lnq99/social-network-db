@@ -4,9 +4,9 @@
     infinite-scroll-disabled="disabled"
     infinite-scroll-immediate="false"
   >
-    <div v-for="(item, index) in items">
+    <template v-for="(item, index) in items">
       <slot :item="item"></slot>
-    </div>
+    </template>
     <p v-if="loading">Loading...</p>
     <p v-if="noMore">No more</p>
   </div>

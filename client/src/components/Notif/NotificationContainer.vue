@@ -8,11 +8,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import LinkCard from '../Base/LinkCard.vue'
 import NotifItem from './NotifItem.vue'
 
 export default {
-  components: { LinkCard, NotifItem },
+  components: { NotifItem },
   computed: {
     ...mapGetters({ notif: 'notif/notif' }),
   },
@@ -22,9 +21,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.notif {
-  margin: 10px 20% 10px 20%;
-}
-</style>

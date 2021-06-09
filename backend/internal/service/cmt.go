@@ -4,7 +4,6 @@ import (
 	"app/internal/model"
 	"app/internal/repository"
 	"encoding/json"
-	"fmt"
 )
 
 type CommentServiceImpl struct {
@@ -18,7 +17,6 @@ func NewCommentService(repo repository.CommentRepo) CommentService {
 func (r *CommentServiceImpl) GetTree(postId int) (res string, err error) {
 	cmts, err := r.repo.Select(postId)
 	res = r.BuildCmtTree(cmts)
-	// fmt.Println(res)
 	return
 }
 
@@ -48,8 +46,6 @@ func (r *CommentServiceImpl) BuildCmtTree(cmts []model.Comment) (tree string) {
 	}
 
 	tree = string(bytes)
-
-	fmt.Println(tree)
 
 	return
 }

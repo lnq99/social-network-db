@@ -21,10 +21,12 @@ type ProfileRepo interface {
 	SelectByEmail(e string) (model.Profile, error)
 	// Insert(model.Profile) error
 	SelectFeed(id, limit, offset int) ([]int64, error)
+	SearchName(id int, s string) (string, error)
 }
 
 type PostRepo interface {
 	Select(postId int) (model.Post, error)
+	SelectReaction(userId int) ([]int64, error)
 	SelectByUserId(userId int) ([]int64, error)
 }
 
@@ -34,6 +36,8 @@ type CommentRepo interface {
 
 type ReactionRepo interface {
 	Select(postId int) ([]model.Reaction, error)
+	SelectByUserPost(userId, postId int) (string, error)
+	UpdateReaction(userId, postId int, t string) error
 }
 
 type RelationshipRepo interface {
@@ -41,6 +45,7 @@ type RelationshipRepo interface {
 	Friends(id int) ([]model.Relationship, error)
 	Requests(id int) ([]model.Relationship, error)
 	FriendsDetail(id int) (string, error)
+	MutualFriends(u1, u2 int) ([]int64, error)
 }
 
 type NotificationRepo interface {

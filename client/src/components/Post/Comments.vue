@@ -40,12 +40,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ShortInfo from '../Profile/ShortInfo.vue'
 import CommentInput from './CommentInput.vue'
 
 export default {
   props: ['postId'],
-  components: { CommentInput, ShortInfo },
+  components: { CommentInput },
   data() {
     return {
       loaded: false,

@@ -13,13 +13,16 @@ import FriendItem from '../Friend/FriendItem.vue'
 export default {
   components: { FriendItem },
   computed: {
-    ...mapState('profile', ['friends']),
+    ...mapState(['id']),
+    ...mapState('relationship', ['friends']),
   },
   methods: {
-    ...mapActions({ getFriends: 'profile/getFriends' })
+    ...mapActions({ getFriends: 'relationship/getFriends' })
   },
   created() {
-    this.getFriends()
+    this.getFriends(this.id).then((res) => {
+      // this.friends = res
+    })
   }
 }
 </script>

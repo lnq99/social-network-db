@@ -26,12 +26,7 @@
 </template>
 
 <script>
-import LinkCard from '../Base/LinkCard.vue'
-import ShortInfo from '../Profile/ShortInfo.vue'
-
-
 export default {
-  components: { LinkCard, ShortInfo },
   props: ['notif'],
 }
 </script>
@@ -39,5 +34,6 @@ export default {
 <style scoped>
 .notif {
   margin: 10px 20% 10px 20%;
+  padding: 18px;
 }
 </style>

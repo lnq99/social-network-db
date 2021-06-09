@@ -1,17 +1,22 @@
-<template>
+<template v-if=loaded>
   <el-avatar class="ava" :size="200" :src="avatar"></el-avatar>
   <h2 class="name">{{ name }}</h2>
 
-  <link-card link="/"> News </link-card>
-  <link-card :link="{ name: 'Profile', params: { id } }"> Profile </link-card>
-  <link-card :link="{ name: 'Photo', params: { id } }"> Photo </link-card>
-  <link-card link="/notif">
+  <link-card :cls="cls" link="/"> News </link-card>
+  <link-card :cls="cls" :link="{ name: 'Profile', params: { id } }">
+    Profile
+  </link-card>
+  <link-card :cls="cls" :link="{ name: 'Photo', params: { id } }">
+    Photo
+  </link-card>
+  <link-card :cls="cls" link="/notif">
     <el-badge :value="100" :max="10" class="item"
       ><p>Notification</p>
     </el-badge>
   </link-card>
-  <!-- <link-card link="/msg"> Messenger </link-card> -->
-  <link-card link="/logout"> Logout </link-card>
+  <link-card :cls="cls" link="/search"> Search </link-card>
+  <!-- <link-card :cls="cls" link="/msg"> Messenger </link-card> -->
+  <link-card :cls="cls" link="/logout"> Logout </link-card>
   <div class="center">
     <el-switch
       v-model="theme"
@@ -29,6 +34,18 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      loaded: false,
+      cls: {
+        'font-size': '1.2em',
+        'font-weight': 300,
+        'letter-spacing': '1px',
+        'word-spacing': '1px',
+        'padding': '18px',
+      }
+    }
+  },
   computed: {
     theme: {
       get() {
@@ -40,6 +57,9 @@ export default {
     },
     ...mapState({ id: 'id', name: 'name', avatar: 'avatarl' }),
   },
+  created() {
+    this.loaded = true
+  }
 }
 </script>
 

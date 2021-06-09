@@ -29,18 +29,15 @@
 
 <script>
 import { ref } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
-  props: ['editable'],
+  props: ['intro', 'editable'],
   data() {
     return {
       isEdit: false,
       introContent: ref(''),
     }
-  },
-  computed: {
-    ...mapGetters(['intro']),
   },
   methods: {
     ...mapActions(['saveIntro']),

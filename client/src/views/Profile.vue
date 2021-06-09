@@ -8,12 +8,14 @@
           </center>
         </card>
         <card class="col-card card-hl"><photos :id="profile.id"></photos></card>
-        <card class="col-card card-hl"><friends></friends></card>
+        <card class="col-card card-hl"
+          ><friends :id="profile.id"></friends
+        ></card>
       </el-affix>
     </card>
     <card class="col2">
       <card class="col-card card-hl">
-        <intro :editable="id == profile.id"></intro>
+        <intro :intro="profile.intro" :editable="id == profile.id"></intro>
       </card>
       <post-container :posts="posts"></post-container>
     </card>
@@ -39,17 +41,23 @@ export default {
     ...mapState(['id']),
   },
   methods: {
-    ...mapActions({ getProfile: 'profile/getProfile', getPosts: 'post/getPostsOfProfile' })
+    ...mapActions({ getProfile: 'profile/getProfile', getPosts: 'post/getPostsOfProfile' }),
+    fetchData(id) {
+      this.loaded = false
+      this.getProfile(id).then(res => {
+        this.profile = res
+        this.getPosts(id).then(res => {
+          this.posts = res
+          this.loaded = true
+        })
+      })
+    }
+  },
+  async beforeRouteUpdate(to, from) {
+    this.fetchData(to.params.id)
   },
   created() {
-    this.userId = this.$route.params.id
-    this.getProfile(this.userId).then(res => {
-      this.profile = res
-      this.getPosts(this.userId).then(res => {
-        this.posts = res
-        this.loaded = true
-      })
-    })
+    this.fetchData(this.$route.params.id)
   },
 }
 </script>

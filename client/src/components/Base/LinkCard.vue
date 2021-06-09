@@ -1,24 +1,13 @@
 <template>
-  <card class="center hover">
+  <card :style="cls" class="center hover">
     <router-link :to="link">
-      <div class="p18">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </router-link>
   </card>
 </template>
 
 <script>
 export default {
-  props: ['link'],
+  props: ['link', 'cls'],
 }
 </script>
-
-<style scoped>
-a > div {
-  font-size: 1.2em;
-  font-weight: 200;
-  letter-spacing: 1px;
-  word-spacing: 1px;
-}
-</style>

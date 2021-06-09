@@ -3,14 +3,28 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
-    // friend: {
-    //   date: '2016-05-02',
-    //   name: 'Friend',
-    //   address: 'No. 189, Grove St, Los Angeles',
-    //   ava: 'https://via.placeholder.com/40',
-    // },
+    friends: [],
   },
-  actions: {},
+  actions: {
+    async getMutualFriends(_, id) {
+      return axios({ url: `/api/rel/mutual-friends?id=${id}` })
+        .catch(() => {})
+        .then((res) => res.data)
+    },
+    async getFriends({ rootState, state, commit }, id) {
+      if (id == rootState.id && state.friends.length > 0) {
+        return state.friends
+      }
+      return axios({ url: `/api/rel/friends/${id}` })
+        .catch(() => {})
+        .then((res) => {
+          if (id == rootState.id && state.friends.length == 0)
+            state.friends = res.data
+          commit('profile/cacheShortProfileArray', res.data, { root: true })
+          return res.data
+        })
+    },
+  },
   getters: {
     // friends(state) {
     //   let a = [...new Array(20)]

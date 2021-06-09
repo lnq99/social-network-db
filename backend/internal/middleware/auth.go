@@ -35,18 +35,5 @@ func NewAuthMiddleware(a auth.Manager) gin.HandlerFunc {
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
-
-		// user, err := auth.ParseToken(c.Request.Context(), tokenStr)
-		// if err != nil {
-		// 	status := http.StatusInternalServerError
-		// 	if err == auth.ErrInvalidAccessToken {
-		// 		status = http.StatusUnauthorized
-		// 	}
-
-		// 	c.AbortWithStatus(status)
-		// 	return
-		// }
-
-		// c.Set(auth.CtxUserKey, user)
 	}
 }

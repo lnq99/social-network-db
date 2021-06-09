@@ -1,5 +1,11 @@
 <template>
-  <h1>Photos</h1>
+  <short-info :id="id">
+    <template v-slot="slotProps">
+      <el-avatar class="ava" :size="60" :src="slotProps.avatars"></el-avatar>
+      <h2>{{ slotProps.uname }} - Photos</h2>
+      <br />
+    </template>
+  </short-info>
   <grid v-if="loaded" :items="photos">
     <template v-slot="slotProps">
       <el-image

@@ -22,9 +22,9 @@
   line-height: 120%;
 }
 
-.el-input__inner {
-  border-radius: 100px !important;
-}
+// .el-input__inner {
+//   border-radius: 100px !important;
+// }
 .input .el-textarea__inner {
   border: none;
   background-color: var(--bg);

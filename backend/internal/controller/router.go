@@ -3,9 +3,9 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 				fmt.Println("===", ID, "===")
 				fmt.Println("\n\n\nOK")
 				profile, err := ctrl.Services.Profile.Get(id)
-				handleRespone(c, profile, err)
+				jsonRespone(c, profile, err)
 			})
 
 			profile.GET("short/:id", func(c *gin.Context) {
@@ -40,28 +40,38 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 					})
 					return
 				}
-				handleRespone(c, profile, err)
+				jsonRespone(c, profile, err)
 			})
 		}
 
-		api.GET("friends", func(c *gin.Context) {
-			ID := c.MustGet("ID").(int)
-			friends, err := ctrl.Services.Relationship.FriendsDetail(ID)
-			var s interface{}
-			json.Unmarshal([]byte(friends), &s)
-			handleRespone(c, s, err)
-		})
+		rel := api.Group("rel")
+		{
+			rel.GET("friends/:id", func(c *gin.Context) {
+				id := toInt(c.Param("id"))
+				friends, err := ctrl.Services.Relationship.FriendsDetail(id)
+				var s interface{}
+				json.Unmarshal([]byte(friends), &s)
+				jsonRespone(c, s, err)
+			})
+
+			rel.GET("mutual-friends", func(c *gin.Context) {
+				ID := c.MustGet("ID").(int)
+				id := toInt(c.Param("id"))
+				mf, err := ctrl.Services.Relationship.MutualFriends(ID, id)
+				jsonRespone(c, mf, err)
+			})
+		}
 
 		photo := api.Group("photo")
 		{
 			photo.GET(":id", func(c *gin.Context) {
 				photo, err := ctrl.Services.Photo.Get(toInt(c.Param("id")))
-				handleRespone(c, photo, err)
+				jsonRespone(c, photo, err)
 			})
 
 			photo.GET("u/:id", func(c *gin.Context) {
 				photos, err := ctrl.Services.Photo.GetByUserId(toInt(c.Param("id")))
-				handleRespone(c, photos, err)
+				jsonRespone(c, photos, err)
 			})
 		}
 
@@ -70,7 +80,7 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 			notif.GET("", func(c *gin.Context) {
 				ID := c.MustGet("ID").(int)
 				notif, err := ctrl.Services.Notification.Get(ID)
-				handleRespone(c, notif, err)
+				jsonRespone(c, notif, err)
 			})
 		}
 
@@ -78,12 +88,12 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 		{
 			post.GET(":id", func(c *gin.Context) {
 				post, err := ctrl.Services.Post.Get(toInt(c.Param("id")))
-				handleRespone(c, post, err)
+				jsonRespone(c, post, err)
 			})
 
 			post.GET("u/:id", func(c *gin.Context) {
 				post, err := ctrl.Services.Post.GetByUserId(toInt(c.Param("id")))
-				handleRespone(c, post, err)
+				jsonRespone(c, post, err)
 			})
 		}
 
@@ -91,10 +101,31 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 		{
 			cmt.GET(":id", func(c *gin.Context) {
 				cmt, err := ctrl.Services.Comment.GetTree(toInt(c.Param("id")))
-				log.Println(cmt)
 				var s interface{}
 				json.Unmarshal([]byte(cmt), &s)
-				handleRespone(c, s, err)
+				jsonRespone(c, s, err)
+			})
+		}
+
+		react := api.Group("react")
+		{
+			react.GET(":id", func(c *gin.Context) {
+				react, err := ctrl.Services.Post.GetReaction(toInt(c.Param("id")))
+				jsonRespone(c, react, err)
+			})
+
+			react.GET("u/:id", func(c *gin.Context) {
+				ID := c.MustGet("ID").(int)
+				react, err := ctrl.Services.Reaction.GetByUserPost(ID, toInt(c.Param("id")))
+				jsonRespone(c, react, err)
+			})
+
+			react.PUT(":postId/:type", func(c *gin.Context) {
+				ID := c.MustGet("ID").(int)
+				postId := toInt(c.Param("postId"))
+				t := c.Param("type")
+				err := ctrl.Services.Reaction.UpdateReaction(ID, postId, t)
+				statusRespone(c, err)
 			})
 		}
 
@@ -104,12 +135,16 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 			limit := toInt(c.Query("lim"))
 			offset := toInt(c.Query("off"))
 			feed, err := ctrl.Services.Feed.GetFeed(id, limit, offset)
-			println(limit, offset)
-			handleRespone(c, feed, err)
+			jsonRespone(c, feed, err)
 		})
 
-		api.GET("friend", func(c *gin.Context) {
-			c.JSON(200, []int{1, 2, 3})
+		api.GET("search", func(c *gin.Context) {
+			ID := c.MustGet("ID").(int)
+			key := c.Query("k")
+			res, err := ctrl.Services.Profile.SearchName(ID, key)
+			var s interface{}
+			json.Unmarshal([]byte(res), &s)
+			jsonRespone(c, s, err)
 		})
 
 		api.GET("logout", ctrl.Services.Auth.LogoutHandler())
@@ -117,8 +152,13 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 
 	// r.StaticFS("/", http.Dir(c.Conf.StaticRoot))
 	r.Use(static.Serve("/", static.LocalFile(ctrl.Conf.StaticRoot, true)))
-	r.NoRoute(func(ctx *gin.Context) {
-		ctx.FileFromFS("/", http.Dir(ctrl.Conf.StaticRoot))
+	r.NoRoute(func(c *gin.Context) {
+		path := c.Request.URL.Path
+		if strings.HasPrefix(path, "/api") {
+			c.AbortWithStatus(http.StatusBadRequest)
+		} else {
+			c.FileFromFS("/", http.Dir(ctrl.Conf.StaticRoot))
+		}
 	})
 	return r
 }
@@ -131,10 +171,18 @@ func toInt(n string) int {
 	return int(res)
 }
 
-func handleRespone(c *gin.Context, obj interface{}, serverErr error) {
+func jsonRespone(c *gin.Context, obj interface{}, serverErr error) {
 	if serverErr != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 	c.JSON(200, obj)
+}
+
+func statusRespone(c *gin.Context, serverErr error) {
+	if serverErr != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	c.Status(http.StatusCreated)
 }

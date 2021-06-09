@@ -16,3 +16,11 @@ func NewReactionService(repo repository.ReactionRepo) ReactionService {
 func (r *ReactionServiceImpl) Get(postId int) (res []model.Reaction, err error) {
 	return r.repo.Select(postId)
 }
+
+func (r *ReactionServiceImpl) GetByUserPost(userId, postId int) (string, error) {
+	return r.repo.SelectByUserPost(userId, postId)
+}
+
+func (r *ReactionServiceImpl) UpdateReaction(userId, postId int, t string) error {
+	return r.repo.UpdateReaction(userId, postId, t)
+}

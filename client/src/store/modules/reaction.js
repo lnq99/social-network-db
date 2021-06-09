@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   namespaced: true,
   state: {
@@ -8,10 +10,21 @@ export default {
     sad: require('@/assets/sad.svg'),
     angry: require('@/assets/angry.svg'),
   },
-  getters: {
-    posts(state) {
-      let posts = Array(10).fill(state.post)
-      return posts
+  actions: {
+    async getReaction(_, postId) {
+      return axios({ url: `/api/react/${postId}` })
+        .catch(() => {})
+        .then((r) => r.data)
+    },
+    async getReactionType(_, postId) {
+      return axios({ url: `/api/react/u/${postId}` })
+        .catch(() => {})
+        .then((r) => r.data)
+    },
+    async react(_, { postId, type }) {
+      return axios({ method: 'put', url: `/api/react/${postId}/${type}` })
+        .catch(() => {})
+        .then((r) => r.data)
     },
   },
 }

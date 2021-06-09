@@ -19,6 +19,11 @@ const routes = [
         component: () => import('../views/Notification.vue'),
       },
       {
+        path: 'search',
+        name: 'Search',
+        component: () => import('../views/Search.vue'),
+      },
+      {
         path: 'profile/:id',
         name: 'Profile',
         component: () => import('../views/Profile.vue'),

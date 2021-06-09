@@ -28,3 +28,7 @@ func (r *RelationshipServiceImpl) Requests(id int) (rels []model.Relationship, e
 func (r *RelationshipServiceImpl) FriendsDetail(id int) (string, error) {
 	return r.repo.FriendsDetail(id)
 }
+
+func (r *RelationshipServiceImpl) MutualFriends(u1, u2 int) ([]int64, error) {
+	return r.repo.MutualFriends(u1, u2)
+}

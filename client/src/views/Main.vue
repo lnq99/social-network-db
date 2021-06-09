@@ -1,13 +1,13 @@
 <template>
   <el-row class="container">
-    <el-col :xs="0" :sm="0" :md="5" :lg="4" :xl="4" class="left">
+    <el-col :xs="0" :sm="6" :md="5" :lg="4" :xl="4" class="left">
       <left-panel></left-panel
     ></el-col>
 
-    <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16" class="main-col">
+    <el-col :xs="24" :sm="18" :md="14" :lg="16" :xl="16" class="main-col">
       <el-col
         :xs="{ span: 24, offset: 0 }"
-        :sm="{ span: 22, offset: 1 }"
+        :sm="{ span: 24, offset: 0 }"
         :md="{ span: 24, offset: 0 }"
         :lg="{ span: 22, offset: 1 }"
         :xl="{ span: 18, offset: 3 }"

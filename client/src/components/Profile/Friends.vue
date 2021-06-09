@@ -1,9 +1,9 @@
 <template>
   <h2>
     Friends
-    <a class="btn-right">See more ({{ friends.length }})</a>
+    <a v-if="loaded" class="btn-right">See more ({{ friends.length }})</a>
   </h2>
-  <div class="card-inner">
+  <div v-if="loaded" class="card-inner">
     <grid :items="friends.slice(0, 5)">
       <template v-slot="slotProps">
         <el-avatar
@@ -18,12 +18,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
-  computed: {
-    ...mapState('profile', ['friends']),
+  props: ['id'],
+  data() {
+    return { loaded: false }
   },
+  // computed: {
+  //   ...mapState('profile', ['friends']),
+  // },
+  methods: {
+    ...mapActions({ getFriends: 'relationship/getFriends' })
+  },
+  created() {
+    this.getFriends(this.id).then((res) => {
+      this.friends = res
+      // console.log(this.friends, this.id)
+      this.loaded = true
+    })
+  }
 }
 </script>
 

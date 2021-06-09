@@ -47,11 +47,21 @@ func (r *PostRepoImpl) Select(postId int) (post model.Post, err error) {
 }
 
 func (r *PostRepoImpl) SelectByUserId(userId int) (posts []int64, err error) {
-	row := r.DB.QueryRow("select array(select id from Post where userId=$1)", userId)
+	row := r.DB.QueryRow("select array(select id from Post where userId=$1 order by created desc)", userId)
 
 	var arr pq.Int64Array
 	err = row.Scan(&arr)
 	posts = arr
+
+	return
+}
+
+func (r *PostRepoImpl) SelectReaction(postId int) (res []int64, err error) {
+	row := r.DB.QueryRow("select reaction from Post where id=$1", postId)
+
+	var arr pq.Int64Array
+	err = row.Scan(&arr)
+	res = arr
 
 	return
 }

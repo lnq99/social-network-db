@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <search></search>
+    <search-box></search-box>
   </el-row>
   <hr />
   <friend-list></friend-list>
@@ -8,9 +8,9 @@
 
 <script>
 import FriendList from './Friend/FriendList.vue'
-import Search from './Search/Search.vue'
+import SearchBox from './Search/SearchBox.vue'
 
 export default {
-  components: { FriendList, Search },
+  components: { FriendList, SearchBox },
 }
 </script>

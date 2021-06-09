@@ -20,40 +20,20 @@
       <img :src="data.atchUrl" />
     </div>
     <hr />
-    <div class="row">
-      <div class="btn-contaner">
-        <el-button
-          class="btn"
-          :class="{ 'btn-on': liked }"
-          type="primary"
-          @click="onLike"
-          size="small"
-          >Like</el-button
-        >
-        <el-button class="btn" size="small" @click="onComment">
-          {{ data.cmtCount }} Comments</el-button
-        >
-      </div>
-      <react-cmt
-        :reaction="data.reaction"
-        :cmtCount="data.cmtCount"
-      ></react-cmt>
-    </div>
-    <div v-if="comment">
-      <hr />
-      <comments :postId="id"></comments>
-    </div>
+    <react-cmt
+      :id="id"
+      :initReaction="data.reaction"
+      :cmtCount="data.cmtCount"
+    ></react-cmt>
   </card>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import ShortInfo from '../Profile/ShortInfo.vue'
-import ReactCmt from './Reacttion.vue'
-import Comments from '../Post/Comments.vue'
+import ReactCmt from './ReactCmt.vue'
 
 export default {
-  components: { ShortInfo, ReactCmt, Comments },
+  components: { ReactCmt },
   props: ['id'],
   data() {
     return {
@@ -127,34 +107,5 @@ img {
   width: 100%;
   display: block;
   margin-bottom: 8px;
-}
-
-.row {
-  display: flex;
-  // justify-content: flex-start;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 $p4 0 $p4;
-}
-.btn-contaner {
-  width: 50%;
-  display: flex;
-}
-
-.btn {
-  color: var(--fg);
-  font-weight: 300;
-  width: 50%;
-  // width: max(25%, 100px);
-}
-
-.btn,
-.btn:focus {
-  background: none;
-}
-
-.btn-on,
-.btn-on:focus {
-  background: #409eff;
 }
 </style>

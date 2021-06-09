@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import notif from './modules/notif.js'
 import cmt from './modules/cmt.js'
 import reaction from './modules/reaction.js'
+import relationship from './modules/relationship.js'
 import photo from './modules/photo.js'
 import profile from './modules/profile.js'
 import post from './modules/post.js'
@@ -108,7 +109,7 @@ const store = createStore({
       }
     },
   },
-  modules: { profile, post, notif, cmt, reaction, photo },
+  modules: { profile, post, notif, cmt, reaction, relationship, photo },
 })
 
 export default store

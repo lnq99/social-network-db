@@ -7,6 +7,8 @@ create type relation_t as enum('friend','block','request');
 create type atch_t as enum('photo','video','poll','none');
 create type react_t as enum('like','love','haha','wow','sad','angry');
 
+alter type relation_t add value 'follow' after 'request';
+
 drop type gender_t;
 drop type notif_t;
 drop type relation_t;

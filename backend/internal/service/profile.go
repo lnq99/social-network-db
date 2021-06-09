@@ -20,3 +20,7 @@ func (r *ProfileServiceImpl) Get(id int) (model.Profile, error) {
 func (r *ProfileServiceImpl) GetByEmail(e string) (model.Profile, error) {
 	return r.repo.SelectByEmail(e)
 }
+
+func (r *ProfileServiceImpl) SearchName(id int, s string) (string, error) {
+	return r.repo.SearchName(id, s)
+}

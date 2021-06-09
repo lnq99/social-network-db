@@ -1,10 +1,15 @@
 <template>
-  <card class="row hover p18">
-    <span>
-      <el-avatar class="ava" :size="40" :src="friend.avatars"></el-avatar
-    ></span>
-    <span>{{ friend.name }}</span></card
+  <link-card
+    class="hover p18"
+    :link="{ name: 'Profile', params: { id: friend.id } }"
   >
+    <div class="row">
+      <span>
+        <el-avatar class="ava" :size="40" :src="friend.avatars"></el-avatar>
+      </span>
+      <div class="name">{{ friend.name }}</div>
+    </div>
+  </link-card>
 </template>
 
 <script>
@@ -19,5 +24,9 @@ export default {
 }
 .ava {
   margin: -10px 20px -10px -10px;
+}
+.name {
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>

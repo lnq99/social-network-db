@@ -20,3 +20,7 @@ func (r *PostServiceImpl) Get(postId int) (post model.Post, err error) {
 func (r *PostServiceImpl) GetByUserId(userId int) ([]int64, error) {
 	return r.repo.SelectByUserId(userId)
 }
+
+func (r *PostServiceImpl) GetReaction(postId int) ([]int64, error) {
+	return r.repo.SelectReaction(postId)
+}

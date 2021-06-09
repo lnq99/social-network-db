@@ -32,11 +32,14 @@ type AuthService interface {
 type ProfileService interface {
 	Get(id int) (model.Profile, error)
 	GetByEmail(e string) (model.Profile, error)
+	SearchName(id int, s string) (string, error)
+
 	// Insert(model.Profile) error
 }
 
 type PostService interface {
 	Get(postId int) (model.Post, error)
+	GetReaction(postId int) ([]int64, error)
 	GetByUserId(userId int) ([]int64, error)
 }
 
@@ -47,6 +50,8 @@ type CommentService interface {
 
 type ReactionService interface {
 	Get(postId int) ([]model.Reaction, error)
+	GetByUserPost(userId, postId int) (string, error)
+	UpdateReaction(userId, postId int, t string) error
 }
 
 type RelationshipService interface {
@@ -54,6 +59,7 @@ type RelationshipService interface {
 	Friends(id int) ([]model.Relationship, error)
 	Requests(id int) ([]model.Relationship, error)
 	FriendsDetail(id int) (string, error)
+	MutualFriends(u1, u2 int) ([]int64, error)
 }
 
 type NotificationService interface {

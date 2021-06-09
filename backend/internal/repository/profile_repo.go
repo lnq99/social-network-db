@@ -3,6 +3,7 @@ package repository
 import (
 	"app/internal/model"
 	"database/sql"
+	"log"
 	"reflect"
 
 	"github.com/lib/pq"
@@ -46,6 +47,19 @@ func (r *ProfileRepoImpl) SelectFeed(id, limit, offset int) (feed []int64, err e
 	err = row.Scan(&arr)
 	feed = arr
 
+	return
+}
+
+func (r *ProfileRepoImpl) SearchName(id int, s string) (res string, err error) {
+	log.Println(id, s)
+	if len(s) >= 2 {
+		err = r.DB.QueryRow("select search_name($1, $2)", id, s).Scan(&res)
+	}
+	if err != nil {
+		log.Println(err)
+		err = nil
+		res = "[]"
+	}
 	return
 }
 

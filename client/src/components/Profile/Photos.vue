@@ -1,6 +1,9 @@
 <template>
   <h2>
-    Photos <a class="btn-right" href="/photo">See more ({{ photos.length }})</a>
+    Photos
+    <router-link :to="`/photo/${id}`">
+      <span class="btn-right"> See more ({{ photos.length }}) </span>
+    </router-link>
   </h2>
   <grid v-if="loaded" :items="photos.slice(0, 8)">
     <template v-slot="slotProps">

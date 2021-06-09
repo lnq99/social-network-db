@@ -3,6 +3,7 @@ package repository
 import (
 	"app/internal/model"
 	"database/sql"
+	"fmt"
 )
 
 type ReactionRepoImpl struct {
@@ -35,5 +36,39 @@ func (r *ReactionRepoImpl) selectById(id int, str string) (res []model.Reaction,
 
 func (r *ReactionRepoImpl) Select(postId int) (res []model.Reaction, err error) {
 	res, err = r.selectById(postId, "select * from Reaction where PostId=$1")
+	return
+}
+
+func (r *ReactionRepoImpl) SelectByUserPost(userId, postId int) (t string, err error) {
+	row := r.DB.QueryRow("select type from Reaction where userId=$1 and postId=$2 limit 1", userId, postId)
+	err = row.Scan(&t)
+	if err != nil {
+		err = nil
+		t = ""
+	}
+
+	return
+}
+
+func (r *ReactionRepoImpl) UpdateReaction(userId, postId int, t string) (err error) {
+	var query string
+	var res sql.Result
+	if t == "del" {
+		query = `delete from Reaction
+		where userId = $1 and postId = $2`
+		res, err = r.DB.Exec(query, userId, postId)
+	} else {
+		query = `insert into Reaction values ($1, $2, $3)
+		on conflict (userId, postId) do update set type = $3`
+		res, err = r.DB.Exec(query, userId, postId, t)
+	}
+	if err != nil {
+		fmt.Println(err)
+	}
+	count, err := res.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(count)
 	return
 }
