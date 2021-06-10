@@ -19,15 +19,17 @@ type Repo struct {
 type ProfileRepo interface {
 	Select(id int) (model.Profile, error)
 	SelectByEmail(e string) (model.Profile, error)
-	// Insert(model.Profile) error
 	SelectFeed(id, limit, offset int) ([]int64, error)
 	SearchName(id int, s string) (string, error)
+	Insert(cmt model.Profile) error
+	SetAvatar(cmt model.Photo) error
 }
 
 type PostRepo interface {
 	Select(postId int) (model.Post, error)
 	SelectReaction(userId int) ([]int64, error)
 	SelectByUserId(userId int) ([]int64, error)
+	Insert(post model.Post) error
 }
 
 type CommentRepo interface {
@@ -51,15 +53,18 @@ type RelationshipRepo interface {
 
 type NotificationRepo interface {
 	Select(userId int) ([]model.Notification, error)
+	Insert(notif model.Notification) error
 }
 
 type AlbumRepo interface {
 	Select(userId int) ([]model.Album, error)
+	SelectByUserIdAndAlbumName(userId int, album string) (int, error)
 }
 
 type PhotoRepo interface {
 	Select(id int) (model.Photo, error)
 	SelectByUserId(userId int) ([]model.Photo, error)
+	Insert(photo model.Photo) (int64, error)
 }
 
 func NewRepo(db *sql.DB) (repo Repo) {

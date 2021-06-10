@@ -19,6 +19,17 @@ export default {
     },
   },
   actions: {
+    async post(_, postBody) {
+      let options = {
+        method: 'POST',
+        url: `/api/post`,
+        data: postBody,
+      }
+      console.log(postBody)
+      return axios(options).catch((err) => {
+        console.log(err)
+      })
+    },
     async getPost(_, id) {
       let options = {
         method: 'GET',

@@ -11,4 +11,5 @@ require (
 	github.com/lib/pq v1.10.1
 	github.com/spf13/viper v1.7.1
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77 // indirect
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 )

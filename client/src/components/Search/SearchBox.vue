@@ -1,8 +1,9 @@
 <template>
-  <div class="ui cards dropdown" style="margin: 10px; width: 100%">
+  <div style="margin: 10px; width: 100%">
     <el-input placeholder="Search..." v-model="searchQuery">
       <template #append>
         <el-button
+          class="input-color"
           @click="$emit('search', searchQuery)"
           icon="el-icon-search"
         ></el-button>

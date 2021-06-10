@@ -77,7 +77,6 @@ export default {
   },
   watch: {
     liked(newVal, oldVal) {
-      console.log(newVal, oldVal)
       let t
       if (newVal == -1) t = 'del'
       else t = react_t[newVal]
@@ -103,7 +102,7 @@ export default {
 .reacts {
   display: inline-flex;
   margin-bottom: 0;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 .react {
   display: flex;

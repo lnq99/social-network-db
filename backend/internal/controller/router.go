@@ -4,6 +4,7 @@ import (
 	"app/internal/model"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,6 +17,16 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 	r := gin.Default()
 
 	r.POST("/api/login", ctrl.Services.Auth.LoginHandler())
+
+	r.POST("/api/register", func(c *gin.Context) {
+		var profileBody model.ProfileBody
+		if err := c.ShouldBindJSON(&profileBody); err != nil {
+			c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+			return
+		}
+		err := ctrl.Services.Profile.Register(profileBody)
+		statusRespone(c, err)
+	})
 
 	api := r.Group("/api", ctrl.Services.Auth.AuthMiddleware())
 	{
@@ -66,12 +77,12 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 		photo := api.Group("photo")
 		{
 			photo.GET(":id", func(c *gin.Context) {
-				photo, err := ctrl.Services.Photo.Get(toInt(c.Param("id")))
+				photo, err := ctrl.Services.Photo.GetPhoto(toInt(c.Param("id")))
 				jsonRespone(c, photo, err)
 			})
 
 			photo.GET("u/:id", func(c *gin.Context) {
-				photos, err := ctrl.Services.Photo.GetByUserId(toInt(c.Param("id")))
+				photos, err := ctrl.Services.Photo.GetPhotoByUserId(toInt(c.Param("id")))
 				jsonRespone(c, photos, err)
 			})
 		}
@@ -95,6 +106,18 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 			post.GET("u/:id", func(c *gin.Context) {
 				post, err := ctrl.Services.Post.GetByUserId(toInt(c.Param("id")))
 				jsonRespone(c, post, err)
+			})
+
+			post.POST("", func(c *gin.Context) {
+				var postBody model.PostBody
+				ID := c.MustGet("ID").(int)
+				if err := c.ShouldBindJSON(&postBody); err != nil {
+					c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+					return
+				}
+				err := ctrl.Services.Post.Add(ID, postBody)
+				log.Println(err)
+				statusRespone(c, err)
 			})
 		}
 

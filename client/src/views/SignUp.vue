@@ -39,7 +39,7 @@
         <el-form-item>
           <span class="el-form-item__label">Birthdate</span>
           <el-date-picker
-            v-model="value1"
+            v-model="model.birthdate"
             type="date"
             placeholder="Pick a date"
             :default-value="new Date(2000, 1, 1)"
@@ -73,8 +73,11 @@ export default {
   data() {
     return {
       model: {
-        email: '',
-        password: '',
+        email: 'test1@gmail.com',
+        username: 'Database Admin',
+        password: '123asqbo',
+        gender: '',
+        birthdate: '',
       },
       loading: false,
       rules: {
@@ -109,9 +112,9 @@ export default {
         return
       }
       this.loading = true
-
       this.signup(this.model).then(() => {
         this.loading = false
+        this.$router.push({ name: 'Login' })
       })
     },
   },

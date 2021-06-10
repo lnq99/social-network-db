@@ -4,7 +4,7 @@ type Profile struct {
 	Id         int     `json:"id"`
 	Name       string  `json:"name"`
 	Gender     string  `json:"gender"`
-	Birthday   string  `json:"birthday"`
+	Birthdate  string  `json:"birthdate"`
 	Email      string  `json:"email"`
 	Phone      float64 `json:"phone"`
 	Salt       string  `json:"salt"`
@@ -41,7 +41,7 @@ type Post struct {
 // 	AtchUrl  string  `json:"atchUrl"`
 // 	Reaction []uint8 `json:"reaction"`
 // 	CmtCount int     `json:"cmtCount"`
-// 	AutorName
+// 	AuthorName
 // 	AuthorAvatar
 // 	PhotoUrl
 // }
@@ -111,6 +111,14 @@ type PostBody struct {
 	Tags     string `json:"tags"`
 	Content  string `json:"content"`
 	AtchType string `json:"atchType"`
-	AtchId   int    `json:"atchId"`
+	AtchId   int    `json:"atchId,omitempty"`
 	AtchUrl  string `json:"atchUrl"`
+}
+
+type ProfileBody struct {
+	Email     string `json:"email"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Gender    string `json:"gender"`
+	Birthdate string `json:"birthdate"`
 }

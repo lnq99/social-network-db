@@ -9,14 +9,17 @@
       v-model="cmtModel"
     >
     </el-input>
-    <el-button
-      @click="
-        $emit('cmt', cmtModel);
-        cmtModel = '';
-      "
-      icon="el-icon-s-promotion"
-      size="small"
-    ></el-button>
+    <div>
+      <el-button
+        class="input-color"
+        @click="
+          $emit('cmt', cmtModel);
+          cmtModel = '';
+        "
+        icon="el-icon-s-promotion"
+        size="small"
+      ></el-button>
+    </div>
   </div>
 </template>
 
@@ -40,7 +43,7 @@ export default {
   display: flex;
   align-content: center;
   justify-content: center;
-  margin: 12px;
+  margin: 18px;
   margin-bottom: 0;
 }
 

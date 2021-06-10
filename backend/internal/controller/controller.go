@@ -19,6 +19,6 @@ func NewController(repo *repository.Repo, conf *config.Config) Controller {
 	return Controller{
 		// Repo:     repo,
 		Conf:     conf,
-		Services: service.NewServices(repo, conf),
+		Services: service.GetServices(repo, conf),
 	}
 }

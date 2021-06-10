@@ -64,7 +64,6 @@ export default {
     ...mapActions({ getCmtTree: 'cmt/getCmtTree', postComment: 'cmt/comment' }),
     replyTo(data) {
       this.reply = data.id
-      console.log(data)
     },
     postCmt(content) {
       this.postComment({
@@ -77,7 +76,6 @@ export default {
     }
   },
   created() {
-    console.log(this.postId)
     this.getCmtTree(this.postId).then(res => {
       this.data = res.data
       this.loaded = true

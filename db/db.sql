@@ -19,12 +19,12 @@ create table Profile (
 	id			serial 		primary key,
 	name		varchar(32)	not null,
 	gender		gender_t,
-	birthday	date,
+	birthdate	date,
 	email		text		not null	unique,
 	phone		decimal(13)	unique,
 	salt		char(8)		not null,
 	hash		char(28)	not null,
-	created		timestamp,
+	created		timestamp			default now(),
 	intro		text,
 	avatarS		text,
 	avatarL		text,
@@ -35,7 +35,7 @@ create table Profile (
 create table Post (
 	id			serial	primary key,
 	userId		int		not null	references Profile(id),
-	created		timestamp,
+	created		timestamp			default now(),
 	tags		text	default 	'',
 	content		text,
 	atchType	atch_t	default 	'none',
@@ -51,7 +51,7 @@ create table Comment (
 	postId		int		not null	references Post(id),
 	parentId	int,
 	content		text,
-	created		timestamp
+	created		timestamp			default now()
 );
 
 create table Reaction (
@@ -64,7 +64,7 @@ create table Reaction (
 create table Relationship (
 	user1		int		not null	references Profile(id),
 	user2		int		not null	references Profile(id),
-	created		timestamp,
+	created		timestamp			default now(),
 	type		relation_t,
 	other		text	default 	'',
 	primary key	(user1, user2)
@@ -74,7 +74,7 @@ create table Notification (
 	id			bigserial			primary key,
 	userId		int		not null	references Profile(id),
 	type 		notif_t,
-	created		timestamp,
+	created		timestamp			default now(),
 	fromUserId 	int		not null	references Profile(id),
 	postId 		int		default 	0,
 	cmtId 		int		default 	0
@@ -84,7 +84,7 @@ create table Album (
 	id			serial	primary key,
 	userId 		int		not null	references Profile(id),
 	descr 		text	default 	'',
-	created 	timestamp
+	created 	timestamp			default now()
 );
 
 create table Photo (
@@ -92,7 +92,7 @@ create table Photo (
 	userId 		int		not null	references Profile(id),
 	albumId 	int		not null	references Album(id),
 	url 		text,
-	created 	timestamp
+	created 	timestamp			default now()
 );
 
 select * from Profile;

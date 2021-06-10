@@ -3,7 +3,6 @@ package repository
 import (
 	"app/internal/model"
 	"database/sql"
-	"fmt"
 )
 
 type CommentRepoImpl struct {
@@ -40,14 +39,11 @@ func (r *CommentRepoImpl) Select(postId int) (res []model.Comment, err error) {
 }
 
 func (r *CommentRepoImpl) Insert(cmt model.Comment) (err error) {
-	query := `insert into Comment(userId, postId, parentId, content, created)
-	values ($1, $2, $3, $4, now())`
+	query := `insert into Comment(userId, postId, parentId, content)
+	values ($1, $2, $3, $4)`
 	res, err := r.DB.Exec(query, cmt.UserId, cmt.PostId, cmt.ParentId, cmt.Content)
 	if err == nil {
-		count, err := res.RowsAffected()
-		if err == nil && count == 0 {
-			err = fmt.Errorf("0 row affected")
-		}
+		err = handleRowsAffected(res)
 	}
 	return
 }

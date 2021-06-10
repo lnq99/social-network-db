@@ -65,3 +65,13 @@ func (r *PostRepoImpl) SelectReaction(postId int) (res []int64, err error) {
 
 	return
 }
+
+func (r *PostRepoImpl) Insert(p model.Post) (err error) {
+	query := `insert into Post(userId, tags, content, atchType, atchId, atchUrl)
+	values ($1, $2, $3, $4, $5, $6)`
+	res, err := r.DB.Exec(query, p.UserId, p.Tags, p.Content, p.AtchType, p.AtchId, p.AtchUrl)
+	if err == nil {
+		err = handleRowsAffected(res)
+	}
+	return
+}

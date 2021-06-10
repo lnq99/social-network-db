@@ -37,3 +37,12 @@ func (r *NotificationRepoImpl) Select(userId int) (res []model.Notification, err
 	res, err = r.selectById(userId, "select * from Notification where userId=$1 order by id desc limit 20")
 	return
 }
+func (r *NotificationRepoImpl) Insert(notif model.Notification) error {
+	query := `insert into Comment(userId, type, fromUserId, postId, cmtId)
+	values ($1, $2, $3, $4, $5)`
+	res, err := r.DB.Exec(query, notif.UserId, notif.T, notif.FromUserId, notif.PostId, notif.CmtId)
+	if err == nil {
+		err = handleRowsAffected(res)
+	}
+	return err
+}

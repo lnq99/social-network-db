@@ -7,11 +7,12 @@ import photo from './modules/photo.js'
 import profile from './modules/profile.js'
 import post from './modules/post.js'
 import axios from 'axios'
+import { getCookie, overwriteCookie } from '@/utils.js'
 
 const store = createStore({
   state: {
     isLoggedIn: false,
-    isDark: false,
+    isDark: getCookie('dark') == 'true',
     token: '',
     id: 0,
     // name: 'Name',
@@ -70,8 +71,16 @@ const store = createStore({
 
       return false
     },
-    signup(_, payload) {
-      console.log(payload)
+    signup(_, data) {
+      data.birthdate = data.birthdate.toISOString()
+      data.gender = data.gender[0]
+      console.log(data)
+      let options = {
+        method: 'POST',
+        url: '/api/register',
+        data: data,
+      }
+      return axios(options)
     },
     logout({ commit }) {
       axios({ url: '/api/logout' })
@@ -87,8 +96,10 @@ const store = createStore({
       //   console.log(c)
       // })
     },
-    switchTheme({ commit }) {
+    switchTheme({ state, commit }) {
       commit('switchTheme')
+      overwriteCookie('dark', state.isDark)
+      console.log(getCookie('dark'))
     },
     saveIntro({ commit }, intro) {
       commit('saveIntro', intro)

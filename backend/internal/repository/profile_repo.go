@@ -63,17 +63,24 @@ func (r *ProfileRepoImpl) SearchName(id int, s string) (res string, err error) {
 	return
 }
 
-// func (r *ProfileRepoImpl) Insert(user model.Profile) error {
-// 	insertStatement := `
-// 	INSERT INTO users (id, name, gender, email)
-// 	VALUES ($1, $2, $3, $4)`
+func (r *ProfileRepoImpl) Insert(p model.Profile) (err error) {
+	query := `insert into Profile(name, gender, birthdate, email, salt, hash)
+	values ($1, $2, $3, $4, $5, $6)`
+	res, err := r.DB.Exec(query, p.Name, p.Gender, p.Birthdate, p.Email, p.Salt, p.Hash)
+	if err == nil {
+		err = handleRowsAffected(res)
+	}
+	log.Println(err)
+	return
+}
 
-// 	_, err := u.DB.Exec(insertStatement, user.Id, user.Name, user.Describle)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	fmt.Println("Record added: ", user)
-
-// 	return nil
-// }
+func (r *ProfileRepoImpl) SetAvatar(p model.Photo) (err error) {
+	// avatarS not set for better performance
+	query := `update Profile set avartarL=$1 where id=$2`
+	res, err := r.DB.Exec(query, p.Url, p.UserId)
+	if err == nil {
+		err = handleRowsAffected(res)
+	}
+	log.Println(err)
+	return
+}

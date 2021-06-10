@@ -3,7 +3,6 @@ package repository
 import (
 	"app/internal/model"
 	"database/sql"
-	"fmt"
 )
 
 type ReactionRepoImpl struct {
@@ -62,13 +61,8 @@ func (r *ReactionRepoImpl) UpdateReaction(userId, postId int, t string) (err err
 		on conflict (userId, postId) do update set type = $3`
 		res, err = r.DB.Exec(query, userId, postId, t)
 	}
-	if err != nil {
-		fmt.Println(err)
+	if err == nil {
+		err = handleRowsAffected(res)
 	}
-	count, err := res.RowsAffected()
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(count)
 	return
 }

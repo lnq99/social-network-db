@@ -37,3 +37,9 @@ func (r *AlbumRepoImpl) Select(userId int) (res []model.Album, err error) {
 	res, err = r.selectById(userId, "select * from Album where UserId=$1")
 	return
 }
+
+func (r *AlbumRepoImpl) SelectByUserIdAndAlbumName(userId int, album string) (id int, err error) {
+	row := r.DB.QueryRow("select id from Album where userId=$1 and descr=$2", userId, album)
+	err = row.Scan(&id)
+	return
+}

@@ -4,7 +4,7 @@ as $$
 select array(
     select id
     from Post
-    where userId in (
+    where userId = urid or userId in (
         select user2
         from Relationship
         where user1 = urid
@@ -83,7 +83,7 @@ with
 t as (
     select id, cardinality(mutual_friends(1, id)) as mutual
     from Profile
-    where lower(name) like format('%%%s%%', pattern)
+    where lower(name) like format('%%%s%%', lower(pattern))
     and id not in (
         select id
         from Relationship
@@ -111,7 +111,7 @@ select jsonb_agg(jsonb_build_object('id', id, 'mutual', mutual, 'type', type)) f
 $$
 language sql;
 
-select search_name(10, '%ok%');
+select search_name(10, '%Sm%');
 drop function search_name;
 
 

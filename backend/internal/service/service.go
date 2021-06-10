@@ -4,8 +4,14 @@ import (
 	"app/config"
 	"app/internal/model"
 	"app/internal/repository"
+	"sync"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	once     sync.Once
+	services *Services
 )
 
 type Services struct {
@@ -34,13 +40,15 @@ type ProfileService interface {
 	GetByEmail(e string) (model.Profile, error)
 	SearchName(id int, s string) (string, error)
 
-	// Insert(model.Profile) error
+	Register(model.ProfileBody) error
+	SetAvatar(model.Photo) error
 }
 
 type PostService interface {
 	Get(postId int) (model.Post, error)
 	GetReaction(postId int) ([]int64, error)
 	GetByUserId(userId int) ([]int64, error)
+	Add(userId int, body model.PostBody) error
 }
 
 type CommentService interface {
@@ -68,12 +76,18 @@ type NotificationService interface {
 }
 
 type AlbumService interface {
-	Get(userId int) ([]model.Album, error)
 }
 
 type PhotoService interface {
-	Get(id int) (model.Photo, error)
-	GetByUserId(userId int) ([]model.Photo, error)
+	GetAlbumByUserId(userId int) ([]model.Album, error)
+	GetAlbumId(userId int, album string) (int, error)
+
+	GetPhoto(id int) (model.Photo, error)
+	GetPhotoByUserId(userId int) ([]model.Photo, error)
+
+	UploadPhotoToAlbum(p model.Photo, album string) (int64, error)
+	UploadPhoto(model.Photo) (int64, error)
+	SetAvatar(model.Photo) error
 }
 
 type FeedService interface {
@@ -81,18 +95,20 @@ type FeedService interface {
 	// Get(id int, tBegin, tEnd string) (newBegin, newEnd string, posts []model.Post)
 }
 
-func NewServices(repo *repository.Repo, conf *config.Config) (services *Services) {
-	services = &Services{
-		Auth:         NewAuthService(repo.Profile, conf),
-		Profile:      NewProfileService(repo.Profile),
-		Post:         NewPostService(repo.Post),
-		Comment:      NewCommentService(repo.Comment),
-		Reaction:     NewReactionService(repo.Reaction),
-		Relationship: NewRelationshipService(repo.Relationship),
-		Notification: NewNotificationService(repo.Notification),
-		Album:        NewAlbumService(repo.Album),
-		Photo:        NewPhotoService(repo.Photo),
-		Feed:         NewFeedService(repo.Profile),
-	}
-	return
+func GetServices(repo *repository.Repo, conf *config.Config) *Services {
+	once.Do(func() {
+		services = &Services{
+			Auth:         NewAuthService(repo.Profile, conf),
+			Profile:      NewProfileService(repo.Profile),
+			Post:         NewPostService(repo.Post),
+			Comment:      NewCommentService(repo.Comment),
+			Reaction:     NewReactionService(repo.Reaction),
+			Relationship: NewRelationshipService(repo.Relationship),
+			Notification: NewNotificationService(repo.Notification),
+			Photo:        NewPhotoService(repo.Photo, repo.Album),
+			Feed:         NewFeedService(repo.Profile),
+			// Album:        NewAlbumService(repo.Album),
+		}
+	})
+	return services
 }

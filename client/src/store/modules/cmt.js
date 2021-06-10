@@ -12,11 +12,11 @@ export default {
         console.log('err')
       })
     },
-    async comment(_, postBody) {
+    async comment(_, cmtBody) {
       let options = {
         method: 'POST',
         url: `/api/cmt`,
-        data: postBody,
+        data: cmtBody,
       }
       return axios(options).catch((err) => {
         console.log(err)

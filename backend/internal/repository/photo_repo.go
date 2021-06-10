@@ -3,6 +3,7 @@ package repository
 import (
 	"app/internal/model"
 	"database/sql"
+	"log"
 )
 
 type PhotoRepoImpl struct {
@@ -46,5 +47,12 @@ func (r *PhotoRepoImpl) Select(id int) (res model.Photo, err error) {
 
 func (r *PhotoRepoImpl) SelectByUserId(userId int) (res []model.Photo, err error) {
 	res, err = r.selectById(userId, "select * from Photo where UserId=$1")
+	return
+}
+
+func (r *PhotoRepoImpl) Insert(photo model.Photo) (id int64, err error) {
+	query := `insert into Photo(userId, albumId, url) values ($1, $2, $3) returning id`
+	err = r.DB.QueryRow(query, photo.UserId, photo.AlbumId, photo.Url).Scan(&id)
+	log.Println(id, err)
 	return
 }

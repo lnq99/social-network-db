@@ -1,7 +1,6 @@
 <template>
   <div class="search">
     <h2>Search</h2>
-    <!-- <search></search> -->
     <el-row>
       <search-box @search="search"></search-box>
     </el-row>
@@ -24,38 +23,28 @@ export default {
       item: [
         {
           id: 1,
-          name: 'Quang',
-          avtars: 'http://placehold.it/40x40',
           type: 'friend',
-          mutualFriends: 8,
+          mutual: 8,
         },
         {
           id: 8,
-          name: 'John',
-          avtars: 'http://placehold.it/40x40',
           type: 'request',
-          mutualFriends: 2,
+          mutual: 2,
         },
         {
           id: 10,
-          name: 'Robert',
-          avtars: 'http://placehold.it/40x40',
           type: 'follow',
-          mutualFriends: 1,
+          mutual: 1,
         },
         {
-          id: 10,
-          name: 'Arina',
-          avtars: 'http://placehold.it/40x40',
+          id: 12,
           type: 'block',
-          mutualFriends: 3,
+          mutual: 3,
         },
         {
-          id: 10,
-          name: 'Eliza',
-          avtars: 'http://placehold.it/40x40',
+          id: 11,
           type: '',
-          mutualFriends: 0,
+          mutual: 0,
         },
       ]
     }
@@ -64,10 +53,8 @@ export default {
     ...mapActions({ searchProfile: 'profile/searchProfile' }),
     search(searchQuery) {
       if (searchQuery.length < 2) return
-      console.log(searchQuery)
       this.searchProfile(searchQuery).then(res => {
         this.items = res
-        console.log(res)
       })
     }
   }

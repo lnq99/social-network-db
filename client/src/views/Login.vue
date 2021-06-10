@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       model: {
-        // email: 'admin@gmail.com',
         email: 'test@gmail.com',
         password: 'easypass',
       },
