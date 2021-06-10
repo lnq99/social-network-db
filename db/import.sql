@@ -39,3 +39,11 @@ from ttmp
 group by email
 having count(email) > 1;
 commit;
+
+
+select setval('photo_id_seq', (select max(id) from Photo));
+select setval('album_id_seq', (select max(id) from Album));
+select setval('notification_id_seq', (select max(id) from Notification));
+select setval('comment_id_seq', (select max(id) from Comment));
+select setval('post_id_seq', (select max(id) from Post));
+select setval('profile_id_seq', (select max(id) from Profile));

@@ -49,3 +49,13 @@ func (r *CommentServiceImpl) BuildCmtTree(cmts []model.Comment) (tree string) {
 
 	return
 }
+
+func (r *CommentServiceImpl) Add(userId int, body model.CommentBody) error {
+	cmt := model.Comment{
+		UserId:   userId,
+		PostId:   body.PostId,
+		ParentId: body.ParentId,
+		Content:  body.Content,
+	}
+	return r.repo.Insert(cmt)
+}

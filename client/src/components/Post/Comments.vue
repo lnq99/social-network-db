@@ -4,7 +4,7 @@
     node-key="id"
     :data="data"
     :props="defaultProps"
-    @node-click="handleNodeClick"
+    @node-click="replyTo"
   >
     <template #default="{ node, data }">
       <div class="cmt">
@@ -18,16 +18,12 @@
               ></el-avatar
             ></span>
             <span>
-              <card class="cmt-box p12 box-shadow">
+              <card class="p12 box-shadow">
                 <div class="cmt-header-r">
                   <span class="cmt-author">{{ slotProps.uname }}</span>
                   <time class="cmt-time">{{ data.created }}</time>
                 </div>
                 <div>{{ node.label }}</div>
-                <!-- <span>
-              <a @click="append(data)"> Append </a>
-              <a @click="remove(node, data)"> Delete </a>
-            </span> -->
               </card></span
             >
           </template>
@@ -35,7 +31,16 @@
       </div>
     </template>
   </el-tree>
-  <comment-input class="cmt-input"></comment-input>
+  <el-tag
+    class="tag"
+    v-if="reply != 0"
+    :key="reply"
+    closable
+    @close="reply = 0"
+  >
+    Reply to {{ reply }}
+  </el-tag>
+  <comment-input @cmt="postCmt" class="cmt-input"></comment-input>
 </template>
 
 <script>
@@ -48,6 +53,7 @@ export default {
   data() {
     return {
       loaded: false,
+      reply: 0,
       defaultProps: {
         children: 'children',
         label: 'content',
@@ -55,10 +61,20 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ getCmtTree: 'cmt/getCmtTree' }),
-    handleNodeClick(data) {
+    ...mapActions({ getCmtTree: 'cmt/getCmtTree', postComment: 'cmt/comment' }),
+    replyTo(data) {
+      this.reply = data.id
       console.log(data)
     },
+    postCmt(content) {
+      this.postComment({
+        postId: this.postId,
+        parentId: this.reply,
+        content: content
+      }).then(() => {
+        this.reply = 0
+      })
+    }
   },
   created() {
     console.log(this.postId)
@@ -77,9 +93,6 @@ export default {
 }
 .el-tree-node {
   margin: 5px;
-}
-.cmt-box {
-  /* margin-left: 46px; */
 }
 .cmt {
   display: flex;
@@ -103,5 +116,8 @@ export default {
 }
 .card {
   display: inline-block;
+}
+.tag {
+  margin: 12px 0 -12px 60px;
 }
 </style>

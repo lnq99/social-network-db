@@ -100,3 +100,17 @@ type ShortInfo struct {
 	Name    int `json:"name"`
 	AvatarS int `json:"avatars"`
 }
+
+type CommentBody struct {
+	PostId   int    `json:"postId"`
+	ParentId int    `json:"parentId"`
+	Content  string `json:"content"`
+}
+
+type PostBody struct {
+	Tags     string `json:"tags"`
+	Content  string `json:"content"`
+	AtchType string `json:"atchType"`
+	AtchId   int    `json:"atchId"`
+	AtchUrl  string `json:"atchUrl"`
+}

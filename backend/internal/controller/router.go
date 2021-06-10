@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"app/internal/model"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -104,6 +105,17 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 				var s interface{}
 				json.Unmarshal([]byte(cmt), &s)
 				jsonRespone(c, s, err)
+			})
+
+			cmt.POST("", func(c *gin.Context) {
+				var cmtBody model.CommentBody
+				ID := c.MustGet("ID").(int)
+				if err := c.ShouldBindJSON(&cmtBody); err != nil {
+					c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+					return
+				}
+				err := ctrl.Services.Comment.Add(ID, cmtBody)
+				statusRespone(c, err)
 			})
 		}
 

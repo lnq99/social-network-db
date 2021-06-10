@@ -46,6 +46,7 @@ type PostService interface {
 type CommentService interface {
 	// Get(postId int) ([]model.Comment, error)
 	GetTree(postId int) (string, error)
+	Add(userId int, body model.CommentBody) error
 }
 
 type ReactionService interface {

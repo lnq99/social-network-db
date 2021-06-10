@@ -1,18 +1,22 @@
 <template>
   <div class="commentinput">
     <el-avatar class="ava" :size="30" :src="avatars"></el-avatar>
-    <!-- <div class="input">
-      <span @click="createPost = true">
-        Create a post
-      </span>
-    </div> -->
     <el-input
       class="input"
       type="textarea"
       :autosize="{ minRows: 1, maxRows: 4 }"
       placeholder="Write a comment..."
       v-model="cmtModel"
-    ></el-input>
+    >
+    </el-input>
+    <el-button
+      @click="
+        $emit('cmt', cmtModel);
+        cmtModel = '';
+      "
+      icon="el-icon-s-promotion"
+      size="small"
+    ></el-button>
   </div>
 </template>
 
@@ -28,7 +32,7 @@ export default {
   },
   computed: {
     ...mapState(['avatars'])
-  }
+  },
 }
 </script>
 <style scoped>

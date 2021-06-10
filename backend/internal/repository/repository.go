@@ -32,6 +32,7 @@ type PostRepo interface {
 
 type CommentRepo interface {
 	Select(postId int) ([]model.Comment, error)
+	Insert(cmt model.Comment) error
 }
 
 type ReactionRepo interface {

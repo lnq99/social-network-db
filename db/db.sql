@@ -3,11 +3,11 @@ drop database if exists "Social Network";
 
 create type gender_t as enum('M','F');
 create type notif_t as enum('like','cmt','request','accept');
-create type relation_t as enum('friend','block','request');
+create type relation_t as enum('friend','block','request', 'follow');
 create type atch_t as enum('photo','video','poll','none');
 create type react_t as enum('like','love','haha','wow','sad','angry');
 
-alter type relation_t add value 'follow' after 'request';
+-- alter type relation_t add value 'follow' after 'request';
 
 drop type gender_t;
 drop type notif_t;
@@ -33,7 +33,7 @@ create table Profile (
 );
 
 create table Post (
-	id			int		primary key,
+	id			serial	primary key,
 	userId		int		not null	references Profile(id),
 	created		timestamp,
 	tags		text	default 	'',
@@ -46,7 +46,7 @@ create table Post (
 );
 
 create table Comment (
-	id			bigint	primary key,
+	id			bigserial			primary key,
 	userId		int		not null	references Profile(id),
 	postId		int		not null	references Post(id),
 	parentId	int,
@@ -55,7 +55,7 @@ create table Comment (
 );
 
 create table Reaction (
-	userId 		bigint	not null	references 	Profile(id),
+	userId 		int		not null	references 	Profile(id),
 	postId 		int		not null	references 	Post(id),
 	type 		react_t	default 	'like',
 	primary key	(userId, postId)
@@ -71,7 +71,7 @@ create table Relationship (
 );
 
 create table Notification (
-	id			bigint	primary key,
+	id			bigserial			primary key,
 	userId		int		not null	references Profile(id),
 	type 		notif_t,
 	created		timestamp,
@@ -81,14 +81,14 @@ create table Notification (
 );
 
 create table Album (
-	id			int		primary key,
+	id			serial	primary key,
 	userId 		int		not null	references Profile(id),
 	descr 		text	default 	'',
 	created 	timestamp
 );
 
 create table Photo (
-	id			int		primary key,
+	id			serial	primary key,
 	userId 		int		not null	references Profile(id),
 	albumId 	int		not null	references Album(id),
 	url 		text,
