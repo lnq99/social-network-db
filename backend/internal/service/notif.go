@@ -16,3 +16,7 @@ func NewNotificationService(repo repository.NotificationRepo) NotificationServic
 func (r *NotificationServiceImpl) Get(userId int) (res []model.Notification, err error) {
 	return r.repo.Select(userId)
 }
+
+func (r *NotificationServiceImpl) Add(notif model.Notification) error {
+	return r.repo.Insert(notif)
+}

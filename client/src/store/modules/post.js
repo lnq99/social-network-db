@@ -6,15 +6,12 @@ export default {
     feed: [],
     lim: 5,
     off: 0,
-    // from: new Date().toISOString(),
-    // to: new Date().toISOString(),
+    // TODO: feed idea: from-to new Date().toISOString(),
   },
   mutations: {
     loadFeed(state, payload) {
       let data = payload
       state.feed = [...new Set([...state.feed, ...data])]
-      // data = data.split(',')
-      // for (var i = data.length; i--; ) data[i] = data[i] | 0
       // state.feed.sort().reverse()
     },
   },
@@ -26,6 +23,15 @@ export default {
         data: postBody,
       }
       console.log(postBody)
+      return axios(options).catch((err) => {
+        console.log(err)
+      })
+    },
+    async delete(_, id) {
+      let options = {
+        method: 'DELETE',
+        url: `/api/post/${id}`,
+      }
       return axios(options).catch((err) => {
         console.log(err)
       })

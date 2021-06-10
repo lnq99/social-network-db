@@ -25,7 +25,7 @@ func (r *PostServiceImpl) GetReaction(postId int) ([]int64, error) {
 	return r.repo.SelectReaction(postId)
 }
 
-func (r *PostServiceImpl) Add(userId int, body model.PostBody) error {
+func (r *PostServiceImpl) Post(userId int, body model.PostBody) error {
 	post := model.Post{
 		UserId:   userId,
 		Tags:     body.Tags,
@@ -46,4 +46,8 @@ func (r *PostServiceImpl) Add(userId int, body model.PostBody) error {
 		post.AtchId = int(photoId)
 	}
 	return r.repo.Insert(post)
+}
+
+func (r *PostServiceImpl) Delete(userId int, postId int) error {
+	return r.repo.Delete(userId, postId)
 }

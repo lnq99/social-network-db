@@ -1,19 +1,35 @@
 <template>
   <card v-if="loaded" class="post card-hl">
     <div class="post-header">
-      <short-info :id="data.userId">
-        <template v-slot="slotProps">
-          <el-avatar
-            class="ava"
-            :size="40"
-            :src="slotProps.avatars"
-          ></el-avatar>
-          <div class="post-header-r">
-            <span class="post-author">{{ slotProps.uname }}</span>
-            <time class="post-time">{{ data.created }}</time>
-          </div>
+      <div class="row">
+        <short-info :id="data.userId">
+          <template v-slot="slotProps">
+            <el-avatar
+              class="ava"
+              :size="40"
+              :src="slotProps.avatars"
+            ></el-avatar>
+            <div class="post-header-r">
+              <span class="post-author">{{ slotProps.uname }}</span>
+              <time class="post-time">{{ data.created }}</time>
+            </div>
+          </template>
+        </short-info>
+      </div>
+      <el-dropdown size="mini">
+        <i class="el-icon-arrow-down el-icon--right"></i>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item disabled>Edit</el-dropdown-item>
+            <el-dropdown-item
+              @click="deletePost(id)"
+              icon="el-icon-delete"
+              divided
+              >Delete</el-dropdown-item
+            >
+          </el-dropdown-menu>
         </template>
-      </short-info>
+      </el-dropdown>
     </div>
     <p class="post-content">{{ data.content }}</p>
     <div v-if="(data.atchType = 'photo')" class="attach">
@@ -29,7 +45,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import ReactCmt from './ReactCmt.vue'
 
 export default {
@@ -45,10 +61,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({ userId: 'id' })
   },
   methods: {
-    ...mapActions({ getPost: 'post/getPost', getPhoto: 'photo/getPhoto', getProfileShort: 'profile/getProfileShort' }),
-
+    ...mapActions({ getPhoto: 'photo/getPhoto', getProfileShort: 'profile/getProfileShort' }),
+    ...mapActions({ getPost: 'post/getPost', deletePost: 'post/delete' }),
     onLike() {
       this.liked = !this.liked
     },
@@ -82,6 +99,7 @@ export default {
 .post-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   text-align: left;
   padding: $p4;
 }

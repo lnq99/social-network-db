@@ -115,8 +115,15 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 					c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
 					return
 				}
-				err := ctrl.Services.Post.Add(ID, postBody)
+				err := ctrl.Services.Post.Post(ID, postBody)
 				log.Println(err)
+				statusRespone(c, err)
+			})
+
+			post.DELETE(":id", func(c *gin.Context) {
+				ID := c.MustGet("ID").(int)
+				id := toInt(c.Param("id"))
+				err := ctrl.Services.Post.Delete(ID, id)
 				statusRespone(c, err)
 			})
 		}
@@ -208,6 +215,7 @@ func toInt(n string) int {
 
 func jsonRespone(c *gin.Context, obj interface{}, serverErr error) {
 	if serverErr != nil {
+		log.Println(serverErr)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -216,6 +224,7 @@ func jsonRespone(c *gin.Context, obj interface{}, serverErr error) {
 
 func statusRespone(c *gin.Context, serverErr error) {
 	if serverErr != nil {
+		log.Println(serverErr)
 		c.Status(http.StatusInternalServerError)
 		return
 	}

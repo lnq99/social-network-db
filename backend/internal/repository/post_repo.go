@@ -18,15 +18,6 @@ func NewPostRepo(db *sql.DB) PostRepo {
 func (r *PostRepoImpl) Select(postId int) (post model.Post, err error) {
 	row := r.DB.QueryRow("select * from Post where id=$1 limit 1", postId)
 
-	// s := reflect.ValueOf(&post).Elem()
-	// numCols := s.NumField()
-	// columns := make([]interface{}, numCols)
-	// for i := 0; i < numCols; i++ {
-	// 	field := s.Field(i)
-	// 	columns[i] = field.Addr().Interface()
-	// }
-	// err = row.Scan(columns...)
-
 	var arr pq.Int64Array
 
 	err = row.Scan(
@@ -70,6 +61,15 @@ func (r *PostRepoImpl) Insert(p model.Post) (err error) {
 	query := `insert into Post(userId, tags, content, atchType, atchId, atchUrl)
 	values ($1, $2, $3, $4, $5, $6)`
 	res, err := r.DB.Exec(query, p.UserId, p.Tags, p.Content, p.AtchType, p.AtchId, p.AtchUrl)
+	if err == nil {
+		err = handleRowsAffected(res)
+	}
+	return
+}
+
+func (r *PostRepoImpl) Delete(userId, postId int) (err error) {
+	query := `delete from Post where id=$2 and userId=$1`
+	res, err := r.DB.Exec(query, userId, postId)
 	if err == nil {
 		err = handleRowsAffected(res)
 	}

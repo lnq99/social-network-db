@@ -30,6 +30,7 @@ type PostRepo interface {
 	SelectReaction(userId int) ([]int64, error)
 	SelectByUserId(userId int) ([]int64, error)
 	Insert(post model.Post) error
+	Delete(userId, postId int) error
 }
 
 type CommentRepo interface {

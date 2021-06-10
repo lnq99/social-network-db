@@ -48,11 +48,11 @@ type PostService interface {
 	Get(postId int) (model.Post, error)
 	GetReaction(postId int) ([]int64, error)
 	GetByUserId(userId int) ([]int64, error)
-	Add(userId int, body model.PostBody) error
+	Post(userId int, body model.PostBody) error
+	Delete(userId int, postId int) error
 }
 
 type CommentService interface {
-	// Get(postId int) ([]model.Comment, error)
 	GetTree(postId int) (string, error)
 	Add(userId int, body model.CommentBody) error
 }
@@ -73,6 +73,7 @@ type RelationshipService interface {
 
 type NotificationService interface {
 	Get(userId int) ([]model.Notification, error)
+	Add(notif model.Notification) error
 }
 
 type AlbumService interface {

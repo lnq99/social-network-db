@@ -34,5 +34,5 @@ export function getCookie(name) {
 }
 
 export function overwriteCookie(name, val) {
-  document.cookie = `${name}=${val}`
+  document.cookie = `${name}=${val}; path=/`
 }

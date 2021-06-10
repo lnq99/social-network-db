@@ -34,7 +34,7 @@ create table Profile (
 
 create table Post (
 	id			serial	primary key,
-	userId		int		not null	references Profile(id),
+	userId		int		not null	references Profile(id)	 on delete cascade,
 	created		timestamp			default now(),
 	tags		text	default 	'',
 	content		text,
@@ -47,23 +47,23 @@ create table Post (
 
 create table Comment (
 	id			bigserial			primary key,
-	userId		int		not null	references Profile(id),
-	postId		int		not null	references Post(id),
+	userId		int		not null	references Profile(id)	 on delete cascade,
+	postId		int		not null	references Post(id)		 on delete cascade,
 	parentId	int,
 	content		text,
 	created		timestamp			default now()
 );
 
 create table Reaction (
-	userId 		int		not null	references 	Profile(id),
-	postId 		int		not null	references 	Post(id),
+	userId 		int		not null	references 	Profile(id)	 on delete cascade,
+	postId 		int		not null	references 	Post(id)	 on delete cascade,
 	type 		react_t	default 	'like',
 	primary key	(userId, postId)
 );
 
 create table Relationship (
-	user1		int		not null	references Profile(id),
-	user2		int		not null	references Profile(id),
+	user1		int		not null	references Profile(id)	 on delete cascade,
+	user2		int		not null	references Profile(id)	 on delete cascade,
 	created		timestamp			default now(),
 	type		relation_t,
 	other		text	default 	'',
@@ -72,25 +72,25 @@ create table Relationship (
 
 create table Notification (
 	id			bigserial			primary key,
-	userId		int		not null	references Profile(id),
+	userId		int		not null	references Profile(id)	 on delete cascade,
 	type 		notif_t,
 	created		timestamp			default now(),
-	fromUserId 	int		not null	references Profile(id),
+	fromUserId 	int		not null	references Profile(id)	 on delete cascade,
 	postId 		int		default 	0,
 	cmtId 		int		default 	0
 );
 
 create table Album (
 	id			serial	primary key,
-	userId 		int		not null	references Profile(id),
+	userId 		int		not null	references Profile(id)	 on delete cascade,
 	descr 		text	default 	'',
 	created 	timestamp			default now()
 );
 
 create table Photo (
 	id			serial	primary key,
-	userId 		int		not null	references Profile(id),
-	albumId 	int		not null	references Album(id),
+	userId 		int		not null	references Profile(id)	 on delete cascade,
+	albumId 	int		not null	references Album(id)	 on delete cascade,
 	url 		text,
 	created 	timestamp			default now()
 );
@@ -112,3 +112,15 @@ drop table if exists Relationship;
 drop table if exists Comment;
 drop table if exists Post;
 drop table if exists Profile;
+
+
+alter table Comment
+drop constraint comment_postid_fkey,
+add  constraint comment_postid_fkey
+foreign key (postId) references Post(id) on delete cascade;
+
+
+alter table Reaction
+drop constraint reaction_postid_fkey,
+add  constraint reaction_postid_fkey
+foreign key (postId) references Post(id) on delete cascade;
