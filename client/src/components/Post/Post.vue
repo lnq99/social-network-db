@@ -74,14 +74,14 @@ export default {
     },
   },
   created() {
-    this.getPost(this.id).then(res => {
-      this.data = res
+    this.getPost(this.id).then(data => {
+      this.data = data
 
       this.loaded = true
 
       if (this.data.atchType === 'photo') {
-        this.getPhoto(this.data.atchId).then(res => {
-          this.data.atchUrl = res.url
+        this.getPhoto(this.data.atchId).then(data => {
+          this.data.atchUrl = data.url
         })
       }
     })

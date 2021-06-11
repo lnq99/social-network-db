@@ -25,7 +25,7 @@ func (r *PostServiceImpl) GetReaction(postId int) ([]int64, error) {
 	return r.repo.SelectReaction(postId)
 }
 
-func (r *PostServiceImpl) Post(userId int, body model.PostBody) error {
+func (r *PostServiceImpl) Post(userId int, body PostBody) error {
 	post := model.Post{
 		UserId:   userId,
 		Tags:     body.Tags,

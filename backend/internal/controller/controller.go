@@ -4,21 +4,19 @@ import (
 	"app/config"
 	"app/internal/repository"
 	"app/internal/service"
+	"app/pkg/auth"
 )
 
 type Controller struct {
-	// Repo     *repository.Repo
-	Conf     *config.Config
-	Services *service.Services
-}
-
-type Service interface {
+	conf     *config.Config
+	services *service.Services
+	auth     auth.Manager
 }
 
 func NewController(repo *repository.Repo, conf *config.Config) Controller {
 	return Controller{
-		// Repo:     repo,
-		Conf:     conf,
-		Services: service.GetServices(repo, conf),
+		conf:     conf,
+		services: service.GetServices(repo, conf),
+		auth:     auth.NewManager("id", conf.ApiSecret),
 	}
 }

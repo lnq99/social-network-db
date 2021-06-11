@@ -4,13 +4,7 @@ export default {
   namespaced: true,
   actions: {
     async getCmtTree(_, postId) {
-      let options = {
-        method: 'GET',
-        url: `/api/cmt/${postId}`,
-      }
-      return axios(options).catch(() => {
-        console.log('err')
-      })
+      return axios({ url: `/api/cmt/${postId}` })
     },
     async comment(_, cmtBody) {
       let options = {
@@ -18,9 +12,7 @@ export default {
         url: `/api/cmt`,
         data: cmtBody,
       }
-      return axios(options).catch((err) => {
-        console.log(err)
-      })
+      return axios(options)
     },
   },
 }

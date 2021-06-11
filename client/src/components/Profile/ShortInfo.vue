@@ -16,8 +16,8 @@ export default {
     ...mapActions({ getProfileShort: 'profile/getProfileShort' }),
   },
   created() {
-    this.getProfileShort(this.id).then(res => {
-      this.data = res
+    this.getProfileShort(this.id).then(data => {
+      this.data = data
       this.loaded = true
     })
   }

@@ -27,12 +27,6 @@ const routes = [
         path: 'profile/:id',
         name: 'Profile',
         component: () => import('../views/Profile.vue'),
-        // children: [
-        //   {
-        //     path: ':id',
-        //     name:
-        //   }
-        // ]
       },
       {
         path: 'photo/:id',

@@ -7,11 +7,9 @@ export default {
   },
   actions: {
     getNotif({ state }) {
-      return axios({ url: '/api/notif' })
-        .catch(() => {})
-        .then((r) => {
-          state.notif = r.data
-        })
+      return axios({ url: '/api/notif' }).then((data) => {
+        state.notif = data
+      })
     },
   },
   getters: {

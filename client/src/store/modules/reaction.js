@@ -13,18 +13,15 @@ export default {
   actions: {
     async getReaction(_, postId) {
       return axios({ url: `/api/react/${postId}` })
-        .catch(() => {})
-        .then((r) => r.data)
     },
     async getReactionType(_, postId) {
       return axios({ url: `/api/react/u/${postId}` })
-        .catch(() => {})
-        .then((r) => r.data)
     },
     async react(_, { postId, type }) {
-      return axios({ method: 'put', url: `/api/react/${postId}/${type}` })
-        .catch(() => {})
-        .then((r) => r.data)
+      return axios({
+        method: 'put',
+        url: `/api/react/${postId}/${type}`,
+      })
     },
   },
 }

@@ -76,8 +76,8 @@ export default {
     }
   },
   created() {
-    this.getCmtTree(this.postId).then(res => {
-      this.data = res.data
+    this.getCmtTree(this.postId).then(data => {
+      this.data = data
       this.loaded = true
     })
   },

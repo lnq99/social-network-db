@@ -28,7 +28,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['avatars'])
+    ...mapState('profile', ['avatars'])
   },
 };
 </script>

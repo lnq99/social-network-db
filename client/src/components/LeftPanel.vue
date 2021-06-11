@@ -15,7 +15,6 @@
     </el-badge>
   </link-card>
   <link-card :cls="cls" link="/search"> Search </link-card>
-  <!-- <link-card :cls="cls" link="/msg"> Messenger </link-card> -->
   <link-card :cls="cls" link="/logout"> Logout </link-card>
   <div class="center">
     <el-switch
@@ -49,13 +48,14 @@ export default {
   computed: {
     theme: {
       get() {
-        return this.$store.state.isDark
+        return this.$store.state.theme.isDark
       },
       set(value) {
-        this.$store.dispatch('switchTheme', value)
+        this.$store.dispatch('theme/switchTheme', value)
       },
     },
-    ...mapState({ id: 'id', name: 'name', avatar: 'avatarl' }),
+    ...mapState({ id: 'id' }),
+    ...mapState('profile', { name: 'name', avatar: 'avatarl' }),
   },
   created() {
     this.loaded = true

@@ -3,8 +3,11 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
+    id: 0,
     feed: [],
     shortProfiles: {},
+    name: 'Name',
+    avatarl: 'ok',
   },
   mutations: {
     cacheShortProfileArray(state, arr) {
@@ -15,6 +18,13 @@ export default {
     cacheShortProfile(state, p) {
       state.shortProfiles[p.id] = p
     },
+    initProfile(state, profile) {
+      state.id = profile.id
+      state.name = profile.name
+      state.avatarl = profile.avatarl
+      state.avatars = profile.avatars
+      state.intro = profile.intro
+    },
   },
   actions: {
     async getProfile(_, id) {
@@ -23,11 +33,9 @@ export default {
         baseURL: '',
         url: `/api/profile/${id}`,
       }
-      return axios(options)
-        .catch((err) => {
-          console.log(err)
-        })
-        .then((r) => r.data)
+      return axios(options).catch((err) => {
+        console.log(err)
+      })
     },
     async getProfileShort({ state, commit }, id) {
       let p = state.shortProfiles[id]
@@ -39,24 +47,28 @@ export default {
         method: 'GET',
         url: `/api/profile/short/${id}`,
       }
-      return axios(options)
-        .catch(() => {})
-        .then((res) => {
-          // console.log('cache missed', id)
-          commit('cacheShortProfile', res.data)
-          return res.data
-        })
+      return axios(options).then((data) => {
+        // console.log('cache missed', id)
+        commit('cacheShortProfile', data)
+        return data
+      })
     },
     async searchProfile(_, key) {
       let options = {
         method: 'GET',
         url: `/api/search?k=${key}`,
       }
-      return axios(options)
-        .catch(() => {})
-        .then((res) => {
-          return res.data
-        })
+      return axios(options).then((data) => {
+        return data
+      })
+    },
+    saveIntro({ state }, intro) {
+      state.intro = intro
+    },
+  },
+  getters: {
+    intro(state) {
+      return state.intro
     },
   },
 }

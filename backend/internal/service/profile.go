@@ -26,7 +26,7 @@ func (r *ProfileServiceImpl) SearchName(id int, s string) (string, error) {
 	return r.repo.SearchName(id, s)
 }
 
-func (r *ProfileServiceImpl) Register(body model.ProfileBody) error {
+func (r *ProfileServiceImpl) Register(body ProfileBody) error {
 	var manager auth.Manager
 	salt, hashed := manager.GetHashSalt(body.Password)
 	p := model.Profile{

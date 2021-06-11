@@ -1,0 +1,27 @@
+import axios from 'axios'
+
+// axios.defaults.baseURL = 'http://localhost:8081'
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+
+axios.interceptors.request.use(
+  function(config) {
+    if (['post', 'put', 'delete'].includes(config.method))
+      console.log([config.method, config.url, config.data])
+    return config
+  },
+  function(error) {
+    console.log(error)
+    return Promise.reject(error)
+  }
+)
+
+axios.interceptors.response.use(
+  function(response) {
+    return response.data
+  },
+  function(error) {
+    console.log(error)
+    return Promise.reject(error).catch(() => {})
+  }
+)

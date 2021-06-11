@@ -50,7 +50,7 @@ func (r *CommentServiceImpl) BuildCmtTree(cmts []model.Comment) (tree string) {
 	return
 }
 
-func (r *CommentServiceImpl) Add(userId int, body model.CommentBody) error {
+func (r *CommentServiceImpl) Add(userId int, body CommentBody) error {
 	cmt := model.Comment{
 		UserId:   userId,
 		PostId:   body.PostId,

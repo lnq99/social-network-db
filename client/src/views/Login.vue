@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'login',
@@ -71,6 +71,9 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
   methods: {
     ...mapActions(['login']),
     onLogin() {
@@ -82,9 +85,9 @@ export default {
       this.loginHandle(this.model)
     },
     loginHandle(model) {
-      this.login(model).then((isLoggedIn) => {
+      this.login(model).then(() => {
         this.loading = false
-        if (isLoggedIn) {
+        if (this.isAuthenticated) {
           this.$message.success('Login successfull')
           this.$router.push({ name: 'NewsFeed' })
         } else if (model) {

@@ -50,7 +50,6 @@ const react_t = ['like', 'love', 'haha', 'wow', 'sad', 'angry']
 
 export default {
   components: { Comments },
-  emits: ['reactUpdate'],
   props: ['id', 'initReaction', 'cmtCount'],
   data() {
     return {
@@ -75,20 +74,18 @@ export default {
         this.liked = 0
     },
   },
-  watch: {
-    liked(newVal, oldVal) {
-      let t
-      if (newVal == -1) t = 'del'
-      else t = react_t[newVal]
-      this.react({ postId: this.id, type: t }).then(() =>
-        this.getReaction(this.id).then(r => this.reaction = r)
-      )
-    }
-  },
   created() {
     this.reaction = this.initReaction
     this.getReactionType(this.id).then(t => {
       this.liked = react_t.findIndex((v) => v == t)
+      this.$watch('liked', (newVal, oldVal) => {
+        let t
+        if (newVal == -1) t = 'del'
+        else t = react_t[newVal]
+        this.react({ postId: this.id, type: t }).then(() =>
+          this.getReaction(this.id).then(r => this.reaction = r)
+        )
+      })
     })
     this.icons = [
       this.like, this.love, this.haha, this.wow, this.sad, this.angry

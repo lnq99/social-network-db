@@ -5,8 +5,6 @@ import (
 	"app/internal/model"
 	"app/internal/repository"
 	"sync"
-
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -15,24 +13,41 @@ var (
 )
 
 type Services struct {
-	Auth         AuthService
 	Profile      ProfileService
 	Post         PostService
 	Comment      CommentService
 	Reaction     ReactionService
 	Relationship RelationshipService
 	Notification NotificationService
-	Album        AlbumService
 	Photo        PhotoService
 	Feed         FeedService
 }
 
-type AuthService interface {
-	LoginHandler() gin.HandlerFunc
-	AuthMiddleware() gin.HandlerFunc
-	LogoutHandler() gin.HandlerFunc
-	// Login(email, password string) bool
-	// SignUp(email, password, name, gender, birthday string) bool
+type CommentBody struct {
+	PostId   int    `json:"postId"`
+	ParentId int    `json:"parentId"`
+	Content  string `json:"content"`
+}
+
+type PostBody struct {
+	Tags     string `json:"tags"`
+	Content  string `json:"content"`
+	AtchType string `json:"atchType"`
+	AtchId   int    `json:"atchId,omitempty"`
+	AtchUrl  string `json:"atchUrl"`
+}
+
+type ProfileBody struct {
+	Email     string `json:"email"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Gender    string `json:"gender"`
+	Birthdate string `json:"birthdate"`
+}
+
+type LoginBody struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type ProfileService interface {
@@ -40,7 +55,7 @@ type ProfileService interface {
 	GetByEmail(e string) (model.Profile, error)
 	SearchName(id int, s string) (string, error)
 
-	Register(model.ProfileBody) error
+	Register(ProfileBody) error
 	SetAvatar(model.Photo) error
 }
 
@@ -48,13 +63,13 @@ type PostService interface {
 	Get(postId int) (model.Post, error)
 	GetReaction(postId int) ([]int64, error)
 	GetByUserId(userId int) ([]int64, error)
-	Post(userId int, body model.PostBody) error
+	Post(userId int, body PostBody) error
 	Delete(userId int, postId int) error
 }
 
 type CommentService interface {
 	GetTree(postId int) (string, error)
-	Add(userId int, body model.CommentBody) error
+	Add(userId int, body CommentBody) error
 }
 
 type ReactionService interface {
@@ -74,9 +89,6 @@ type RelationshipService interface {
 type NotificationService interface {
 	Get(userId int) ([]model.Notification, error)
 	Add(notif model.Notification) error
-}
-
-type AlbumService interface {
 }
 
 type PhotoService interface {
@@ -99,7 +111,6 @@ type FeedService interface {
 func GetServices(repo *repository.Repo, conf *config.Config) *Services {
 	once.Do(func() {
 		services = &Services{
-			Auth:         NewAuthService(repo.Profile, conf),
 			Profile:      NewProfileService(repo.Profile),
 			Post:         NewPostService(repo.Post),
 			Comment:      NewCommentService(repo.Comment),
@@ -108,7 +119,6 @@ func GetServices(repo *repository.Repo, conf *config.Config) *Services {
 			Notification: NewNotificationService(repo.Notification),
 			Photo:        NewPhotoService(repo.Photo, repo.Album),
 			Feed:         NewFeedService(repo.Profile),
-			// Album:        NewAlbumService(repo.Album),
 		}
 	})
 	return services

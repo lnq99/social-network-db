@@ -21,31 +21,11 @@ export default {
     return {
       items: [],
       item: [
-        {
-          id: 1,
-          type: 'friend',
-          mutual: 8,
-        },
-        {
-          id: 8,
-          type: 'request',
-          mutual: 2,
-        },
-        {
-          id: 10,
-          type: 'follow',
-          mutual: 1,
-        },
-        {
-          id: 12,
-          type: 'block',
-          mutual: 3,
-        },
-        {
-          id: 11,
-          type: '',
-          mutual: 0,
-        },
+        { id: 1, mutual: 8, type: 'friend' },
+        { id: 8, mutual: 2, type: 'request' },
+        { id: 3, mutual: 1, type: 'follow' },
+        { id: 4, mutual: 3, type: 'block' },
+        { id: 2, mutual: 0, type: '' },
       ]
     }
   },

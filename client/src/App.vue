@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="this.$store.state.isDark ? 'dark' : 'light'">
+  <div id="app" :class="this.$store.state.theme.isDark ? 'dark' : 'light'">
     <router-view />
   </div>
 </template>
@@ -22,9 +22,6 @@
   line-height: 120%;
 }
 
-// .el-input__inner {
-//   border-radius: 100px !important;
-// }
 .input .el-textarea__inner {
   border: none;
   background-color: var(--bg);
@@ -49,6 +46,7 @@
   }
   white-space: normal !important;
 }
+
 .el-tree__empty-block {
   min-height: 20px;
 }

@@ -23,18 +23,14 @@ export default {
         data: postBody,
       }
       console.log(postBody)
-      return axios(options).catch((err) => {
-        console.log(err)
-      })
+      return axios(options)
     },
     async delete(_, id) {
       let options = {
         method: 'DELETE',
         url: `/api/post/${id}`,
       }
-      return axios(options).catch((err) => {
-        console.log(err)
-      })
+      return axios(options)
     },
     async getPost(_, id) {
       let options = {
@@ -42,8 +38,6 @@ export default {
         url: `/api/post/${id}`,
       }
       return axios(options)
-        .catch(() => {})
-        .then((r) => r.data)
     },
     async getPostsOfProfile(_, profileId) {
       let options = {
@@ -51,20 +45,16 @@ export default {
         url: `/api/post/u/${profileId}`,
       }
       return axios(options)
-        .catch(() => {})
-        .then((r) => r.data)
     },
     async getFeed({ state, commit, rootState }, payload) {
       let options = {
         method: 'GET',
         url: `/api/feed/${rootState.id}?lim=${state.lim}&off=${state.off}`,
       }
-      return axios(options)
-        .catch(() => {})
-        .then((r) => {
-          state.off += state.lim
-          commit('loadFeed', r.data)
-        })
+      return axios(options).then((data) => {
+        state.off += state.lim
+        commit('loadFeed', data)
+      })
     },
   },
   getters: {

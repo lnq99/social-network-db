@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['saveIntro']),
+    ...mapActions('proflile', ['saveIntro']),
     onSaveIntro() {
       this.saveIntro(this.introContent)
       this.isEdit = false
@@ -64,5 +64,8 @@ export default {
   margin-top: -6px;
   padding-top: 4px;
   padding-bottom: 4px;
+}
+p {
+  margin-bottom: 0px;
 }
 </style>

@@ -8,6 +8,7 @@ type Config struct {
 	User       string `mapstructure:"DB_USER"`
 	Password   string `mapstructure:"DB_PASSWORD"`
 	Dbname     string `mapstructure:"DB_NAME"`
+	DbDriver   string `mapstructure:"DB_DRIVER"`
 	StaticRoot string `mapstructure:"STATIC_ROOT"`
 	ApiSecret  string `mapstructure:"API_SECRET"`
 }
