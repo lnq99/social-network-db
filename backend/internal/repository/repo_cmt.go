@@ -45,5 +45,9 @@ func (r *CommentRepoImpl) Insert(cmt model.Comment) (err error) {
 	if err == nil {
 		err = handleRowsAffected(res)
 	}
+
+	// TODO: bad
+	r.DB.Exec(`update Post set cmtCount=cmtCount+1 where id=$1`, cmt.PostId)
+
 	return
 }

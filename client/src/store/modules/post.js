@@ -22,7 +22,7 @@ export default {
         url: `/api/post`,
         data: postBody,
       }
-      console.log(postBody)
+      // console.log(postBody)
       return axios(options)
     },
     async delete(_, id) {
@@ -33,18 +33,10 @@ export default {
       return axios(options)
     },
     async getPost(_, id) {
-      let options = {
-        method: 'GET',
-        url: `/api/post/${id}`,
-      }
-      return axios(options)
+      return axios({ url: `/api/post/${id}` })
     },
     async getPostsOfProfile(_, profileId) {
-      let options = {
-        method: 'GET',
-        url: `/api/post/u/${profileId}`,
-      }
-      return axios(options)
+      return axios({ url: `/api/post/u/${profileId}` })
     },
     async getFeed({ state, commit, rootState }, payload) {
       let options = {

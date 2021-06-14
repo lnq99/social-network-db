@@ -1,16 +1,13 @@
 package controller
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
 func (ctrl *Controller) GetProfile(c *gin.Context) {
 	id := toInt(c.Param("id"))
-	ID := c.MustGet("ID")
-	fmt.Println("===", ID, "===")
-	fmt.Println("\n\n\nOK")
+	// ID := c.MustGet("ID")
+	// fmt.Println("===", ID, "===")
 	profile, err := ctrl.services.Profile.Get(id)
 	jsonRespone(c, profile, err)
 }

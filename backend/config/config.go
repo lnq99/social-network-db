@@ -11,6 +11,7 @@ type Config struct {
 	DbDriver   string `mapstructure:"DB_DRIVER"`
 	StaticRoot string `mapstructure:"STATIC_ROOT"`
 	ApiSecret  string `mapstructure:"API_SECRET"`
+	LogFile    string `mapstructure:"LOGFILE"`
 }
 
 func LoadConfig(path string, file string) (config Config, err error) {

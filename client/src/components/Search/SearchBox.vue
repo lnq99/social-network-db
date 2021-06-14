@@ -4,7 +4,10 @@
       <template #append>
         <el-button
           class="input-color"
-          @click="$emit('search', searchQuery)"
+          @click="
+            $emit('search', searchQuery);
+            searchQuery = '';
+          "
           icon="el-icon-search"
         ></el-button>
       </template>
@@ -23,7 +26,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import FriendItem from '../Friend/FriendItem.vue'
+import FriendItem from '../Relationship/FriendItem.vue'
 
 export default {
   components: { FriendItem },

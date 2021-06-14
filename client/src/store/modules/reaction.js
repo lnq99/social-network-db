@@ -19,7 +19,7 @@ export default {
     },
     async react(_, { postId, type }) {
       return axios({
-        method: 'put',
+        method: 'PUT',
         url: `/api/react/${postId}/${type}`,
       })
     },

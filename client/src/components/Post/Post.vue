@@ -16,7 +16,7 @@
           </template>
         </short-info>
       </div>
-      <el-dropdown size="mini">
+      <el-dropdown v-if="userId == data.userId" size="mini">
         <i class="el-icon-arrow-down el-icon--right"></i>
         <template #dropdown>
           <el-dropdown-menu>

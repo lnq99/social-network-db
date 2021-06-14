@@ -26,7 +26,6 @@ export default {
   },
   created() {
     this.getPhotos(this.id).then(res => {
-      console.log(res)
       this.photos = res
       this.loaded = true
     })

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"app/internal/service"
-	"log"
+	"app/pkg/logger"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func (ctrl *Controller) PostPost(c *gin.Context) {
 		return
 	}
 	err := ctrl.services.Post.Post(ID, postBody)
-	log.Println(err)
+	logger.Err(err)
 	statusRespone(c, err)
 }
 

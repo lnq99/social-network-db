@@ -1,36 +1,28 @@
 package controller
 
 import (
-	"fmt"
-	"io"
-	"os"
+	"app/internal/middleware"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(ctrl Controller) *gin.Engine {
+func SetupRouter(ctrl *Controller) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 
-	f, err := os.OpenFile("gin.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	}
+	// r := gin.New()
+	// r.Use(gin.LoggerWithWriter(io.MultiWriter(os.Stdout, f)))
+	// r.Use(gin.Recovery())
 
-	// r := gin.Default()
-	r := gin.New()
-	r.Use(gin.LoggerWithWriter(io.MultiWriter(os.Stdout, f)))
-	r.Use(gin.Recovery())
+	r := gin.Default()
 
-	// r.Use(logger.NewLogger(logger.LoggerConfig{}))
-	// r.Use(logger.Logger().(gin.HandlerFunc))
+	r.Use(middleware.LoggerMiddleware(ctrl.logger))
 
 	r.POST("/api/login", ctrl.LoginHandler)
 
 	r.POST("/api/register", ctrl.Register)
 
-	api := r.Group("/api", ctrl.AuthMiddleware)
+	api := r.Group("/api", middleware.AuthMiddleware(ctrl.auth))
 	{
 		profile := api.Group("profile")
 		{
@@ -62,7 +54,9 @@ func SetupRouter(ctrl Controller) *gin.Engine {
 		rel := api.Group("rel")
 		{
 			rel.GET("friends/:id", ctrl.GetFriendsDetail)
-			rel.GET("mutual-friends", ctrl.GetMutualFriends)
+			rel.GET("mutual-friends/:id", ctrl.GetMutualFriends)
+			rel.GET("mutual-type/:id", ctrl.GetMutualAndType)
+			rel.PUT(":id/:type", ctrl.ChangeType)
 		}
 
 		photo := api.Group("photo")

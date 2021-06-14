@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"log"
+	"app/pkg/logger"
 	"net/http"
 	"strconv"
 
@@ -18,7 +18,7 @@ func toInt(n string) int {
 
 func jsonRespone(c *gin.Context, obj interface{}, serverErr error) {
 	if serverErr != nil {
-		log.Println(serverErr)
+		logger.Err(serverErr)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -27,7 +27,7 @@ func jsonRespone(c *gin.Context, obj interface{}, serverErr error) {
 
 func statusRespone(c *gin.Context, serverErr error) {
 	if serverErr != nil {
-		log.Println(serverErr)
+		logger.Err(serverErr)
 		c.Status(http.StatusInternalServerError)
 		return
 	}

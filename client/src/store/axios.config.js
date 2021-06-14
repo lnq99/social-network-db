@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 // axios.defaults.baseURL = 'http://localhost:8081'
 // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
@@ -21,7 +22,12 @@ axios.interceptors.response.use(
     return response.data
   },
   function(error) {
-    console.log(error)
+    if (router.currentRoute._value.fullPath != '/login') {
+      console.log(error)
+      if (error.response.status > 401) {
+        router.replace({ name: 'Login' })
+      }
+    }
     return Promise.reject(error).catch(() => {})
   }
 )

@@ -84,6 +84,8 @@ type RelationshipService interface {
 	Requests(id int) ([]model.Relationship, error)
 	FriendsDetail(id int) (string, error)
 	MutualFriends(u1, u2 int) ([]int64, error)
+	GetRelationshipWith(u1, u2 int) string
+	ChangeType(u1, u2 int, t string) error
 }
 
 type NotificationService interface {

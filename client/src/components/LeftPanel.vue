@@ -10,9 +10,9 @@
     Photo
   </link-card>
   <link-card :cls="cls" link="/notif">
-    <el-badge :value="100" :max="10" class="item"
-      ><p>Notification</p>
-    </el-badge>
+    <!-- <el-badge :value="100" :max="10" class="item"> -->
+    <p>Notification</p>
+    <!-- </el-badge> -->
   </link-card>
   <link-card :cls="cls" link="/search"> Search </link-card>
   <link-card :cls="cls" link="/logout"> Logout </link-card>

@@ -5,6 +5,7 @@ go.sum
 *bin
 tmp*
 .*
+*log
 
 
 ### Vuejs ###

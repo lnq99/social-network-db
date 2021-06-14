@@ -15,7 +15,10 @@
     </card>
     <card class="col2">
       <card class="col-card card-hl">
-        <intro :intro="profile.intro" :editable="id == profile.id"></intro>
+        <intro :intro="profile.intro" :editable="isOwnProfile"></intro>
+      </card>
+      <card :key="profile.id" v-if="!isOwnProfile" class="col-card card-hl row">
+        <relation :id="profile.id"></relation>
       </card>
       <post-container :posts="posts"></post-container>
     </card>
@@ -30,15 +33,19 @@ import Friends from '@/components/Profile/Friends.vue'
 import Intro from '@/components/Profile/Intro.vue'
 import PostContainer from '@/components/Post/PostContainer.vue'
 import Center from '../components/Base/Center.vue'
+import Relation from '@/components/Relationship/Relation.vue'
 
 export default {
   name: 'profile',
-  components: { PostContainer, Avaname, Photos, Intro, Friends, Center },
+  components: { PostContainer, Avaname, Photos, Intro, Friends, Center, Relation },
   data() {
     return { loaded: false }
   },
   computed: {
     ...mapState(['id']),
+    isOwnProfile() {
+      return this.id == this.profile.id
+    }
   },
   methods: {
     ...mapActions({ getProfile: 'profile/getProfile', getPosts: 'post/getPostsOfProfile' }),

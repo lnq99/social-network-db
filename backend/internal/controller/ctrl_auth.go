@@ -3,7 +3,6 @@ package controller
 import (
 	"app/internal/model"
 	"app/internal/service"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -64,7 +63,7 @@ func (ctrl *Controller) LoginHandler(c *gin.Context) {
 		}
 	}
 
-	c.SetCookie("token", token, 60*60*1, "/", ctrl.conf.Host, true, true)
+	c.SetCookie("token", token, 60*60*24, "/", ctrl.conf.Host, true, true)
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
 		"user":  user,
@@ -72,35 +71,6 @@ func (ctrl *Controller) LoginHandler(c *gin.Context) {
 }
 
 func (ctrl *Controller) LogoutHandler(c *gin.Context) {
-	log.Println("logged out")
 	c.SetCookie("token", "", -1, "/", ctrl.conf.Host, true, true)
 	c.Status(http.StatusOK)
-}
-
-func (ctrl *Controller) AuthMiddleware(c *gin.Context) {
-	id := 0
-
-	token, err := c.Cookie("token")
-	if err == nil {
-		id, err = ctrl.auth.ParseTokenId(token)
-		if err == nil {
-			c.Set("ID", id)
-			log.Println(id, token, err)
-			return
-		}
-	}
-
-	id, err = ctrl.auth.ExtractTokenID(c.Request)
-	log.Println("middle", id, err)
-
-	if err != nil {
-		c.AbortWithStatus(http.StatusUnauthorized)
-	}
-
-	err = ctrl.auth.TokenValid(c.Request)
-	log.Println(err)
-
-	if err != nil {
-		c.AbortWithStatus(http.StatusUnauthorized)
-	}
 }

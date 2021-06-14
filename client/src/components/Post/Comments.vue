@@ -72,6 +72,10 @@ export default {
         content: content
       }).then(() => {
         this.reply = 0
+        this.getCmtTree(this.postId).then(data => {
+          this.data = data
+          this.loaded = true
+        })
       })
     }
   },

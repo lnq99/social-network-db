@@ -57,8 +57,7 @@ begin
     raise notice '%', r;
     return new;
 end;
-$$
-language plpgsql;
+$$ language plpgsql;
 
 drop function reaction_update;
 
@@ -77,7 +76,7 @@ create or replace function check_name()
 returns trigger as
 $$
 begin
-    if (new.name ~ '.*[0-9]+.*')
+    if (new.name ~ '.*[0-9!"#$%&\*+,-./:;<=>?@]+.*')
     then
         raise exception 'Invalid name!';
     else
@@ -95,6 +94,7 @@ execute function check_name();
 select * from profile
 order by id desc limit 1;
 
-select 'first_@_name' ~ '.*[0-9@?%#]+.*';
+explain analyse
+select 'first _name' ~ '.*[0-9!"#$%&\()*+,-./:;<=>?@]+.*';
 
 drop trigger profile_insert on profile;

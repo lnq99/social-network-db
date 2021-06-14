@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FriendList from './Friend/FriendList.vue'
+import FriendList from './Relationship/FriendList.vue'
 import SearchBox from './Search/SearchBox.vue'
 
 export default {

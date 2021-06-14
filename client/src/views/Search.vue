@@ -6,6 +6,7 @@
     </el-row>
     <hr />
     <br />
+    <h3 v-if="searchQuery">Result for "{{ searchQuery }}"</h3>
     <search-container :items="items"></search-container>
   </div>
 </template>
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       items: [],
+      searchQuery: '',
       item: [
         { id: 1, mutual: 8, type: 'friend' },
         { id: 8, mutual: 2, type: 'request' },
@@ -34,6 +36,7 @@ export default {
     search(searchQuery) {
       if (searchQuery.length < 2) return
       this.searchProfile(searchQuery).then(res => {
+        this.searchQuery = searchQuery
         this.items = res
       })
     }

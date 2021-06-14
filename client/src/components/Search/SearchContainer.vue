@@ -1,7 +1,10 @@
 <template>
   <scroll-container :items="items">
     <template v-slot="slotProps">
-      <search-item :user="slotProps.item"></search-item>
+      <search-item
+        :key="slotProps.item.id"
+        :user="slotProps.item"
+      ></search-item>
     </template>
   </scroll-container>
 </template>

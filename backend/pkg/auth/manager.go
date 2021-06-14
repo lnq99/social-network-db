@@ -13,9 +13,9 @@ type Manager struct {
 	signingMethod jwt.SigningMethod
 }
 
-func NewManager(tokenKey, signingKey string) Manager {
+func NewManager(tokenKey, signingKey string) *Manager {
 	rand.Seed(time.Now().UnixNano())
-	return Manager{
+	return &Manager{
 		tokenKey:      tokenKey,
 		signingKey:    []byte(signingKey),
 		signingMethod: jwt.SigningMethodHS256,

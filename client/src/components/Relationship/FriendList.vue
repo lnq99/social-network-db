@@ -8,7 +8,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import FriendItem from '../Friend/FriendItem.vue'
+import FriendItem from '../Relationship/FriendItem.vue'
 
 export default {
   components: { FriendItem },

@@ -2,8 +2,8 @@ package repository
 
 import (
 	"app/internal/model"
+	"app/pkg/logger"
 	"database/sql"
-	"log"
 	"reflect"
 
 	"github.com/lib/pq"
@@ -51,12 +51,12 @@ func (r *ProfileRepoImpl) SelectFeed(id, limit, offset int) (feed []int64, err e
 }
 
 func (r *ProfileRepoImpl) SearchName(id int, s string) (res string, err error) {
-	log.Println(id, s)
+	// log.Println(id, s)
 	if len(s) >= 2 {
 		err = r.DB.QueryRow("select search_name($1, $2)", id, s).Scan(&res)
 	}
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
 		err = nil
 		res = "[]"
 	}
@@ -68,9 +68,9 @@ func (r *ProfileRepoImpl) Insert(p model.Profile) (err error) {
 	values ($1, $2, $3, $4, $5, $6)`
 	res, err := r.DB.Exec(query, p.Name, p.Gender, p.Birthdate, p.Email, p.Salt, p.Hash)
 	if err == nil {
-		err = handleRowsAffected(res)
+		return handleRowsAffected(res)
 	}
-	log.Println(err)
+	logger.Err(err)
 	return
 }
 
@@ -79,8 +79,8 @@ func (r *ProfileRepoImpl) SetAvatar(p model.Photo) (err error) {
 	query := `update Profile set avartarL=$1 where id=$2`
 	res, err := r.DB.Exec(query, p.Url, p.UserId)
 	if err == nil {
-		err = handleRowsAffected(res)
+		return handleRowsAffected(res)
 	}
-	log.Println(err)
+	logger.Err(err)
 	return
 }
