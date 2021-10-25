@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export default {
   namespaced: true,
-  state: {},
   actions: {
     async getPhoto(_, id) {
       let options = {

@@ -6,8 +6,8 @@ export default {
     id: 0,
     feed: [],
     shortProfiles: {},
-    name: 'Name',
-    avatarl: 'ok',
+    name: '',
+    avatarl: '',
   },
   mutations: {
     cacheShortProfileArray(state, arr) {

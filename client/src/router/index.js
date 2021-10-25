@@ -31,7 +31,7 @@ const routes = [
       {
         path: 'photo/:id',
         name: 'Photo',
-        component: () => import('../views/Photos.vue'),
+        component: () => import('../views/Photo.vue'),
       },
     ],
     meta: {
@@ -64,15 +64,26 @@ const router = createRouter({
   routes,
 })
 
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requireAuth) {
+//     if (store.getters.isAuthenticated) next()
+//     else {
+//       store.dispatch('login').then((r) => {
+//         if (r) next()
+//         else next('/login')
+//       })
+//     }
+//   } else {
+//     next()
+//   }
+// })
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth) {
-    if (store.getters.isAuthenticated) next()
-    else {
-      store.dispatch('login').then((r) => {
-        if (r) next()
-        else next('/login')
-      })
-    }
+  if (to.meta.requiredAuth && !store.getters.isAuthenticated) {
+    store.dispatch('login').then((r) => {
+      if (r) next()
+      else next('/login')
+    })
   } else {
     next()
   }

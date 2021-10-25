@@ -7,13 +7,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Post from '@/components/Post/Post.vue'
 import NewPost from '@/components/Post/NewPost.vue'
 import PostContainer from '@/components/Post/PostContainer.vue'
 
 export default {
   components: {
-    Post,
     NewPost,
     PostContainer,
   },

@@ -111,6 +111,8 @@ export default {
       this.postPost({
         ...this.model,
         tags: this.tags.join('-')
+      }).then(() => {
+        this.$emit('posted')
       })
     },
 

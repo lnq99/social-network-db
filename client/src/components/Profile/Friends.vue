@@ -18,23 +18,19 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['id'],
   data() {
     return { loaded: false }
   },
-  // computed: {
-  //   ...mapState('profile', ['friends']),
-  // },
   methods: {
     ...mapActions({ getFriends: 'relationship/getFriends' })
   },
   created() {
     this.getFriends(this.id).then((res) => {
       this.friends = res
-      // console.log(this.friends, this.id)
       this.loaded = true
     })
   }

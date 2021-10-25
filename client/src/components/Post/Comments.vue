@@ -3,7 +3,7 @@
     v-if="loaded"
     node-key="id"
     :data="data"
-    :props="defaultProps"
+    :props="tree"
     @node-click="replyTo"
   >
     <template #default="{ node, data }">
@@ -54,7 +54,7 @@ export default {
     return {
       loaded: false,
       reply: 0,
-      defaultProps: {
+      tree: {
         children: 'children',
         label: 'content',
       },

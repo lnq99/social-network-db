@@ -55,8 +55,6 @@ export default {
     return {
       data: {},
       author: {},
-      liked: false,
-      comment: false,
       loaded: false,
     }
   },
@@ -66,16 +64,11 @@ export default {
   methods: {
     ...mapActions({ getPhoto: 'photo/getPhoto', getProfileShort: 'profile/getProfileShort' }),
     ...mapActions({ getPost: 'post/getPost', deletePost: 'post/delete' }),
-    onLike() {
-      this.liked = !this.liked
-    },
-    onComment() {
-      this.comment = !this.comment
-    },
   },
   created() {
     this.getPost(this.id).then(data => {
       this.data = data
+      // console.log(this.data.reaction)
 
       this.loaded = true
 

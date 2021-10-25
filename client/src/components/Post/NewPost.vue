@@ -13,7 +13,7 @@
     width="max(40%, 400px)"
     center
   >
-    <post-editor></post-editor>
+    <post-editor @posted="onCreatePost = false"></post-editor>
   </el-dialog>
 </template>
 

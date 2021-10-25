@@ -25,7 +25,7 @@ axios.interceptors.response.use(
     if (router.currentRoute._value.fullPath != '/login') {
       console.log(error)
       if (error.response.status > 401) {
-        router.replace({ name: 'Login' })
+        // router.replace({ name: 'Login' })
       }
     }
     return Promise.reject(error).catch(() => {})
