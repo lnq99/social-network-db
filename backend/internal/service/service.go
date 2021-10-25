@@ -120,7 +120,7 @@ func GetServices(repo *repository.Repo, conf *config.Config) *Services {
 			Relationship: NewRelationshipService(repo.Relationship),
 			Notification: NewNotificationService(repo.Notification),
 			Photo:        NewPhotoService(repo.Photo, repo.Album),
-			Feed:         NewFeedService(repo.Profile),
+			Feed:         NewFeedService(repo.Profile, repo.Relationship),
 		}
 	})
 	return services
