@@ -84,3 +84,13 @@ func (r *ProfileRepoImpl) SetAvatar(p model.Photo) (err error) {
 	logger.Err(err)
 	return
 }
+
+func (r *ProfileRepoImpl) ChangeInfo(id int, info string) (err error) {
+	query := `update Profile set info=$1 where id=$2`
+	res, err := r.DB.Exec(query, info, id)
+	if err == nil {
+		return handleRowsAffected(res)
+	}
+	logger.Err(err)
+	return
+}

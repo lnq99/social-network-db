@@ -7,7 +7,7 @@ import (
 )
 
 func NewRouter() *gin.Engine {
-	// gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	r := gin.Default()
 

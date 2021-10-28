@@ -23,6 +23,10 @@ type Services struct {
 	Feed         FeedService
 }
 
+type InfoBody struct {
+	Info string `json:"info"`
+}
+
 type CommentBody struct {
 	PostId   int    `json:"postId"`
 	ParentId int    `json:"parentId"`
@@ -57,6 +61,7 @@ type ProfileService interface {
 
 	Register(ProfileBody) error
 	SetAvatar(model.Photo) error
+	ChangeInfo(id int, info InfoBody) error
 }
 
 type PostService interface {

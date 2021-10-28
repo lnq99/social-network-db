@@ -1,6 +1,10 @@
 package v1
 
 import (
+	"app/internal/service"
+	"app/pkg/logger"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,4 +28,15 @@ func (ctrl *Controller) GetShortProfile(c *gin.Context) {
 		return
 	}
 	jsonRespone(c, profile, err)
+}
+func (ctrl *Controller) ChangeInfo(c *gin.Context) {
+	var infoBody service.InfoBody
+	ID := c.MustGet("ID").(int)
+	if err := c.ShouldBindJSON(&infoBody); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+		return
+	}
+	err := ctrl.services.Profile.ChangeInfo(ID, infoBody)
+	logger.Err(err)
+	statusRespone(c, err)
 }

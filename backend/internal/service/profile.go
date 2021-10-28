@@ -43,3 +43,7 @@ func (r *ProfileServiceImpl) Register(body ProfileBody) error {
 func (r *ProfileServiceImpl) SetAvatar(p model.Photo) error {
 	return r.repo.SetAvatar(p)
 }
+
+func (r *ProfileServiceImpl) ChangeInfo(id int, info InfoBody) error {
+	return r.repo.ChangeInfo(id, info.Info)
+}
