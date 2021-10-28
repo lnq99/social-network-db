@@ -77,7 +77,7 @@ func (r *RelationshipServiceImpl) ChangeType(u1, u2 int, t string) error {
 			r.repo.Delete(u1, u2)
 		}
 	default:
-		return fmt.Errorf("Unknow type of relationship command")
+		return fmt.Errorf("unknown type of relationship command")
 	}
 
 	return nil

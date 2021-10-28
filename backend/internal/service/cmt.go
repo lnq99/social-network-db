@@ -23,7 +23,7 @@ func (r *CommentServiceImpl) GetTree(postId int) (res string, err error) {
 func (r *CommentServiceImpl) BuildCmtTree(cmts []model.Comment) (tree string) {
 	m := make(map[int]*model.Comment)
 
-	for i, _ := range cmts {
+	for i := range cmts {
 		m[cmts[i].Id] = &cmts[i]
 	}
 

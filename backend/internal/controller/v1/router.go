@@ -1,28 +1,18 @@
-package controller
+package v1
 
 import (
 	"app/internal/middleware"
 
-	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(ctrl *Controller) *gin.Engine {
-	gin.SetMode(gin.ReleaseMode)
+func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 
-	// r := gin.New()
-	// r.Use(gin.LoggerWithWriter(io.MultiWriter(os.Stdout, f)))
-	// r.Use(gin.Recovery())
+	r.POST("/auth/login", ctrl.LoginHandler)
 
-	r := gin.Default()
+	r.POST("/auth/register", ctrl.Register)
 
-	r.Use(middleware.LoggerMiddleware(ctrl.logger))
-
-	r.POST("/api/login", ctrl.LoginHandler)
-
-	r.POST("/api/register", ctrl.Register)
-
-	api := r.Group("/api", middleware.AuthMiddleware(ctrl.auth))
+	api := r.Group("/api/v1", middleware.AuthMiddleware(ctrl.auth))
 	{
 		profile := api.Group("profile")
 		{
@@ -78,7 +68,8 @@ func SetupRouter(ctrl *Controller) *gin.Engine {
 	}
 
 	// r.StaticFS("/", http.Dir(c.Conf.StaticRoot))
-	r.Use(static.Serve("/", static.LocalFile(ctrl.conf.StaticRoot, true)))
+
+	// r.Use(static.Serve("/", static.LocalFile(ctrl.conf.StaticRoot, true)))
 	r.NoRoute(ctrl.HandleNoRoute)
 
 	return r

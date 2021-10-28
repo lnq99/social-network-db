@@ -3,6 +3,7 @@ package main
 import (
 	"app/config"
 	"app/internal/controller"
+	v1 "app/internal/controller/v1"
 	"app/internal/driver"
 	"app/internal/repository"
 	"log"
@@ -27,9 +28,11 @@ func main() {
 
 	// test.RepoSelect(repo)
 
-	ctrl := controller.NewController(&repo, &conf)
+	ctrl := v1.NewController(&repo, &conf)
 
-	router := controller.SetupRouter(ctrl)
+	router := controller.NewRouter()
+	router = ctrl.SetupRouter(router)
+	router = controller.SwaggerRouter(router)
 
 	router.Run()
 }

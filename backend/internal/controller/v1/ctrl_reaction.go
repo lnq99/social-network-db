@@ -1,6 +1,8 @@
-package controller
+package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func (ctrl *Controller) GetReaction(c *gin.Context) {
 	react, err := ctrl.services.Post.GetReaction(toInt(c.Param("id")))

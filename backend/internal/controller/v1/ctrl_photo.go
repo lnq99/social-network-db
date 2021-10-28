@@ -1,6 +1,8 @@
-package controller
+package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func (ctrl *Controller) GetPhoto(c *gin.Context) {
 	photo, err := ctrl.services.Photo.GetPhoto(toInt(c.Param("id")))
