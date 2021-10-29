@@ -44,6 +44,6 @@ func (r *ProfileServiceImpl) SetAvatar(p model.Photo) error {
 	return r.repo.SetAvatar(p)
 }
 
-func (r *ProfileServiceImpl) ChangeInfo(id int, info InfoBody) error {
-	return r.repo.ChangeInfo(id, info.Info)
+func (r *ProfileServiceImpl) ChangeIntro(id int, intro IntroBody) error {
+	return r.repo.ChangeIntro(id, intro.Intro)
 }

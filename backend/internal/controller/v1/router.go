@@ -18,7 +18,7 @@ func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 		{
 			profile.GET(":id", ctrl.GetProfile)
 			profile.GET("short/:id", ctrl.GetShortProfile)
-			profile.PATCH("info/:id", ctrl.ChangeInfo)
+			profile.PATCH("intro", ctrl.ChangeIntro)
 		}
 
 		post := api.Group("post")

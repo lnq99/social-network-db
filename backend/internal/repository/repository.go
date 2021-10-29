@@ -23,7 +23,7 @@ type ProfileRepo interface {
 	SearchName(id int, s string) (string, error)
 	Insert(cmt model.Profile) error
 	SetAvatar(cmt model.Photo) error
-	ChangeInfo(id int, info string) error
+	ChangeIntro(id int, intro string) error
 }
 
 type PostRepo interface {

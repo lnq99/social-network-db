@@ -29,14 +29,14 @@ func (ctrl *Controller) GetShortProfile(c *gin.Context) {
 	}
 	jsonRespone(c, profile, err)
 }
-func (ctrl *Controller) ChangeInfo(c *gin.Context) {
-	var infoBody service.InfoBody
+func (ctrl *Controller) ChangeIntro(c *gin.Context) {
+	var introBody service.IntroBody
 	ID := c.MustGet("ID").(int)
-	if err := c.ShouldBindJSON(&infoBody); err != nil {
+	if err := c.ShouldBindJSON(&introBody); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
 		return
 	}
-	err := ctrl.services.Profile.ChangeInfo(ID, infoBody)
+	err := ctrl.services.Profile.ChangeIntro(ID, introBody)
 	logger.Err(err)
 	statusRespone(c, err)
 }

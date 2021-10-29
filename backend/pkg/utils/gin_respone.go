@@ -22,5 +22,5 @@ func StatusRespone(c *gin.Context, serverErr error) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	c.Status(http.StatusCreated)
+	c.Status(http.StatusAccepted)
 }

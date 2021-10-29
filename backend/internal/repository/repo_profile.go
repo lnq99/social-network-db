@@ -85,9 +85,9 @@ func (r *ProfileRepoImpl) SetAvatar(p model.Photo) (err error) {
 	return
 }
 
-func (r *ProfileRepoImpl) ChangeInfo(id int, info string) (err error) {
-	query := `update Profile set info=$1 where id=$2`
-	res, err := r.DB.Exec(query, info, id)
+func (r *ProfileRepoImpl) ChangeIntro(id int, intro string) (err error) {
+	query := `update Profile set intro=$1 where id=$2`
+	res, err := r.DB.Exec(query, intro, id)
 	if err == nil {
 		return handleRowsAffected(res)
 	}

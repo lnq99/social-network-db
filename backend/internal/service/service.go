@@ -23,8 +23,8 @@ type Services struct {
 	Feed         FeedService
 }
 
-type InfoBody struct {
-	Info string `json:"info"`
+type IntroBody struct {
+	Intro string `json:"intro"`
 }
 
 type CommentBody struct {
@@ -61,7 +61,7 @@ type ProfileService interface {
 
 	Register(ProfileBody) error
 	SetAvatar(model.Photo) error
-	ChangeInfo(id int, info InfoBody) error
+	ChangeIntro(id int, intro IntroBody) error
 }
 
 type PostService interface {
