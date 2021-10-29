@@ -1,6 +1,6 @@
 <template>
   <card :style="cls" class="center hover">
-    <router-link :to="link">
+    <router-link :key="$route.fullPath" :to="link">
       <slot></slot>
     </router-link>
   </card>

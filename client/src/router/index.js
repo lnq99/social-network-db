@@ -35,7 +35,7 @@ const routes = [
       },
     ],
     meta: {
-      requireAuth: true,
+      requiredAuth: true,
     },
   },
   {

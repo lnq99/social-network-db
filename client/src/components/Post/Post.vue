@@ -67,6 +67,7 @@ export default {
   },
   created() {
     this.getPost(this.id).then(data => {
+      if (!data) return
       this.data = data
       // console.log(this.data.reaction)
 

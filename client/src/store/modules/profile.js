@@ -62,8 +62,18 @@ export default {
         return data
       })
     },
-    saveIntro({ state }, intro) {
+    async saveIntro({ state }, intro) {
       state.intro = intro
+      let options = {
+        method: 'PATCH',
+        url: `/api/profile/info`,
+        data: {
+          info: intro,
+        },
+      }
+      return axios(options).then((data) => {
+        return data
+      })
     },
   },
   getters: {

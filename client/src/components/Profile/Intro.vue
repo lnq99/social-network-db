@@ -40,15 +40,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions('proflile', ['saveIntro']),
+    ...mapActions({ saveIntro: 'profile/saveIntro' }),
     onSaveIntro() {
-      this.saveIntro(this.introContent)
-      this.isEdit = false
-      console.log(this.intro)
+      this.saveIntro(this.introContent).then(() => {
+
+        this.isEdit = false
+        console.log(this.intro)
+      })
     },
   },
   created() {
-    if (this.intro.length < 10) {
+    if (this.intro.length == 0) {
       this.introContent = 'Works at ...\nStudied at \nLives in ...\nFrom ...'
     } else {
       this.introContent = this.intro

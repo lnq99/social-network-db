@@ -39,13 +39,10 @@ export default {
   name: 'profile',
   components: { PostContainer, Avaname, Photos, Intro, Friends, Center, Relation },
   data() {
-    return { loaded: false }
+    return { loaded: false, isOwnProfile: false }
   },
   computed: {
     ...mapState(['id']),
-    isOwnProfile() {
-      return this.id == this.profile.id
-    }
   },
   methods: {
     ...mapActions({ getProfile: 'profile/getProfile', getPosts: 'post/getPostsOfProfile' }),
@@ -56,6 +53,7 @@ export default {
         this.getPosts(id).then(res => {
           this.posts = res
           this.loaded = true
+          this.isOwnProfile = this.id == this.profile.id
         })
       })
     }
