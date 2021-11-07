@@ -1,7 +1,10 @@
 package test
 
 import (
+	"log"
 	"testing"
+
+	"app/pkg/auth"
 )
 
 func TestAuthToken(t *testing.T) {
@@ -21,4 +24,12 @@ func TestAuthPassword(t *testing.T) {
 			t.Error("Error compare password")
 		}
 	}
+}
+
+func TestGeneratePassword(t *testing.T) {
+	password := "1212321"
+	manager := auth.NewManager("dsfsdaf", "pbovo")
+	s, h := manager.GetHashSalt(password)
+	log.Println(s, h)
+	log.Println(manager.ComparePassword(password, s, h))
 }

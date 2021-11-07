@@ -30,22 +30,6 @@ type Post struct {
 	CmtCount int     `json:"cmtCount"`
 }
 
-// type Post2 struct {
-// 	Id       int     `json:"id"`
-// 	UserId   int     `json:"userId"`
-// 	Created  string  `json:"created"`
-// 	Tags     string  `json:"tags"`
-// 	Content  string  `json:"content"`
-// 	AtchType string  `json:"atchType"`
-// 	AtchId   int     `json:"atchId"`
-// 	AtchUrl  string  `json:"atchUrl"`
-// 	Reaction []uint8 `json:"reaction"`
-// 	CmtCount int     `json:"cmtCount"`
-// 	AuthorName
-// 	AuthorAvatar
-// 	PhotoUrl
-// }
-
 type Comment struct {
 	Id       int        `json:"id"`
 	UserId   int        `json:"userId"`
@@ -96,7 +80,7 @@ type Photo struct {
 }
 
 type ShortInfo struct {
-	Id      int `json:"id"`
-	Name    int `json:"name"`
-	AvatarS int `json:"avatars"`
+	Id      int    `json:"id"`
+	Name    string `json:"name"`
+	AvatarS string `json:"avatars"`
 }

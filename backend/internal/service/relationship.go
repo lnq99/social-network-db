@@ -1,9 +1,10 @@
 package service
 
 import (
+	"fmt"
+
 	"app/internal/model"
 	"app/internal/repository"
-	"fmt"
 )
 
 type RelationshipServiceImpl struct {

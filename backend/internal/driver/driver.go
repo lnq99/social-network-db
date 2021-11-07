@@ -30,7 +30,7 @@ func Connect(dbdriver, host, port, user, password, dbname string) *DB {
 		panic("Driver not supported!")
 	}
 
-	pool, err := sql.Open("postgres", dataSourceName)
+	pool, err := sql.Open(dbdriver, dataSourceName)
 	if err != nil {
 		panic(err)
 	}

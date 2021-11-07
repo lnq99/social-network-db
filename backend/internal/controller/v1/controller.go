@@ -1,18 +1,16 @@
 package v1
 
 import (
+	"os"
+
 	"app/config"
-	"app/internal/repository"
 	"app/internal/service"
 	"app/pkg/auth"
 	"app/pkg/logger"
 	"app/pkg/utils"
-	"os"
 )
 
 var toInt = utils.ToInt
-var jsonRespone = utils.JsonRespone
-var statusRespone = utils.StatusRespone
 
 type Controller struct {
 	conf     *config.Config
@@ -21,7 +19,7 @@ type Controller struct {
 	logger   *logger.Logger
 }
 
-func NewController(repo *repository.Repo, conf *config.Config) *Controller {
+func NewController(services *service.Services, conf *config.Config) *Controller {
 	f, err := os.OpenFile(conf.LogFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		f = os.Stdout
@@ -29,7 +27,7 @@ func NewController(repo *repository.Repo, conf *config.Config) *Controller {
 
 	return &Controller{
 		conf:     conf,
-		services: service.GetServices(repo, conf),
+		services: services,
 		auth:     auth.NewManager("id", conf.ApiSecret),
 		logger:   logger.LoggerWithWriter(f),
 	}

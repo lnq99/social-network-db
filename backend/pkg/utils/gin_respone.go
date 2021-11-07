@@ -2,25 +2,43 @@ package utils
 
 import (
 	"app/pkg/logger"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func JsonRespone(c *gin.Context, obj interface{}, serverErr error) {
-	if serverErr != nil {
-		logger.Err(serverErr)
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	c.JSON(200, obj)
+type Response struct {
+	Code int
+	Obj  interface{}
 }
 
-func StatusRespone(c *gin.Context, serverErr error) {
-	if serverErr != nil {
-		logger.Err(serverErr)
-		c.Status(http.StatusInternalServerError)
-		return
+type ErrResponse struct {
+	Code int    `json:"-"`
+	Msg  string `json:"message"`
+}
+
+type Msg struct {
+	Msg string `json:"message"`
+}
+
+func JsonResponse(c *gin.Context, err error, res Response, errRes ErrResponse) {
+	if err != nil {
+		if errRes.Msg == "" {
+			errRes.Msg = err.Error()
+		}
+		logger.Err(err)
+		c.JSON(errRes.Code, errRes)
+	} else if res.Obj != nil {
+		c.JSON(res.Code, res.Obj)
+	} else {
+		c.Status(res.Code)
 	}
-	c.Status(http.StatusAccepted)
+}
+
+func StatusResponse(c *gin.Context, err error, code int, errCode int) {
+	if err != nil {
+		logger.Err(err)
+		c.Status(errCode)
+	} else {
+		c.Status(code)
+	}
 }

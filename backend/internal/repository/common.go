@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"app/pkg/logger"
 	"database/sql"
 	"fmt"
+
+	"app/pkg/logger"
 )
 
 func handleRowsAffected(res sql.Result) error {

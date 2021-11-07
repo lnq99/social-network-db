@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"app/internal/model"
 	"database/sql"
+
+	"app/internal/model"
 )
 
 type Repo struct {
@@ -72,8 +73,8 @@ type PhotoRepo interface {
 	Insert(photo model.Photo) (int64, error)
 }
 
-func NewRepo(db *sql.DB) (repo Repo) {
-	repo = Repo{
+func NewRepo(db *sql.DB) (repo *Repo) {
+	repo = &Repo{
 		Profile:      NewProfileRepo(db),
 		Post:         NewPostRepo(db),
 		Comment:      NewCommentRepo(db),

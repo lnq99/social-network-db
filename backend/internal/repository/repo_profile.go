@@ -1,10 +1,11 @@
 package repository
 
 import (
-	"app/internal/model"
-	"app/pkg/logger"
 	"database/sql"
 	"reflect"
+
+	"app/internal/model"
+	"app/pkg/logger"
 
 	"github.com/lib/pq"
 )

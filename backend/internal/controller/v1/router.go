@@ -3,14 +3,15 @@ package v1
 import (
 	"app/internal/middleware"
 
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
 func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 
-	r.POST("/auth/login", ctrl.LoginHandler)
+	r.POST("/api/v1/auth/login", ctrl.LoginHandler)
 
-	r.POST("/auth/register", ctrl.Register)
+	r.POST("/api/v1/auth/register", ctrl.RegisterHandler)
 
 	api := r.Group("/api/v1", middleware.AuthMiddleware(ctrl.auth))
 	{
@@ -31,9 +32,9 @@ func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 
 		react := api.Group("react")
 		{
-			react.GET(":id", ctrl.GetReaction)
-			react.GET("u/:id", ctrl.GetReactionByUserPost)
-			react.PUT(":postId/:type", ctrl.PutReaction)
+			react.GET(":post_id", ctrl.GetReaction)
+			react.GET("u/:u_id", ctrl.GetReactionByUserPost)
+			react.PUT(":post_id/:type", ctrl.PutReaction)
 		}
 
 		cmt := api.Group("cmt")
@@ -61,16 +62,17 @@ func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 			notif.GET("", ctrl.GetNotifications)
 		}
 
-		api.GET("feed/:id", ctrl.Feed)
+		//api.GET("feed/:id", ctrl.Feed)
+		api.GET("feed", ctrl.Feed)
 
 		api.GET("search", ctrl.Search)
 
-		api.GET("logout", ctrl.LogoutHandler)
+		api.DELETE("auth/logout", ctrl.LogoutHandler)
 	}
 
 	// r.StaticFS("/", http.Dir(c.Conf.StaticRoot))
 
-	// r.Use(static.Serve("/", static.LocalFile(ctrl.conf.StaticRoot, true)))
+	r.Use(static.Serve("/", static.LocalFile(ctrl.conf.StaticRoot, true)))
 	r.NoRoute(ctrl.HandleNoRoute)
 
 	return r

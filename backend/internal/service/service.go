@@ -1,10 +1,11 @@
 package service
 
 import (
+	"sync"
+
 	"app/config"
 	"app/internal/model"
 	"app/internal/repository"
-	"sync"
 )
 
 var (
