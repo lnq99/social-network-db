@@ -16,7 +16,7 @@ import (
 // @Produce json
 // @Security ApiKeyAuth
 // @Param id path int true "Friend ID"
-// @Success 200 {object} dataResponse
+// @Success 200 {object} []FriendResponse
 // @Failure 500 {object} Msg
 // @Router /rel/friends/{id} [get]
 func (ctrl *Controller) GetFriendsDetail(c *gin.Context) {
@@ -25,7 +25,7 @@ func (ctrl *Controller) GetFriendsDetail(c *gin.Context) {
 	var s interface{}
 	json.Unmarshal([]byte(friends), &s)
 	jsonResponse(c, err,
-		Response{http.StatusOK, dataResponse{friends}},
+		Response{http.StatusOK, s},
 		ErrResponse{Code: http.StatusInternalServerError})
 
 }

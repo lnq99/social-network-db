@@ -32,6 +32,12 @@ type SearchResponse struct {
 	T      string `json:"type"`
 }
 
+type FriendResponse struct {
+	Id      int    `json:"id"`
+	Name    int    `json:"name"`
+	AvatarS string `json:"avatars"`
+}
+
 type ProfileResponse struct {
 	Id         int    `json:"id"`
 	Name       string `json:"name"`
