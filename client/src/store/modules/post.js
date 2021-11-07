@@ -41,7 +41,7 @@ export default {
     async getFeed({ state, commit, rootState }, payload) {
       let options = {
         method: 'GET',
-        url: `/api/feed/${rootState.id}?lim=${state.lim}&off=${state.off}`,
+        url: `/api/feed?lim=${state.lim}&off=${state.off}`,
       }
       return axios(options).then((data) => {
         state.off += state.lim

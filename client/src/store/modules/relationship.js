@@ -6,9 +6,10 @@ export default {
     friends: [],
   },
   actions: {
-    async getMutualFriends(_, id) {
-      return axios({ url: `/api/rel/mutual-friends?id=${id}` })
-    },
+    // async getMutualFriends(_, id) {
+    //   console.log('--', id)
+    //   return axios({ url: `/api/rel/mutual-friends?id=${id}` })
+    // },
     async getFriends({ rootState, state, commit }, id) {
       if (id == rootState.id && state.friends.length > 0) {
         return state.friends

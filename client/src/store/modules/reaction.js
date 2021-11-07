@@ -3,12 +3,12 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
-    like: require('@/assets/like.svg'),
-    love: require('@/assets/love.svg'),
-    haha: require('@/assets/haha.svg'),
-    wow: require('@/assets/wow.svg'),
-    sad: require('@/assets/sad.svg'),
-    angry: require('@/assets/angry.svg'),
+    like: '/assets/like.svg',
+    love: '/assets/love.svg',
+    haha: '/assets/haha.svg',
+    wow: '/assets/wow.svg',
+    sad: '/assets/sad.svg',
+    angry: '/assets/angry.svg',
   },
   actions: {
     async getReaction(_, postId) {

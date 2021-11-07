@@ -8,9 +8,6 @@ module.exports = {
         logLevel: 'debug',
         pathRewrite: { '^/api': '/api/v1' },
       },
-      '^/auth': {
-        target: 'http://localhost:8080',
-      },
     },
   },
 }

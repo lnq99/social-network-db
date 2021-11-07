@@ -18,7 +18,7 @@ export default {
     async login({ commit, state }, payload) {
       let options = {
         method: 'POST',
-        url: '/auth/login',
+        url: '/api/auth/login',
         data: payload || '',
       }
 
@@ -39,7 +39,7 @@ export default {
       console.log(data)
       let options = {
         method: 'POST',
-        url: '/auth/register',
+        url: '/api/auth/register',
         data: data,
       }
       return axios(options)

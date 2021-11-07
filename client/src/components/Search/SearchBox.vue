@@ -4,20 +4,13 @@
       <template #append>
         <el-button
           class="input-color"
-          @click="
-            $emit('search', searchQuery);
-            searchQuery = '';
-          "
+          @click="$emit('search', searchQuery); searchQuery = '';"
           icon="el-icon-search"
         ></el-button>
       </template>
     </el-input>
     <div style="position: absolute; z-index: 1">
-      <div
-        class="content dropdown-content"
-        v-for="user in searchedUsers"
-        :key="user.name"
-      >
+      <div class="content dropdown-content" v-for="user in searchedUsers" :key="user.name">
         <friend-item :friend="user"></friend-item>
       </div>
     </div>
@@ -54,19 +47,10 @@ export default {
   // border-top: 1px solid #eee;
   background: var(--hl);
 }
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
 .dropdown-content {
   // display: none;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
-
-// .dropdown:hover .dropdown-content {
-//   display: block;
-// }
 </style>

@@ -25,9 +25,7 @@
           </el-button>
         </template>
       </el-popover>
-      <el-button class="btn" size="small" @click="comment = !comment">
-        {{ cmtCount }} Comments</el-button
-      >
+      <el-button class="btn" size="small" @click="comment = !comment">{{ cmtCount }} Comments</el-button>
     </div>
     <div class="reacts">
       <div class="react" v-for="(v, i) in reaction">
