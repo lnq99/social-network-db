@@ -19,7 +19,7 @@ export default {
     async post(_, postBody) {
       let options = {
         method: 'POST',
-        url: `/api/post`,
+        url: `/post`,
         data: postBody,
       }
       // console.log(postBody)
@@ -28,20 +28,20 @@ export default {
     async delete(_, id) {
       let options = {
         method: 'DELETE',
-        url: `/api/post/${id}`,
+        url: `/post/${id}`,
       }
       return axios(options)
     },
     async getPost(_, id) {
-      return axios({ url: `/api/post/${id}` })
+      return axios({ url: `/post/${id}` })
     },
     async getPostsOfProfile(_, profileId) {
-      return axios({ url: `/api/post/u/${profileId}` })
+      return axios({ url: `/post/u/${profileId}` })
     },
     async getFeed({ state, commit, rootState }, payload) {
       let options = {
         method: 'GET',
-        url: `/api/feed?lim=${state.lim}&off=${state.off}`,
+        url: `/feed?lim=${state.lim}&off=${state.off}`,
       }
       return axios(options).then((data) => {
         state.off += state.lim

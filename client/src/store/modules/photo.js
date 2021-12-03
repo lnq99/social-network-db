@@ -6,14 +6,14 @@ export default {
     async getPhoto(_, id) {
       let options = {
         method: 'GET',
-        url: `/api/photo/${id}`,
+        url: `/photo/${id}`,
       }
       return axios(options)
     },
     async getPhotosOfProfile(_, profileId) {
       let options = {
         method: 'GET',
-        url: `/api/photo/u/${profileId}`,
+        url: `/photo/u/${profileId}`,
       }
       return axios(options)
     },

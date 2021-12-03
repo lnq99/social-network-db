@@ -12,15 +12,15 @@ export default {
   },
   actions: {
     async getReaction(_, postId) {
-      return axios({ url: `/api/react/${postId}` })
+      return axios({ url: `/react/${postId}` })
     },
     async getReactionType(_, postId) {
-      return axios({ url: `/api/react/u/${postId}` })
+      return axios({ url: `/react/u/${postId}` })
     },
     async react(_, { postId, type }) {
       return axios({
         method: 'PUT',
-        url: `/api/react/${postId}/${type}`,
+        url: `/react/${postId}/${type}`,
       })
     },
   },

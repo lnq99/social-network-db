@@ -4,12 +4,12 @@ export default {
   namespaced: true,
   actions: {
     async getCmtTree(_, postId) {
-      return axios({ url: `/api/cmt/${postId}` })
+      return axios({ url: `/cmt/${postId}` })
     },
     async comment(_, cmtBody) {
       let options = {
         method: 'POST',
-        url: `/api/cmt`,
+        url: `/cmt`,
         data: cmtBody,
       }
       return axios(options)

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"log"
-
 	"app/config"
 	"app/internal/controller"
 	v1 "app/internal/controller/v1"
 	"app/internal/driver"
 	"app/internal/repository"
 	"app/internal/service"
+	"log"
+	"os"
 )
 
 // @title Social Network
@@ -28,13 +28,19 @@ import (
 // @name Authorization
 
 func main() {
+	confFile := ".env"
+	if len(os.Args) == 2 {
+		confFile = os.Args[1]
+		log.Println(confFile)
+	}
+
 	var err error
-	conf, err := config.LoadConfig(".", ".env")
+	conf, err := config.LoadConfig(".", confFile)
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println(conf.DbDriver)
+	// log.Println(conf.DbDriver)
 
 	db := driver.Connect(conf.DbDriver, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPassword, conf.DbName)
 	err = db.SQL.Ping()

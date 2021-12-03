@@ -7,7 +7,7 @@ export default {
   },
   actions: {
     getNotif({ state }) {
-      return axios({ url: '/api/notif' }).then((data) => {
+      return axios({ url: '/notif' }).then((data) => {
         state.notif = data
       })
     },

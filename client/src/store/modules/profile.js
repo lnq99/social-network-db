@@ -31,7 +31,7 @@ export default {
       let options = {
         method: 'GET',
         baseURL: '',
-        url: `/api/profile/${id}`,
+        url: `/profile/${id}`,
       }
       return axios(options).catch((err) => {
         console.log(err)
@@ -45,7 +45,7 @@ export default {
       }
       let options = {
         method: 'GET',
-        url: `/api/profile/short/${id}`,
+        url: `/profile/short/${id}`,
       }
       return axios(options).then((data) => {
         // console.log('cache missed', id)
@@ -56,7 +56,7 @@ export default {
     async searchProfile(_, key) {
       let options = {
         method: 'GET',
-        url: `/api/search?k=${key}`,
+        url: `/search?k=${key}`,
       }
       return axios(options).then((data) => {
         return data
@@ -66,7 +66,7 @@ export default {
       state.intro = intro
       let options = {
         method: 'PATCH',
-        url: `/api/profile/info`,
+        url: `/profile/info`,
         data: {
           info: intro,
         },
