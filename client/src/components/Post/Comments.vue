@@ -1,22 +1,12 @@
 <template>
-  <el-tree
-    v-if="loaded"
-    node-key="id"
-    :data="data"
-    :props="tree"
-    @node-click="replyTo"
-  >
+  <el-tree v-if="loaded" node-key="id" :data="data" :props="tree" @node-click="replyTo">
     <template #default="{ node, data }">
       <div class="cmt">
         <short-info :id="data.userId">
           <template v-slot="slotProps">
             <span>
-              <el-avatar
-                class="ava"
-                :size="30"
-                :src="slotProps.avatars"
-              ></el-avatar
-            ></span>
+              <el-avatar class="ava" :size="30" :src="slotProps.avatars"></el-avatar>
+            </span>
             <span>
               <card class="p12 box-shadow">
                 <div class="cmt-header-r">
@@ -24,8 +14,8 @@
                   <time class="cmt-time">{{ data.created }}</time>
                 </div>
                 <div>{{ node.label }}</div>
-              </card></span
-            >
+              </card>
+            </span>
           </template>
         </short-info>
       </div>
@@ -37,9 +27,7 @@
     :key="reply"
     closable
     @close="reply = 0"
-  >
-    Reply to {{ reply }}
-  </el-tag>
+  >Reply to {{ reply }}</el-tag>
   <comment-input @cmt="postCmt" class="cmt-input"></comment-input>
 </template>
 
@@ -83,6 +71,7 @@ export default {
     this.getCmtTree(this.postId).then(data => {
       this.data = data
       this.loaded = true
+      // console.log(JSON.stringify(data, null, 2))
     })
   },
 }

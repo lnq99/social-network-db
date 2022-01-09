@@ -7,10 +7,12 @@
             <avaname :name="profile.name" :avatar="profile.avatarl"></avaname>
           </center>
         </card>
-        <card class="col-card card-hl"><photos :id="profile.id"></photos></card>
-        <card class="col-card card-hl"
-          ><friends :id="profile.id"></friends
-        ></card>
+        <card class="col-card card-hl">
+          <photos :id="profile.id"></photos>
+        </card>
+        <card class="col-card card-hl">
+          <friends :id="profile.id"></friends>
+        </card>
       </el-affix>
     </card>
     <card class="col2">

@@ -28,7 +28,6 @@ export default {
       })
     },
     async getMutualAndType(_, id) {
-      console.log(id)
       return axios({ url: `/rel/mutual-type/${id}` })
     },
   },

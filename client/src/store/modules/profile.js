@@ -30,7 +30,7 @@ export default {
     async getProfile(_, id) {
       let options = {
         method: 'GET',
-        baseURL: '',
+        // baseURL: '',
         url: `/profile/${id}`,
       }
       return axios(options).catch((err) => {

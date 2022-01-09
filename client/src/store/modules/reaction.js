@@ -15,7 +15,7 @@ export default {
       return axios({ url: `/react/${postId}` })
     },
     async getReactionType(_, postId) {
-      return axios({ url: `/react/u/${postId}` })
+      return axios({ url: `/react/u/${postId}` }).then((r) => r.data)
     },
     async react(_, { postId, type }) {
       return axios({
