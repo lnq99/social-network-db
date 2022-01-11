@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: pw
-          POSTGRES_DB: socialnetwork
+          POSTGRES_DB: socialnetwork_test
         ports:
           - 5433:5432
         options: >-
@@ -34,19 +34,17 @@ jobs:
         with:
           go-version: 1.17
 
+      - name: unit
+        run: make unit
+        working-directory: backend
+
       - name: Install golang-migrate
         run: |
           curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz | tar xvz
           sudo mv migrate /usr/bin/migrate
 
       - name: Run migrations
-        run: |
-          make createdb
-          make migrateup
-        working-directory: backend
-
-      - name: unit
-        run: make unit
+        run: make migrateup
         working-directory: backend
 
       - name: integration
