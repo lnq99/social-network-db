@@ -14,15 +14,14 @@ swag:
 setup:
 	go get github.com/onsi/ginkgo/v2/ginkgo
 
-test: unit1 integration e2e e2e_bdd
+test: unit_all integration e2e e2e_bdd
 
 cover:
 	go test -v -tags="unit integration e2e" -coverprofile unit_cover.out ./...
 	go tool cover -html=unit_cover.out
 
 unit_all:
-	go test -v -tags=unit ./...
-	# -bench=./pkg/auth -benchmem
+	go test -v -cover -tags=unit ./...
 	@echo -e '\n'
 
 unit:
@@ -35,18 +34,19 @@ unit:
 	
 
 integration:
-	-go test -tags=integration -v ./test/integration
+	go test -tags=integration -v ./test/integration
 	@echo -e '\n'
 
 e2e:
-	-go test -tags=e2e -v ./test/e2e
+	go test -tags=e2e -v ./test/e2e
 	@echo -e '\n'
 
 e2e_100:
-	-go test -tags=e2e -count 100 ./test/e2e
+	go test -tags=e2e -count 100 ./test/e2e
 
 e2e_bdd:
-	-ginkgo -tags=e2e_bdd ./test/e2e
+	go test -v -tags=e2e_bdd ./test/e2e
+	@# ginkgo -tags=e2e_bdd ./test/e2e
 	@echo -e '\n'
 
 
