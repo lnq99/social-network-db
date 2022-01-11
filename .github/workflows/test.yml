@@ -41,16 +41,16 @@ jobs:
 
       - name: Run migrations
         run: make migrateup
-        working-directory: code
+        working-directory: backend
 
       - name: unit
         run: make unit
-        working-directory: code
+        working-directory: backend
 
       - name: integration
         run: make integration
-        working-directory: code
+        working-directory: backend
 
       - name: e2e
         run: make e2e; make e2e_bdd
-        working-directory: code
+        working-directory: backend
