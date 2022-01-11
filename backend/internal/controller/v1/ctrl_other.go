@@ -2,6 +2,7 @@ package v1
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 
@@ -29,6 +30,7 @@ func (ctrl *Controller) Feed(c *gin.Context) {
 	limit := toInt(c.Query("lim"))
 	offset := toInt(c.Query("off"))
 	feed, err := ctrl.services.Feed.GetFeed(ID, limit, offset)
+	log.Println(ID, limit, offset, feed, err)
 	jsonResponse(c, err,
 		Response{http.StatusOK, feed},
 		ErrResponse{Code: http.StatusInternalServerError})

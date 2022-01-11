@@ -71,7 +71,7 @@ func (r *ProfileRepoImpl) Insert(p model.Profile) (err error) {
 	if err == nil {
 		return handleRowsAffected(res)
 	}
-	logger.Err(err)
+	//logger.Err(err.Error())
 	return
 }
 
@@ -82,7 +82,7 @@ func (r *ProfileRepoImpl) SetAvatar(p model.Photo) (err error) {
 	if err == nil {
 		return handleRowsAffected(res)
 	}
-	logger.Err(err)
+	logger.Err(err.Error())
 	return
 }
 
@@ -92,6 +92,6 @@ func (r *ProfileRepoImpl) ChangeIntro(id int, intro string) (err error) {
 	if err == nil {
 		return handleRowsAffected(res)
 	}
-	logger.Err(err)
+	logger.Err(err.Error())
 	return
 }

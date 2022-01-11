@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	logger                  = &Logger{}
 	defaultWriter io.Writer = os.Stdout
+	logger                  = &Logger{out: defaultWriter}
 )
 
 type Logger struct {

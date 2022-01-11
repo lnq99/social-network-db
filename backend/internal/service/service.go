@@ -3,7 +3,6 @@ package service
 import (
 	"sync"
 
-	"app/config"
 	"app/internal/model"
 	"app/internal/repository"
 )
@@ -116,7 +115,7 @@ type FeedService interface {
 	// Get(id int, tBegin, tEnd string) (newBegin, newEnd string, posts []model.Post)
 }
 
-func GetServices(repo *repository.Repo, conf *config.Config) *Services {
+func GetServices(repo *repository.Repo) *Services {
 	once.Do(func() {
 		services = &Services{
 			Profile:      NewProfileService(repo.Profile),

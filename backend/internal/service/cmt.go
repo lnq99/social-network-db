@@ -1,9 +1,10 @@
 package service
 
 import (
+	"encoding/json"
+
 	"app/internal/model"
 	"app/internal/repository"
-	"encoding/json"
 )
 
 type CommentServiceImpl struct {

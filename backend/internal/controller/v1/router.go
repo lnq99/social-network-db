@@ -70,7 +70,7 @@ func (ctrl *Controller) SetupRouter(r *gin.Engine) *gin.Engine {
 		api.DELETE("auth/logout", ctrl.LogoutHandler)
 	}
 
-	// r.StaticFS("/", http.Dir(c.Conf.StaticRoot))
+	// r.StaticFS("/", http.Dir(ctrl.conf.StaticRoot))
 
 	r.Use(static.Serve("/", static.LocalFile(ctrl.conf.StaticRoot, true)))
 	r.NoRoute(ctrl.HandleNoRoute)

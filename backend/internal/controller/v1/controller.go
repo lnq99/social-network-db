@@ -28,7 +28,7 @@ func NewController(services *service.Services, conf *config.Config) *Controller 
 	return &Controller{
 		conf:     conf,
 		services: services,
-		auth:     auth.NewManager("id", conf.ApiSecret),
+		auth:     auth.InitManager("id", conf.SigningKey),
 		logger:   logger.LoggerWithWriter(f),
 	}
 }

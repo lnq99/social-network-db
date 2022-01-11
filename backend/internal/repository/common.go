@@ -13,6 +13,5 @@ func handleRowsAffected(res sql.Result) error {
 		err = fmt.Errorf("0 row affected")
 		logger.Info(err)
 	}
-	logger.Info(err)
 	return err
 }

@@ -27,7 +27,7 @@ func (r *ProfileServiceImpl) SearchName(id int, s string) (string, error) {
 }
 
 func (r *ProfileServiceImpl) Register(body ProfileBody) error {
-	var manager auth.Manager
+	manager := auth.GetManager()
 	salt, hashed := manager.GetHashSalt(body.Password)
 	p := model.Profile{
 		Email:     body.Email,

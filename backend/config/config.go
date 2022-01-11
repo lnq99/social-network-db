@@ -12,7 +12,7 @@ type Config struct {
 	Host       string `mapstructure:"HOST"`
 	Port       string `mapstructure:"PORT"`
 	StaticRoot string `mapstructure:"STATIC_ROOT"`
-	ApiSecret  string `mapstructure:"API_SECRET"`
+	SigningKey string `mapstructure:"SINGING_KEY"`
 	LogFile    string `mapstructure:"LOGFILE"`
 }
 

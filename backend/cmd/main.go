@@ -1,14 +1,17 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"app/config"
 	"app/internal/controller"
 	v1 "app/internal/controller/v1"
 	"app/internal/driver"
 	"app/internal/repository"
 	"app/internal/service"
-	"log"
-	"os"
+	// _ "net/http/pprof"
+	// /debug/pprof
 )
 
 // @title Social Network
@@ -49,7 +52,7 @@ func main() {
 	}
 
 	repo := repository.NewRepo(db.SQL)
-	services := service.GetServices(repo, &conf)
+	services := service.GetServices(repo)
 
 	// test.RepoSelect(repo)
 
