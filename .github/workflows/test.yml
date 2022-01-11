@@ -40,7 +40,9 @@ jobs:
           sudo mv migrate /usr/bin/migrate
 
       - name: Run migrations
-        run: make migrateup
+        run: |
+          make createdb
+          make migrateup
         working-directory: backend
 
       - name: unit
