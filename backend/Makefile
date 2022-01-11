@@ -34,7 +34,7 @@ unit:
 	@echo -e '\n'
 	
 
-integration: postgres
+integration:
 	-go test -tags=integration -v ./test/integration
 	@echo -e '\n'
 
