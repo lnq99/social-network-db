@@ -33,6 +33,9 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.17
+          
+      - name: Set CI env
+        run: go env -w GOFLAGS=-mod=mod
 
       - name: unit
         run: make unit
