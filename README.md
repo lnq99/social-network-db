@@ -1,5 +1,17 @@
 # Прототип социальной сети
 
+# Screenshots
+
+![](doc/tex/img/feed.png)
+![](doc/tex/img/profile.png)
+![](doc/tex/img/login.png)
+![](doc/tex/img/signup.png)
+![](doc/tex/img/post.png)
+![](doc/tex/img/cmt.png)
+![](doc/tex/img/react.png)
+![](doc/tex/img/search1.png)
+![](doc/tex/img/search2.png)
+
 # Цель работы
 
 Разработать прототип социальной сети. Спроектировать и реализовать базу данных приложения.
